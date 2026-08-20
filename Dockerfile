@@ -1,4 +1,4 @@
-FROM php:8.3-fpm-alpine
+FROM php:8.4-fpm-alpine
 
 # Install required system libraries
 RUN apk add --no-cache \
@@ -34,13 +34,14 @@ WORKDIR /var/www
 # Copy application files
 COPY . .
 
-# Install PHP dependencies without dev packages and scripts
+# Install PHP dependencies without dev packages, scripts, or platform requirements block
 RUN composer install \
     --no-dev \
     --no-interaction \
     --prefer-dist \
     --optimize-autoloader \
-    --no-scripts
+    --no-scripts \
+    --ignore-platform-reqs
 
 # Create Laravel framework directories & set permissions
 RUN mkdir -p \
