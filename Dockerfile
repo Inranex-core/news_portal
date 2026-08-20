@@ -1,5 +1,6 @@
 FROM php:8.3-fpm-alpine
 
+# Install essential system packages & PHP extensions
 RUN apk add --no-cache \
     nginx \
     supervisor \
@@ -9,29 +10,19 @@ RUN apk add --no-cache \
     freetype-dev \
     zip \
     libzip-dev \
-    unzip \
-    git \
-    nodejs \
-    npm
+    unzip
 
-RUN docker-php-ext-configure gd \
-    --with-freetype \
-    --with-jpeg \
-    && docker-php-ext-install \
-    gd \
-    pdo \
-    pdo_mysql \
-    zip
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd pdo pdo_mysql zip
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www
 
-# Copy dependency definitions first
-COPY composer.json composer.lock ./
-COPY package*.json ./
+# Copy pre-built application files (including public/build)
+COPY . .
 
-# Install dependencies without running artisan scripts before files exist
+# Install PHP dependencies
 RUN composer install \
     --no-dev \
     --no-interaction \
@@ -39,16 +30,7 @@ RUN composer install \
     --optimize-autoloader \
     --no-scripts
 
-RUN npm install
-
-# Copy application files
-COPY . .
-
-# Now optimize autoloader and build frontend
-RUN composer dump-autoload --optimize
-RUN npm run build
-
-# Setup Laravel directories and permissions
+# Create required Laravel framework directories & set permissions
 RUN mkdir -p \
     /var/www/storage/framework/cache \
     /var/www/storage/framework/sessions \
@@ -56,18 +38,11 @@ RUN mkdir -p \
     /var/www/storage/logs \
     /var/www/bootstrap/cache
 
-RUN chown -R www-data:www-data \
-    /var/www/storage \
-    /var/www/bootstrap/cache
-
-RUN chmod -R 775 \
-    /var/www/storage \
-    /var/www/bootstrap/cache
+RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
+RUN chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 
 COPY docker/nginx.conf /etc/nginx/nginx.conf
-
-COPY docker/supervisord.conf \
-    /etc/supervisor/conf.d/supervisord.conf
+COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 EXPOSE 10000
 
