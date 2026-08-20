@@ -1,4 +1,4 @@
-FROM php:8.4-fpm-alpine
+FROM php:8.3-fpm-alpine
 
 RUN apk add --no-cache \
     nginx \
@@ -27,22 +27,28 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www
 
+# Copy dependency definitions first
 COPY composer.json composer.lock ./
+COPY package*.json ./
 
+# Install dependencies without running artisan scripts before files exist
 RUN composer install \
     --no-dev \
     --no-interaction \
     --prefer-dist \
-    --optimize-autoloader
-
-COPY package*.json ./
+    --optimize-autoloader \
+    --no-scripts
 
 RUN npm install
 
+# Copy application files
 COPY . .
 
+# Now optimize autoloader and build frontend
+RUN composer dump-autoload --optimize
 RUN npm run build
 
+# Setup Laravel directories and permissions
 RUN mkdir -p \
     /var/www/storage/framework/cache \
     /var/www/storage/framework/sessions \
