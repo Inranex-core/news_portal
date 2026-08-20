@@ -27,18 +27,27 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www
 
-COPY . .
+COPY composer.json composer.lock ./
 
 RUN composer install \
     --no-dev \
-    --optimize-autoloader \
-    --no-interaction
+    --no-interaction \
+    --prefer-dist \
+    --optimize-autoloader
+
+COPY package*.json ./
 
 RUN npm install
 
+COPY . .
+
 RUN npm run build
 
-RUN mkdir -p /var/www/storage \
+RUN mkdir -p \
+    /var/www/storage/framework/cache \
+    /var/www/storage/framework/sessions \
+    /var/www/storage/framework/views \
+    /var/www/storage/logs \
     /var/www/bootstrap/cache
 
 RUN chown -R www-data:www-data \
@@ -54,6 +63,6 @@ COPY docker/nginx.conf /etc/nginx/nginx.conf
 COPY docker/supervisord.conf \
     /etc/supervisor/conf.d/supervisord.conf
 
-EXPOSE 80
+EXPOSE 10000
 
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

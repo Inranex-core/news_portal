@@ -5,6 +5,11 @@ services:
     plan: free
     region: singapore
 
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+
+    healthCheckPath: /index.php
+
     envVars:
       - key: APP_ENV
         value: production
