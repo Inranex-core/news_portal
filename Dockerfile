@@ -1,6 +1,5 @@
-FROM php:8.3-fpm-alpine
+FROM php:8.4-fpm-alpine
 
-# Install required system packages & PHP extensions for MySQL & Laravel
 RUN apk add --no-cache \
     nginx \
     supervisor \
@@ -15,28 +14,45 @@ RUN apk add --no-cache \
     nodejs \
     npm
 
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd pdo pdo_mysql zip
+RUN docker-php-ext-configure gd \
+    --with-freetype \
+    --with-jpeg \
+    && docker-php-ext-install \
+    gd \
+    pdo \
+    pdo_mysql \
+    zip
 
-# Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www
 
 COPY . .
 
-# Install PHP dependencies & build frontend assets
-RUN composer install --no-dev --optimize-autoloader
+RUN composer install \
+    --no-dev \
+    --optimize-autoloader \
+    --no-interaction
+
 RUN npm install
+
 RUN npm run build
 
-# Set permissions
-RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
-RUN chmod -R 775 /var/www/storage /var/www/bootstrap/cache
+RUN mkdir -p /var/www/storage \
+    /var/www/bootstrap/cache
 
-# Copy Nginx & Supervisor configuration
+RUN chown -R www-data:www-data \
+    /var/www/storage \
+    /var/www/bootstrap/cache
+
+RUN chmod -R 775 \
+    /var/www/storage \
+    /var/www/bootstrap/cache
+
 COPY docker/nginx.conf /etc/nginx/nginx.conf
-COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+COPY docker/supervisord.conf \
+    /etc/supervisor/conf.d/supervisord.conf
 
 EXPOSE 80
 
