@@ -1,6 +1,6 @@
 FROM php:8.3-fpm-alpine
 
-# Install essential system packages & PHP extensions
+# Install required system libraries
 RUN apk add --no-cache \
     nginx \
     supervisor \
@@ -8,21 +8,33 @@ RUN apk add --no-cache \
     libpng-dev \
     libjpeg-turbo-dev \
     freetype-dev \
+    oniguruma-dev \
+    libxml2-dev \
     zip \
     libzip-dev \
-    unzip
+    unzip \
+    git
 
+# Install required PHP extensions for Laravel & MySQL
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd pdo pdo_mysql zip
+    && docker-php-ext-install \
+        gd \
+        pdo \
+        pdo_mysql \
+        mbstring \
+        bcmath \
+        exif \
+        pcntl \
+        zip
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www
 
-# Copy pre-built application files (including public/build)
+# Copy application files
 COPY . .
 
-# Install PHP dependencies
+# Install PHP dependencies without dev packages and scripts
 RUN composer install \
     --no-dev \
     --no-interaction \
@@ -30,7 +42,7 @@ RUN composer install \
     --optimize-autoloader \
     --no-scripts
 
-# Create required Laravel framework directories & set permissions
+# Create Laravel framework directories & set permissions
 RUN mkdir -p \
     /var/www/storage/framework/cache \
     /var/www/storage/framework/sessions \
