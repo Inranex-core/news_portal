@@ -1,2 +1,8 @@
-*
 !.gitignore
+!articles/
+!journalists/
+!journalist/
+!*.jpg
+!*.jpeg
+!*.png
+!*.webp
