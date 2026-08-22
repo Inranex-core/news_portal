@@ -1,466 +1,237 @@
 <x-app-layout>
 
-    <div class="min-h-screen bg-slate-50 py-10">
+    <div class="min-h-screen bg-slate-100/70 py-8 sm:py-12">
 
-        <div class="max-w-6xl mx-auto px-6">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
 
-            {{-- =====================================================
-                HEADER
-            ====================================================== --}}
-            <div class="flex items-center justify-between mb-8">
-
+            {{-- HEADER CARD --}}
+            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
-
-                    <h1 class="text-3xl font-bold text-slate-900">
-                        My News
+                    <h1 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight flex items-center gap-3">
+                        <span>📰 {{ __('My News') }}</span>
+                        <span class="text-xs font-extrabold bg-slate-100 text-slate-700 px-3 py-1 rounded-full border border-slate-200">
+                            {{ $articles->count() }}
+                        </span>
                     </h1>
 
-                    <p class="text-slate-500 mt-2">
-                        Manage your news articles.
+                    <p class="text-sm text-slate-500 font-medium mt-1">
+                        {{ __('Manage your news articles.') }}
                     </p>
-
                 </div>
 
-
-                {{-- Create News Button --}}
                 <a
                     href="{{ route('journalist.articles.create') }}"
-                    class="px-6 py-3 bg-red-600 text-white rounded-xl font-semibold
-                           hover:bg-red-700 transition"
+                    class="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-gradient-to-r from-red-600 to-rose-700 hover:from-red-700 hover:to-rose-800 text-white font-black text-sm rounded-2xl shadow-lg shadow-red-600/25 transition active:scale-98"
                 >
-                    + Create News
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
+                    </svg>
+                    <span>{{ __('Create News') }}</span>
                 </a>
-
             </div>
 
 
-            {{-- =====================================================
-                SUCCESS MESSAGE
-            ====================================================== --}}
+            {{-- ALERTS --}}
             @if(session('success'))
-
-                <div
-                    class="mb-6 bg-green-100 border border-green-200
-                           text-green-800 p-4 rounded-xl"
-                >
-                    {{ session('success') }}
+                <div class="bg-emerald-50 border border-emerald-200 text-emerald-800 p-4 sm:p-5 rounded-2xl shadow-xs font-semibold text-sm flex items-center gap-3">
+                    <span class="text-emerald-600 text-lg">✓</span>
+                    <span>{{ __(session('success')) }}</span>
                 </div>
-
             @endif
 
-
-            {{-- =====================================================
-                ERROR MESSAGE
-            ====================================================== --}}
             @if(session('error'))
-
-                <div
-                    class="mb-6 bg-red-100 border border-red-200
-                           text-red-800 p-4 rounded-xl"
-                >
-                    {{ session('error') }}
+                <div class="bg-rose-50 border border-rose-200 text-rose-800 p-4 sm:p-5 rounded-2xl shadow-xs font-semibold text-sm flex items-center gap-3">
+                    <span class="text-rose-600 text-lg">⚠️</span>
+                    <span>{{ __(session('error')) }}</span>
                 </div>
-
             @endif
 
-
-            {{-- =====================================================
-                VALIDATION ERRORS
-            ====================================================== --}}
             @if($errors->any())
-
-                <div
-                    class="mb-6 bg-red-50 border border-red-200
-                           text-red-700 p-4 rounded-xl"
-                >
-
-                    <ul class="list-disc list-inside space-y-1">
-
+                <div class="bg-red-50 border border-red-200 text-red-800 p-5 rounded-2xl shadow-xs">
+                    <ul class="list-disc ml-5 space-y-1 text-xs font-semibold">
                         @foreach($errors->all() as $error)
-
-                            <li>
-                                {{ $error }}
-                            </li>
-
+                            <li>{{ $error }}</li>
                         @endforeach
-
                     </ul>
-
                 </div>
-
             @endif
 
 
-            {{-- =====================================================
-                ARTICLES
-            ====================================================== --}}
-            <div
-                class="bg-white rounded-2xl border border-slate-200
-                       overflow-hidden shadow-sm"
-            >
+            {{-- ARTICLES CONTAINER --}}
+            <div class="bg-white rounded-3xl border border-slate-200/80 shadow-sm overflow-hidden divide-y divide-slate-100">
 
                 @if($articles->count())
 
-                    <div class="divide-y divide-slate-200">
+                    @foreach($articles as $article)
+                        <div class="p-6 sm:p-8 hover:bg-slate-50/70 transition duration-200">
+                            <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
 
-                        @foreach($articles as $article)
-
-                            {{-- =================================================
-                                SINGLE ARTICLE
-                            ================================================== --}}
-                            <div
-                                class="p-6 hover:bg-slate-50 transition"
-                            >
-
-                                <div
-                                    class="flex flex-col lg:flex-row
-                                           lg:items-start lg:justify-between
-                                           gap-6"
-                                >
-
-
-                                    {{-- =========================================
-                                        ARTICLE INFORMATION
-                                    ========================================== --}}
-                                    <div class="flex-1 min-w-0">
-
-                                        {{-- Title --}}
-                                        <h2
-                                            class="text-xl font-bold
-                                                   text-slate-900 break-words"
-                                        >
-                                            {{ $article->title }}
+                                {{-- ARTICLE DETAILS --}}
+                                <div class="flex-1 min-w-0 space-y-3">
+                                    <div class="flex items-center gap-3 flex-wrap">
+                                        <h2 class="text-lg sm:text-xl font-extrabold text-slate-900 leading-snug hover:text-red-600 transition">
+                                            {{ $article->display_title }}
                                         </h2>
+                                    </div>
 
+                                    <div class="flex items-center gap-3 flex-wrap text-xs">
+                                        {{-- Category Badge --}}
+                                        @if($article->category)
+                                            <span class="bg-rose-50 text-rose-700 border border-rose-100 font-extrabold px-3 py-1 rounded-full">
+                                                {{ $article->category->display_name }}
+                                            </span>
+                                        @endif
 
-                                        {{-- Category + Status --}}
-                                        <div
-                                            class="flex flex-wrap
-                                                   items-center gap-3 mt-3"
-                                        >
-
-                                            {{-- Category --}}
-                                            @if($article->category)
-
-                                                <span
-                                                    class="text-sm font-medium
-                                                           text-slate-500"
-                                                >
-                                                    {{ $article->category->name }}
-                                                </span>
-
+                                        {{-- Status Badge --}}
+                                        <span class="font-extrabold px-3 py-1 rounded-full border shadow-xs
+                                            @if($article->status === 'draft')
+                                                bg-slate-100 text-slate-700 border-slate-200
+                                            @elseif($article->status === 'pending')
+                                                bg-amber-50 text-amber-800 border-amber-200
+                                            @elseif($article->status === 'published')
+                                                bg-emerald-50 text-emerald-800 border-emerald-200
+                                            @elseif($article->status === 'rejected')
+                                                bg-rose-50 text-rose-800 border-rose-200
+                                            @else
+                                                bg-slate-100 text-slate-700 border-slate-200
                                             @endif
-
-
-                                            {{-- Status --}}
-                                            <span
-                                                class="text-sm px-3 py-1
-                                                       rounded-full font-medium
-
-                                                    @if($article->status === 'draft')
-                                                        bg-slate-100 text-slate-700
-
-                                                    @elseif($article->status === 'pending')
-                                                        bg-yellow-100 text-yellow-700
-
-                                                    @elseif($article->status === 'published')
-                                                        bg-green-100 text-green-700
-
-                                                    @elseif($article->status === 'rejected')
-                                                        bg-red-100 text-red-700
-
-                                                    @else
-                                                        bg-slate-100 text-slate-700
-                                                    @endif
-                                                "
-                                            >
+                                        ">
+                                            @if($article->status === 'draft')
+                                                📝 {{ __('Draft') }}
+                                            @elseif($article->status === 'pending')
+                                                ⏳ {{ __('Pending Review') }}
+                                            @elseif($article->status === 'published')
+                                                ✓ {{ __('Published') }}
+                                            @elseif($article->status === 'rejected')
+                                                ❌ {{ __('Rejected') }}
+                                            @else
                                                 {{ ucfirst($article->status) }}
-                                            </span>
+                                            @endif
+                                        </span>
 
-                                        </div>
-
-
-                                        {{-- Excerpt --}}
-                                        @if($article->excerpt)
-
-                                            <p
-                                                class="text-slate-500 mt-3
-                                                       leading-6"
-                                            >
-                                                {{ $article->excerpt }}
-                                            </p>
-
-                                        @endif
-
-
-                                        {{-- Created Date --}}
+                                        {{-- Date --}}
                                         @if($article->created_at)
-
-                                            <p
-                                                class="text-xs text-slate-400 mt-3"
-                                            >
-                                                Created:
-                                                {{ $article->created_at->format('d M Y, h:i A') }}
-                                            </p>
-
+                                            <span class="text-slate-400 font-medium flex items-center gap-1">
+                                                📅 {{ __('Created:') }} {{ app()->getLocale() === 'bn' ? $article->created_at->locale('bn')->isoFormat('D MMMM YYYY, hh:mm A') : $article->created_at->format('d M Y, h:i A') }}
+                                            </span>
                                         @endif
-
                                     </div>
 
-
-                                    {{-- =========================================
-                                        ACTION BUTTONS
-                                    ========================================== --}}
-                                    <div
-                                        class="flex flex-wrap items-center
-                                               gap-2 lg:justify-end"
-                                    >
-
-
-                                        {{-- =====================================
-                                            EDIT
-                                        ====================================== --}}
-                                        @if(
-                                            $article->status === 'draft' ||
-                                            $article->status === 'rejected'
-                                        )
-
-                                            <a
-                                                href="{{ route(
-                                                    'journalist.articles.edit',
-                                                    $article
-                                                ) }}"
-                                                class="inline-flex items-center
-                                                       justify-center
-                                                       px-4 py-2
-                                                       bg-blue-600
-                                                       text-white
-                                                       text-sm
-                                                       font-semibold
-                                                       rounded-lg
-                                                       hover:bg-blue-700
-                                                       transition"
-                                            >
-                                                ✏️ Edit
-                                            </a>
-
-                                        @endif
-
-
-                                        {{-- =====================================
-                                            SUBMIT FOR REVIEW
-                                        ====================================== --}}
-                                        @if(
-                                            $article->status === 'draft' ||
-                                            $article->status === 'rejected'
-                                        )
-
-                                            <form
-                                                method="POST"
-                                                action="{{ route(
-                                                    'journalist.articles.submit',
-                                                    $article
-                                                ) }}"
-                                                onsubmit="return confirm(
-                                                    'Are you sure you want to submit this news for review?'
-                                                )"
-                                            >
-
-                                                @csrf
-
-                                                @method('PATCH')
-
-                                                <button
-                                                    type="submit"
-                                                    class="inline-flex items-center
-                                                           justify-center
-                                                           px-4 py-2
-                                                           bg-green-600
-                                                           text-white
-                                                           text-sm
-                                                           font-semibold
-                                                           rounded-lg
-                                                           hover:bg-green-700
-                                                           transition"
-                                                >
-                                                    📤 Submit for Review
-                                                </button>
-
-                                            </form>
-
-                                        @endif
-
-
-                                        {{-- =====================================
-                                            DELETE
-                                        ====================================== --}}
-                                        @if($article->status !== 'published')
-
-                                            <form
-                                                method="POST"
-                                                action="{{ route(
-                                                    'journalist.articles.destroy',
-                                                    $article
-                                                ) }}"
-                                                onsubmit="return confirm(
-                                                    'Are you sure you want to delete this news?'
-                                                )"
-                                            >
-
-                                                @csrf
-
-                                                @method('DELETE')
-
-                                                <button
-                                                    type="submit"
-                                                    class="inline-flex items-center
-                                                           justify-center
-                                                           px-4 py-2
-                                                           bg-red-600
-                                                           text-white
-                                                           text-sm
-                                                           font-semibold
-                                                           rounded-lg
-                                                           hover:bg-red-700
-                                                           transition"
-                                                >
-                                                    🗑️ Delete
-                                                </button>
-
-                                            </form>
-
-                                        @endif
-
-
-                                        {{-- =====================================
-                                            STATUS INFORMATION
-                                        ====================================== --}}
-
-                                        @if($article->status === 'pending')
-
-                                            <span
-                                                class="inline-flex items-center
-                                                       px-4 py-2
-                                                       bg-yellow-50
-                                                       text-yellow-700
-                                                       text-sm
-                                                       font-semibold
-                                                       rounded-lg"
-                                            >
-                                                ⏳ Under Review
-                                            </span>
-
-                                        @endif
-
-
-                                        @if($article->status === 'published')
-
-                                            <span
-                                                class="inline-flex items-center
-                                                       px-4 py-2
-                                                       bg-green-50
-                                                       text-green-700
-                                                       text-sm
-                                                       font-semibold
-                                                       rounded-lg"
-                                            >
-                                                ✓ Published
-                                            </span>
-
-                                        @endif
-
-                                    </div>
-
+                                    @if($article->excerpt)
+                                        <p class="text-slate-600 text-sm leading-relaxed line-clamp-2">
+                                            {{ $article->display_excerpt ?? $article->excerpt }}
+                                        </p>
+                                    @endif
                                 </div>
 
 
-                                {{-- =================================================
-                                    REJECTED MESSAGE
-                                ================================================== --}}
-                                @if($article->status === 'rejected')
+                                {{-- ACTION BUTTONS --}}
+                                <div class="flex flex-wrap items-center gap-2 lg:justify-end shrink-0 pt-2 lg:pt-0 border-t lg:border-t-0 border-slate-100">
 
-                                    <div
-                                        class="mt-5 p-4
-                                               bg-red-50
-                                               border border-red-100
-                                               rounded-xl"
-                                    >
-
-                                        <p
-                                            class="text-sm
-                                                   font-semibold
-                                                   text-red-700"
+                                    {{-- Edit Button --}}
+                                    @if($article->status === 'draft' || $article->status === 'rejected')
+                                        <a
+                                            href="{{ route('journalist.articles.edit', $article) }}"
+                                            class="inline-flex items-center gap-1.5 px-4 py-2.5 bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 text-xs font-bold rounded-xl transition"
                                         >
-                                            ⚠️ This news was rejected.
-                                        </p>
+                                            ✏️ {{ __('Edit') }}
+                                        </a>
+                                    @endif
 
-                                        <p
-                                            class="text-sm
-                                                   text-red-600
-                                                   mt-1"
+                                    {{-- Submit for Review Button --}}
+                                    @if($article->status === 'draft' || $article->status === 'rejected')
+                                        <form
+                                            method="POST"
+                                            action="{{ route('journalist.articles.submit', $article) }}"
+                                            onsubmit="return confirm('{{ __('Are you sure you want to submit this news for review?') }}')"
                                         >
-                                            Please edit the article and
-                                            submit it again for review.
-                                        </p>
+                                            @csrf
+                                            @method('PATCH')
+                                            <button
+                                                type="submit"
+                                                class="inline-flex items-center gap-1.5 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl transition shadow-sm"
+                                            >
+                                                📤 {{ __('Submit for Review') }}
+                                            </button>
+                                        </form>
+                                    @endif
 
-                                    </div>
+                                    {{-- Delete Button --}}
+                                    @if($article->status !== 'published')
+                                        <form
+                                            method="POST"
+                                            action="{{ route('journalist.articles.destroy', $article) }}"
+                                            onsubmit="return confirm('{{ __('Are you sure you want to delete this news?') }}')"
+                                        >
+                                            @csrf
+                                            @method('DELETE')
+                                            <button
+                                                type="submit"
+                                                class="inline-flex items-center gap-1.5 px-3.5 py-2.5 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-bold rounded-xl transition"
+                                            >
+                                                🗑️ {{ __('Delete') }}
+                                            </button>
+                                        </form>
+                                    @endif
 
-                                @endif
+                                    {{-- Under Review Indicator --}}
+                                    @if($article->status === 'pending')
+                                        <span class="inline-flex items-center gap-1.5 px-4 py-2.5 bg-amber-50 text-amber-800 border border-amber-200 text-xs font-bold rounded-xl">
+                                            ⏳ {{ __('Under Review') }}
+                                        </span>
+                                    @endif
+
+                                    {{-- View Live Button --}}
+                                    @if($article->status === 'published')
+                                        <a
+                                            href="{{ route('articles.show', $article->slug) }}"
+                                            target="_blank"
+                                            class="inline-flex items-center gap-1.5 px-4 py-2.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 text-xs font-bold rounded-xl transition"
+                                        >
+                                            👁️ {{ __('View Live') }}
+                                        </a>
+                                    @endif
+                                </div>
 
                             </div>
 
-                        @endforeach
 
-                    </div>
+                            {{-- REJECTION REASON CALLOUT --}}
+                            @if($article->status === 'rejected' && $article->rejection_reason)
+                                <div class="mt-4 p-4 bg-rose-50/90 border border-rose-200 rounded-2xl text-xs space-y-1">
+                                    <div class="font-extrabold text-rose-900 flex items-center gap-1.5">
+                                        ⚠️ {{ __('This news was rejected.') }}
+                                    </div>
+                                    <div class="font-medium text-rose-800">
+                                        {{ __("Admin's feedback:") }} "{{ $article->rejection_reason }}"
+                                    </div>
+                                    <div class="text-rose-700 font-semibold mt-1">
+                                        👉 {{ __('Please click Edit to fix the issues and submit it again for review.') }}
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+                    @endforeach
 
                 @else
-
-                    {{-- =================================================
-                        EMPTY STATE
-                    ================================================== --}}
-                    <div class="text-center py-16 px-6">
-
-                        <div class="text-5xl mb-4">
+                    {{-- EMPTY STATE --}}
+                    <div class="text-center py-16 px-6 space-y-4">
+                        <div class="w-16 h-16 rounded-3xl bg-red-50 text-red-600 flex items-center justify-center mx-auto text-3xl font-black">
                             📰
                         </div>
-
-
-                        <h2
-                            class="text-xl font-bold
-                                   text-slate-900"
-                        >
-                            No news yet
+                        <h2 class="text-xl font-black text-slate-900">
+                            {{ __('No news yet') }}
                         </h2>
-
-
-                        <p
-                            class="text-slate-500
-                                   mt-2"
-                        >
-                            Start by creating your first
-                            news article.
+                        <p class="text-slate-500 text-sm max-w-sm mx-auto font-medium">
+                            {{ __('Start by creating your first news article.') }}
                         </p>
-
-
                         <a
-                            href="{{ route(
-                                'journalist.articles.create'
-                            ) }}"
-                            class="inline-block
-                                   mt-6
-                                   px-6 py-3
-                                   bg-red-600
-                                   text-white
-                                   rounded-xl
-                                   font-semibold
-                                   hover:bg-red-700
-                                   transition"
+                            href="{{ route('journalist.articles.create') }}"
+                            class="inline-flex items-center gap-2 px-6 py-3.5 bg-red-600 hover:bg-red-700 text-white font-bold text-sm rounded-2xl transition shadow-md"
                         >
-                            + Create News
+                            + {{ __('Create News') }}
                         </a>
-
                     </div>
-
                 @endif
 
             </div>

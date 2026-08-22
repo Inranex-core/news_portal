@@ -61,18 +61,33 @@
                         <a href="{{ route('dashboard') }}" class="hover:text-white transition">
                             {{ __('Dashboard') }}
                         </a>
-                        <span>•</span>
-                        <a href="{{ route('admin.journalists.index') }}" class="hover:text-white transition">
-                            {{ __('Journalists') }}
-                        </a>
-                        <span>•</span>
-                        <a href="{{ route('admin.email.create') }}" class="hover:text-white transition">
-                            {{ __('Email Journalist') }}
-                        </a>
-                        <span>•</span>
-                        <a href="{{ route('admin.articles.index') }}" class="hover:text-white transition">
-                            {{ __('Articles') }}
-                        </a>
+                        @if(auth()->user()?->role === 'journalist')
+                            <span>•</span>
+                            <a href="{{ route('journalist.articles.index') }}" class="hover:text-white transition">
+                                {{ __('My Articles') }}
+                            </a>
+                            <span>•</span>
+                            <a href="{{ route('journalist.articles.create') }}" class="hover:text-white transition">
+                                {{ __('Write Article') }}
+                            </a>
+                            <span>•</span>
+                            <a href="{{ route('journalist.profile.edit') }}" class="hover:text-white transition">
+                                {{ __('Profile Setup') }}
+                            </a>
+                        @elseif(auth()->user()?->role === 'admin')
+                            <span>•</span>
+                            <a href="{{ route('admin.journalists.index') }}" class="hover:text-white transition">
+                                {{ __('Journalists') }}
+                            </a>
+                            <span>•</span>
+                            <a href="{{ route('admin.email.create') }}" class="hover:text-white transition">
+                                {{ __('Email Journalist') }}
+                            </a>
+                            <span>•</span>
+                            <a href="{{ route('admin.articles.index') }}" class="hover:text-white transition">
+                                {{ __('Articles') }}
+                            </a>
+                        @endif
                         <span>•</span>
                         <a href="{{ route('home') }}" target="_blank" class="text-red-400 hover:text-red-300 transition">
                             🌐 {{ __('Live Portal') }}

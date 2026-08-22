@@ -101,8 +101,8 @@ class ArticleController extends Controller
         }
 
         if ($validated['action'] === 'submit') {
-            $article->status = 'published';
-            $article->published_at = now();
+            $article->status = 'pending';
+            $article->published_at = null;
         } else {
             $article->status = 'draft';
         }
@@ -278,8 +278,7 @@ class ArticleController extends Controller
         }
 
         if ($validated['action'] === 'submit') {
-            $article->status = 'published';
-            $article->published_at = $article->published_at ?? now();
+            $article->status = 'pending';
             $article->rejection_reason = null;
         } else {
             $article->status = 'draft';

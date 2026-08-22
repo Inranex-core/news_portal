@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
     {
         // 1. Admin Account
         User::updateOrCreate(
-            ['email' => 'admin@newsportal.test'],
+            ['email' => 'syedminhaz365@gmail.com'],
             [
                 'name' => 'System Admin',
                 'password' => Hash::make('password123'),

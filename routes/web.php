@@ -62,6 +62,35 @@ Route::get('/dashboard', [
     ->name('dashboard');
 
 
+use App\Http\Controllers\Auth\OtpVerificationController;
+use App\Http\Middleware\EnsureJournalistApproved;
+
+/*
+|--------------------------------------------------------------------------
+| OTP Verification Routes
+|--------------------------------------------------------------------------
+*/
+Route::middleware('auth')->group(function () {
+    Route::get('/verify-otp', [OtpVerificationController::class, 'show'])->name('otp.verify');
+    Route::post('/verify-otp', [OtpVerificationController::class, 'verify'])->name('otp.verify.submit');
+    Route::post('/resend-otp', [OtpVerificationController::class, 'resend'])->name('otp.resend');
+});
+
+/*
+|--------------------------------------------------------------------------
+| Journalist Registration & Invite Public Activation Routes
+|--------------------------------------------------------------------------
+|
+*/
+Route::middleware('auth')->group(function () {
+    Route::get('/journalist/pending-approval', function () {
+        return view('journalist.pending_approval');
+    })->name('journalist.pending');
+});
+
+Route::get('/journalist/accept-invite/{token}', [AdminJournalistController::class, 'acceptInviteShow'])->name('journalist.accept_invite');
+Route::post('/journalist/accept-invite/{token}', [AdminJournalistController::class, 'acceptInviteSubmit'])->name('journalist.accept_invite.submit');
+
 /*
 |--------------------------------------------------------------------------
 | Normal User Routes
@@ -271,7 +300,7 @@ Route::middleware([
             'edit'
         ])->name('articles.edit');
 
-        Route::patch('/articles/{article}', [
+        Route::match(['put', 'patch'], '/articles/{article}', [
             ArticleController::class,
             'update'
         ])->name('articles.update');
@@ -327,6 +356,21 @@ Route::middleware([
             AdminJournalistController::class,
             'index',
         ])->name('journalists.index');
+
+        Route::get('/journalists/pending', [
+            AdminJournalistController::class,
+            'pending',
+        ])->name('journalists.pending');
+
+        Route::patch('/journalists/{user}/approve', [
+            AdminJournalistController::class,
+            'approve',
+        ])->name('journalists.approve');
+
+        Route::post('/journalists/invite', [
+            AdminJournalistController::class,
+            'sendInvite',
+        ])->name('journalists.invite');
 
 
         /*

@@ -40,12 +40,24 @@ class RegisteredUserController extends Controller
         ]);
 
         $role = $request->input('role', 'user');
+        $isApproved = ($role !== 'journalist');
+
+        $otp = null;
+        $otpExpiresAt = null;
+
+        if ($role === 'journalist') {
+            $otp = (string) random_int(100000, 999999);
+            $otpExpiresAt = now()->addMinutes(15);
+        }
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => $role,
+            'is_approved' => $isApproved,
+            'otp_code' => $otp,
+            'otp_expires_at' => $otpExpiresAt,
         ]);
 
         // Auto-create JournalistProfile if registering as a journalist
@@ -67,11 +79,22 @@ class RegisteredUserController extends Controller
                 'status' => true,
                 'is_verified' => false,
             ]);
+
+            // Send OTP email
+            try {
+                \Illuminate\Support\Facades\Mail::to($user->email)->send(new \App\Mail\SendOtpMail($otp, $user->name));
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error('Failed to send OTP email: ' . $e->getMessage());
+            }
         }
 
         event(new Registered($user));
 
         Auth::login($user);
+
+        if ($role === 'journalist') {
+            return redirect()->route('otp.verify')->with('info', __('An OTP code has been sent to your email. Please verify to continue.'));
+        }
 
         return redirect(route('dashboard', absolute: false));
     }

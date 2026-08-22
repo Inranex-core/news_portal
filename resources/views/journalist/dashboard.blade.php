@@ -169,7 +169,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8" style="margin-top: 28px;">
 
                 {{-- LEFT COLUMN: Recent Articles & Profile (8 Cols) --}}
-                <div class="lg:col-span-8 space-y-8" style="grid-column: span 8 / span 8;">
+                <div class="lg:col-span-8 space-y-8">
 
                     {{-- Recent Articles Card --}}
                     <div style="background: #ffffff; border-radius: 20px; border: 1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.03); overflow: hidden;">
@@ -298,7 +298,7 @@
 
 
                 {{-- RIGHT COLUMN: Shortcuts & Status (4 Cols) --}}
-                <div class="lg:col-span-4 space-y-6" style="grid-column: span 4 / span 4;">
+                <div class="lg:col-span-4 space-y-6">
 
                     {{-- Quick Action Shortcuts Card --}}
                     <div style="background: #ffffff; border-radius: 20px; border: 1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.03); padding: 24px;">
