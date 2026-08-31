@@ -8,15 +8,16 @@
             <div class="bg-slate-900 rounded-3xl p-6 sm:p-8 text-white shadow-xl border border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div>
                     <div class="flex items-center gap-3">
-                        <span class="px-3 py-1 bg-red-600 text-white rounded-full text-xs font-black uppercase tracking-widest shadow-sm">
-                            🛡️ {{ __('ADMIN CONTROL CENTER') }}
+                        <span class="px-3 py-1 bg-red-600 text-white rounded-full text-xs font-black uppercase tracking-widest shadow-sm inline-flex items-center gap-1.5">
+                            <x-icon name="shield" class="w-3.5 h-3.5" />
+                            {{ __('ADMIN CONTROL CENTER') }}
                         </span>
                         <span class="text-xs text-slate-300 font-medium">
                             {{ app()->getLocale() === 'bn' ? \Carbon\Carbon::now()->locale('bn')->isoFormat('dddd, D MMMM, YYYY') : \Carbon\Carbon::now()->format('l, F d, Y') }}
                         </span>
                     </div>
                     <h1 class="text-3xl font-black mt-3 tracking-tight text-white">
-                        {{ __('Welcome back,') }} {{ auth()->user()->name }}! 👋
+                        {{ __('Welcome back,') }} {{ auth()->user()->name }}!
                     </h1>
                     <p class="text-sm text-slate-300 mt-1 max-w-2xl leading-relaxed font-normal">
                         {{ __('Overview of CoUJA News Portal operations, article approvals, journalist verification, reader engagement, and direct communications.') }}
@@ -25,11 +26,11 @@
 
                 <div class="flex items-center gap-3 shrink-0">
                     <a href="{{ route('admin.email.create') }}" class="px-5 py-3 rounded-2xl bg-red-600 hover:bg-red-700 text-white font-bold text-sm transition shadow-md flex items-center gap-2">
-                        <span>✉️</span>
+                        <x-icon name="mail" class="w-4 h-4" />
                         <span>{{ __('Email Journalist') }}</span>
                     </a>
                     <a href="{{ route('home') }}" target="_blank" class="px-5 py-3 rounded-2xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-sm transition border border-slate-700 flex items-center gap-2">
-                        <span>🌐</span>
+                        <x-icon name="globe" class="w-4 h-4" />
                         <span>{{ __('Visit Portal') }}</span>
                     </a>
                 </div>
@@ -38,7 +39,7 @@
             {{-- Flash Messages --}}
             @if(session('success'))
                 <div class="bg-emerald-50 border border-emerald-200 text-emerald-800 p-4 rounded-2xl text-sm font-bold flex items-center gap-2 shadow-sm">
-                    <span>✅</span>
+                    <x-icon name="check" class="w-4 h-4 text-emerald-600" />
                     <span>{{ session('success') }}</span>
                 </div>
             @endif
@@ -58,7 +59,7 @@
                             </h2>
                         </div>
                         <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl shadow-inner group-hover:scale-110 transition">
-                            👥
+                            <x-icon name="users" class="w-6 h-6" />
                         </div>
                     </div>
                     <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500 font-medium">
@@ -79,7 +80,7 @@
                             </h2>
                         </div>
                         <div class="w-12 h-12 rounded-2xl bg-red-50 text-red-600 flex items-center justify-center text-xl shadow-inner group-hover:scale-110 transition">
-                            📰
+                            <x-icon name="newspaper" class="w-6 h-6" />
                         </div>
                     </div>
                     <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500 font-medium">
@@ -102,7 +103,7 @@
                             </h2>
                         </div>
                         <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl shadow-inner group-hover:scale-110 transition">
-                            📄
+                            <x-icon name="briefcase" class="w-6 h-6" />
                         </div>
                     </div>
                     <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500 font-medium">
@@ -125,7 +126,7 @@
                             </h2>
                         </div>
                         <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl shadow-inner group-hover:scale-110 transition">
-                            ⏳
+                            <x-icon name="clock" class="w-6 h-6" />
                         </div>
                     </div>
                     <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500 font-medium">
@@ -151,7 +152,7 @@
                     <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex flex-col justify-between hover:border-red-300 transition">
                         <div>
                             <div class="w-10 h-10 rounded-xl bg-red-50 text-red-600 flex items-center justify-center text-lg mb-4">
-                                👥
+                                <x-icon name="users" class="w-5 h-5" />
                             </div>
                             <h3 class="font-bold text-slate-900 text-base">
                                 {{ __('Manage Journalists') }}
@@ -165,7 +166,7 @@
                                 {{ __('Journalists List') }}
                             </a>
                             <a href="{{ route('admin.email.create') }}" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs px-3 py-2.5 rounded-xl transition" title="{{ __('Email Journalist') }}">
-                                ✉️
+                                <x-icon name="mail" class="w-4 h-4" />
                             </a>
                         </div>
                     </div>
@@ -174,7 +175,7 @@
                     <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex flex-col justify-between hover:border-emerald-300 transition">
                         <div>
                             <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg mb-4">
-                                📰
+                                <x-icon name="newspaper" class="w-5 h-5" />
                             </div>
                             <h3 class="font-bold text-slate-900 text-base">
                                 {{ __('News Article Portal') }}
@@ -187,8 +188,9 @@
                             <a href="{{ route('admin.articles.index') }}" class="flex-1 text-center bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs py-2.5 rounded-xl transition">
                                 {{ __('All Articles') }}
                             </a>
-                            <a href="{{ route('admin.articles.pending') }}" class="bg-amber-100 hover:bg-amber-200 text-amber-800 font-bold text-xs px-3 py-2.5 rounded-xl transition" title="{{ __('Pending Review') }}">
-                                ⏳ {{ $pendingArticles }}
+                            <a href="{{ route('admin.articles.pending') }}" class="bg-amber-100 hover:bg-amber-200 text-amber-800 font-bold text-xs px-3 py-2.5 rounded-xl transition inline-flex items-center gap-1" title="{{ __('Pending Review') }}">
+                                <x-icon name="clock" class="w-3.5 h-3.5" />
+                                {{ $pendingArticles }}
                             </a>
                         </div>
                     </div>
@@ -197,7 +199,7 @@
                     <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex flex-col justify-between hover:border-amber-300 transition">
                         <div>
                             <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-lg mb-4">
-                                📢
+                                <x-icon name="megaphone" class="w-5 h-5" />
                             </div>
                             <h3 class="font-bold text-slate-900 text-base">
                                 {{ __('Advertisement Banners') }}
@@ -217,7 +219,7 @@
                     <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex flex-col justify-between hover:border-blue-300 transition">
                         <div>
                             <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-lg mb-4">
-                                ✉️
+                                <x-icon name="mail" class="w-5 h-5" />
                             </div>
                             <h3 class="font-bold text-slate-900 text-base">
                                 {{ __('Email Journalist') }}
@@ -243,7 +245,8 @@
                 <div class="lg:col-span-8 bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
                     <div class="flex items-center justify-between mb-6 pb-3 border-b border-slate-100">
                         <h3 class="text-lg font-black text-slate-900 flex items-center gap-2">
-                            📰 {{ __('Recent News Articles') }}
+                            <x-icon name="newspaper" class="w-5 h-5 text-slate-700" />
+                            {{ __('Recent News Articles') }}
                         </h3>
                         <a href="{{ route('admin.articles.index') }}" class="text-xs font-bold text-red-600 hover:underline">
                             {{ __('View All') }} →
@@ -294,7 +297,8 @@
                 <div class="lg:col-span-4 bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-6">
                     <div class="flex items-center justify-between pb-3 border-b border-slate-100">
                         <h3 class="text-lg font-black text-slate-900 flex items-center gap-2">
-                            👥 {{ __('Correspondents') }}
+                            <x-icon name="users" class="w-5 h-5 text-slate-700" />
+                            {{ __('Correspondents') }}
                         </h3>
                         <a href="{{ route('admin.journalists.index') }}" class="text-xs font-bold text-red-600 hover:underline">
                             {{ __('All') }} →
@@ -316,7 +320,7 @@
                                         <h4 class="font-bold text-slate-900 text-xs truncate flex items-center gap-1">
                                             {{ $j->user->name }}
                                             @if($j->is_verified)
-                                                <span class="text-blue-500">✓</span>
+                                                <x-icon name="check" class="w-3.5 h-3.5 text-blue-500" />
                                             @endif
                                         </h4>
                                         <p class="text-[11px] text-slate-500 truncate">
@@ -324,8 +328,8 @@
                                         </p>
                                     </div>
                                 </div>
-                                <a href="{{ route('admin.email.create', $j) }}" class="px-2.5 py-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-600 text-xs font-bold transition shrink-0" title="{{ __('Send Email') }}">
-                                    ✉️
+                                <a href="{{ route('admin.email.create', $j) }}" class="px-2.5 py-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-600 text-xs font-bold transition shrink-0 inline-flex items-center" title="{{ __('Send Email') }}">
+                                    <x-icon name="mail" class="w-3.5 h-3.5" />
                                 </a>
                             </div>
                         @endforeach

@@ -65,7 +65,7 @@
                     <div class="w-12 h-12 rounded-xl bg-red-100
                                 flex items-center justify-center mb-4">
 
-                        <span class="text-xl">📰</span>
+                        <x-icon name="newspaper" class="w-6 h-6 text-red-600" />
 
                     </div>
 
@@ -93,7 +93,7 @@
                     <div class="w-12 h-12 rounded-xl bg-blue-100
                                 flex items-center justify-center mb-4">
 
-                        <span class="text-xl">📖</span>
+                        <x-icon name="briefcase" class="w-6 h-6 text-blue-600" />
 
                     </div>
 
@@ -121,7 +121,7 @@
                     <div class="w-12 h-12 rounded-xl bg-green-100
                                 flex items-center justify-center mb-4">
 
-                        <span class="text-xl">👤</span>
+                        <x-icon name="user" class="w-6 h-6 text-green-600" />
 
                     </div>
 
@@ -164,8 +164,8 @@
                 <div class="bg-white rounded-2xl border
                             p-10 text-center">
 
-                    <div class="text-5xl mb-4">
-                        📰
+                    <div class="text-5xl mb-4 text-slate-300 flex justify-center">
+                        <x-icon name="newspaper" class="w-12 h-12" />
                     </div>
 
                     <h3 class="text-lg font-semibold text-gray-900">

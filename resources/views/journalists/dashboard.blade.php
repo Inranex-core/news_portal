@@ -4,14 +4,14 @@
 
         {{-- Header --}}
         <div class="bg-white border-b">
-            <div class="max-w-7xl mx-auto px-6 py-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
 
                 <div class="flex flex-col md:flex-row
                             md:items-center md:justify-between gap-5">
 
                     <div>
 
-                        <h1 class="text-3xl font-bold text-gray-900">
+                        <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">
                             Journalist Dashboard
                         </h1>
 
@@ -24,13 +24,14 @@
                     @if($profile)
 
                         <a href="{{ route('journalist.profile.edit') }}"
-                           class="inline-flex items-center justify-center
+                           class="inline-flex items-center justify-center gap-1.5
                                   px-6 py-3 rounded-xl
                                   bg-red-600 text-white
                                   font-semibold
                                   hover:bg-red-700">
 
-                            ✏️ Edit Profile
+                            <x-icon name="edit" class="w-4 h-4" />
+                            Edit Profile
 
                         </a>
 
@@ -42,7 +43,7 @@
         </div>
 
 
-        <div class="max-w-7xl mx-auto px-6 py-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-10">
 
             @if(!$profile)
 
@@ -50,8 +51,8 @@
                 <div class="bg-white rounded-2xl border
                             shadow-sm p-10 text-center">
 
-                    <div class="text-6xl mb-5">
-                        📰
+                    <div class="text-6xl mb-5 text-slate-300 flex justify-center">
+                        <x-icon name="newspaper" class="w-14 h-14" />
                     </div>
 
                     <h2 class="text-2xl font-bold text-gray-900">
@@ -98,35 +99,35 @@
                     </div>
 
 
-                    <div class="px-8 pb-8">
+                    <div class="px-4 sm:px-6 md:px-8 pb-8">
 
-                        <div class="-mt-16 flex flex-col
+                        <div class="-mt-12 sm:-mt-16 flex flex-col
                                     md:flex-row md:items-end
-                                    md:justify-between gap-6">
+                                    md:justify-between gap-4 sm:gap-6">
 
                             {{-- Profile info --}}
-                            <div class="flex items-end gap-5">
+                            <div class="flex flex-col sm:flex-row sm:items-end gap-4 sm:gap-5">
 
                                 @if($profile->profile_image)
 
                                     <img
                                         src="{{ asset('storage/' . $profile->profile_image) }}"
                                         alt="{{ $profile->user->name }}"
-                                        class="w-32 h-32 rounded-full
+                                        class="w-24 h-24 sm:w-32 sm:h-32 rounded-full
                                                object-cover border-4
-                                               border-white shadow-lg"
+                                               border-white shadow-lg self-center sm:self-auto"
                                     >
 
                                 @else
 
-                                    <div class="w-32 h-32 rounded-full
+                                    <div class="w-24 h-24 sm:w-32 sm:h-32 rounded-full
                                                 bg-gray-100
                                                 border-4 border-white
                                                 shadow-lg
                                                 flex items-center
-                                                justify-center">
+                                                justify-center self-center sm:self-auto">
 
-                                        <span class="text-5xl font-bold
+                                        <span class="text-4xl sm:text-5xl font-bold
                                                      text-gray-500">
 
                                             {{ strtoupper(
@@ -144,13 +145,13 @@
                                 @endif
 
 
-                                <div class="pb-2">
+                                <div class="pb-2 text-center sm:text-left">
 
                                     <div class="flex flex-wrap
-                                                items-center gap-3">
+                                                items-center justify-center sm:justify-start gap-2 sm:gap-3">
 
-                                        <h2 class="text-3xl font-bold
-                                                   text-gray-900">
+                                        <h2 class="text-2xl sm:text-3xl font-bold
+                                                   text-gray-900 break-words-safe">
 
                                             {{ $profile->user->name }}
 
@@ -159,24 +160,25 @@
 
                                         @if($profile->is_verified)
 
-                                            <span class="px-3 py-1
+                                            <span class="px-2.5 sm:px-3 py-0.5 sm:py-1
                                                          rounded-full
                                                          bg-blue-100
                                                          text-blue-700
-                                                         text-sm
-                                                         font-semibold">
+                                                         text-xs sm:text-sm
+                                                         font-semibold inline-flex items-center gap-1">
 
-                                                ✓ Verified Journalist
+                                                <x-icon name="check" class="w-3.5 h-3.5" />
+                                                Verified Journalist
 
                                             </span>
 
                                         @else
 
-                                            <span class="px-3 py-1
+                                            <span class="px-2.5 sm:px-3 py-0.5 sm:py-1
                                                          rounded-full
                                                          bg-yellow-100
                                                          text-yellow-700
-                                                         text-sm
+                                                         text-xs sm:text-sm
                                                          font-semibold">
 
                                                 Pending Verification
@@ -199,7 +201,7 @@
 
                                     @if($profile->organization)
 
-                                        <p class="text-gray-600 mt-1">
+                                        <p class="text-gray-600 mt-1 text-sm sm:text-base">
 
                                             {{ $profile->organization }}
 
@@ -213,7 +215,7 @@
 
 
                             {{-- Profile URL --}}
-                            <div>
+                            <div class="text-center sm:text-right">
 
                                 <a
                                     href="{{ route(
@@ -222,13 +224,13 @@
                                     ) }}"
                                     target="_blank"
                                     class="inline-flex items-center
-                                           px-5 py-3 rounded-xl
+                                           px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl
                                            border border-gray-300
                                            text-gray-700
-                                           font-semibold
+                                           text-sm sm:text-base font-semibold
                                            hover:bg-gray-50">
 
-                                    👁 View Public Profile
+                                    <x-icon name="eye" class="w-4 h-4 inline-block -mt-0.5" /> View Public Profile
 
                                 </a>
 
@@ -243,8 +245,9 @@
 
                             @if($profile->location)
 
-                                <span>
-                                    📍 {{ $profile->location }}
+                                <span class="inline-flex items-center gap-1">
+                                    <x-icon name="globe" class="w-3.5 h-3.5" />
+                                    {{ $profile->location }}
                                 </span>
 
                             @endif
@@ -254,10 +257,11 @@
 
                                 <a href="{{ $profile->website }}"
                                    target="_blank"
-                                   class="text-red-600
+                                   class="text-red-600 inline-flex items-center gap-1
                                           hover:underline">
 
-                                    🌐 Website
+                                    <x-icon name="globe" class="w-3.5 h-3.5" />
+                                    Website
 
                                 </a>
 
@@ -302,7 +306,7 @@
                                         flex items-center
                                         justify-center text-xl">
 
-                                💼
+                                <x-icon name="briefcase" class="w-6 h-6 text-red-600" />
 
                             </div>
 
@@ -336,9 +340,9 @@
                             <div class="w-12 h-12 rounded-xl
                                         bg-blue-100
                                         flex items-center
-                                        justify-center text-xl">
+                                        justify-center text-xl text-blue-600">
 
-                                🎓
+                                <x-icon name="briefcase" class="w-6 h-6" />
 
                             </div>
 
@@ -374,7 +378,7 @@
                                         flex items-center
                                         justify-center text-xl">
 
-                                🎯
+                                <x-icon name="target" class="w-6 h-6 text-purple-600" />
 
                             </div>
 
@@ -410,7 +414,7 @@
                                         flex items-center
                                         justify-center text-xl">
 
-                                🏆
+                                <x-icon name="trophy" class="w-6 h-6 text-yellow-600" />
 
                             </div>
 
@@ -493,7 +497,7 @@
                                     flex items-center
                                     justify-center text-xl mb-5">
 
-                            💼
+                            <x-icon name="briefcase" class="w-6 h-6 text-red-600" />
 
                         </div>
 
@@ -518,9 +522,9 @@
                         <div class="w-12 h-12 rounded-xl
                                     bg-blue-100
                                     flex items-center
-                                    justify-center text-xl mb-5">
+                                    justify-center text-xl mb-5 text-blue-600">
 
-                            🎓
+                            <x-icon name="briefcase" class="w-6 h-6" />
 
                         </div>
 
@@ -547,7 +551,7 @@
                                     flex items-center
                                     justify-center text-xl mb-5">
 
-                            🎯
+                            <x-icon name="target" class="w-6 h-6 text-purple-600" />
 
                         </div>
 
@@ -574,7 +578,7 @@
                                     flex items-center
                                     justify-center text-xl mb-5">
 
-                            🏆
+                            <x-icon name="trophy" class="w-6 h-6 text-yellow-600" />
 
                         </div>
 

@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#0f172a">
 
     <title>
         @yield('title', __('Comilla University Journalist Association') . ' - ' . __('Trusted News, Every Day'))
@@ -14,52 +15,57 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="bg-slate-50 text-slate-900 antialiased min-h-screen flex flex-col justify-between">
+<body
+    x-data="{ mobileNav: false, mobileSearch: false, langMenu: false }"
+    class="bg-slate-50 text-slate-900 antialiased min-h-screen flex flex-col justify-between"
+>
 
     {{-- ================= HEADER ================= --}}
     <header class="border-b border-slate-200 bg-white sticky top-0 z-50 shadow-sm">
 
         {{-- Top Bar (Motto & Date) --}}
-        <div class="bg-slate-900 text-white text-[11px] font-semibold py-1.5 px-4">
-            <div class="max-w-7xl mx-auto flex items-center justify-between">
-                <div class="flex items-center gap-2 text-rose-300 font-bold">
-                    <span>📌</span>
-                    <span>{{ __('Unwavering on the Path of Truth & Justice') }}</span>
-                    <span class="text-slate-500 font-normal">|</span>
-                    <span class="text-slate-300 font-normal">{{ __('Established 2013') }}</span>
+        <div class="bg-slate-900 text-white text-[11px] font-semibold py-1.5 px-3 sm:px-4">
+            <div class="max-w-7xl mx-auto flex items-center justify-between gap-3">
+                <div class="flex items-center gap-1.5 sm:gap-2 text-rose-300 font-bold min-w-0">
+                    <span class="shrink-0 inline-flex items-center justify-center">
+                        <x-icon name="pin" class="w-3.5 h-3.5" />
+                    </span>
+                    <span class="truncate">{{ __('Unwavering on the Path of Truth & Justice') }}</span>
+                    <span class="hidden md:inline text-slate-500 font-normal">|</span>
+                    <span class="hidden md:inline text-slate-300 font-normal">{{ __('Established 2013') }}</span>
                 </div>
-                <div class="hidden sm:block text-slate-300">
+                <div class="hidden sm:block text-slate-300 shrink-0">
                     {{ app()->getLocale() === 'bn' ? \Carbon\Carbon::now()->locale('bn')->isoFormat('dddd, D MMMM, YYYY') : \Carbon\Carbon::now()->format('l, F d, Y') }}
                 </div>
             </div>
         </div>
 
         {{-- Main Header --}}
-        <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
+        <div class="mx-auto flex max-w-7xl items-center justify-between gap-2 px-3 py-3 sm:px-6 lg:px-8">
 
             {{-- CoUJA Official Logo --}}
-            <a href="{{ route('home') }}" class="flex items-center gap-3 group">
+            <a href="{{ route('home') }}" class="flex items-center gap-2 sm:gap-3 group min-w-0 flex-1 sm:flex-initial">
                 <img
                     src="{{ asset('images/couja-logo.png') }}"
                     alt="CoUJA Logo"
-                    class="h-14 w-14 object-contain group-hover:scale-105 transition duration-300 drop-shadow-sm"
+                    class="h-12 w-12 sm:h-14 sm:w-14 object-contain group-hover:scale-105 transition duration-300 drop-shadow-sm shrink-0"
                 />
 
-                <div>
-                    <div class="text-base sm:text-xl font-black tracking-tight text-slate-900 group-hover:text-red-600 transition leading-tight">
+                <div class="min-w-0">
+                    <div class="text-sm sm:text-base md:text-xl font-black tracking-tight text-slate-900 group-hover:text-red-600 transition leading-tight break-words-safe">
                         {{ __('Comilla University Journalist Association') }}
                     </div>
 
-                    <div class="text-xs text-red-600 font-bold tracking-wide mt-0.5 flex items-center gap-1.5">
+                    <div class="text-[10px] sm:text-xs text-red-600 font-bold tracking-wide mt-0.5 flex items-center gap-1 sm:gap-1.5">
                         <span>{{ __('CoUJA') }}</span>
                         <span>•</span>
-                        <span class="text-slate-500 font-medium">{{ __('Trusted News, Every Day') }}</span>
+                        <span class="text-slate-500 font-medium truncate">{{ __('Trusted News, Every Day') }}</span>
                     </div>
                 </div>
             </a>
 
 
-            {{-- Search Bar --}}
+            {{-- Desktop Search Bar --}}
             <div class="hidden md:flex flex-1 max-w-md mx-8">
                 <form action="{{ route('home') }}" method="GET" class="w-full relative flex items-center">
                     <input
@@ -82,65 +88,122 @@
             </div>
 
 
-            {{-- Right Side: Language Switcher + Authentication --}}
-            <div class="flex items-center gap-4">
+            {{-- Right Side: Actions --}}
+            <div class="flex items-center gap-1.5 sm:gap-3 shrink-0">
+
+                {{-- Mobile Search Toggle --}}
+                <button
+                    type="button"
+                    @click="mobileSearch = !mobileSearch"
+                    class="md:hidden inline-flex items-center justify-center w-9 h-9 rounded-full text-slate-700 hover:bg-slate-100 transition"
+                    aria-label="{{ __('Search') }}"
+                    :aria-expanded="mobileSearch"
+                >
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21 21-4.35-4.35m1.35-5.65a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"/>
+                    </svg>
+                </button>
 
                 {{-- Language Switcher Pill --}}
                 <div style="display: inline-flex; align-items: center; background-color: #f1f5f9; padding: 3px; border-radius: 9999px; border: 1px solid #cbd5e1; gap: 2px;">
                     <a
                         href="{{ route('lang.switch', 'bn') }}"
-                        style="padding: 4px 10px; border-radius: 9999px; font-size: 11px; font-weight: 800; text-decoration: none; display: inline-flex; align-items: center; {{ app()->getLocale() === 'bn' ? 'background-color: #dc2626; color: #ffffff; box-shadow: 0 1px 3px rgba(0,0,0,0.2);' : 'color: #475569;' }}"
-                        title="বাংলায় পড়ুন"
+                        style="padding: 4px 8px; border-radius: 9999px; font-size: 11px; font-weight: 800; text-decoration: none; display: inline-flex; align-items: center; {{ app()->getLocale() === 'bn' ? 'background-color: #dc2626; color: #ffffff; box-shadow: 0 1px 3px rgba(0,0,0,0.2);' : 'color: #475569;' }}"
+                        title="বাংলায় পড়ুন"
                     >
-                        🇧🇩 বাংলা
+                        🇧🇩 <span class="hidden sm:inline ml-0.5">বাংলা</span>
                     </a>
                     <a
                         href="{{ route('lang.switch', 'en') }}"
-                        style="padding: 4px 10px; border-radius: 9999px; font-size: 11px; font-weight: 800; text-decoration: none; display: inline-flex; align-items: center; {{ app()->getLocale() === 'en' ? 'background-color: #dc2626; color: #ffffff; box-shadow: 0 1px 3px rgba(0,0,0,0.2);' : 'color: #475569;' }}"
+                        style="padding: 4px 8px; border-radius: 9999px; font-size: 11px; font-weight: 800; text-decoration: none; display: inline-flex; align-items: center; {{ app()->getLocale() === 'en' ? 'background-color: #dc2626; color: #ffffff; box-shadow: 0 1px 3px rgba(0,0,0,0.2);' : 'color: #475569;' }}"
                         title="Read in English"
                     >
-                        🇬🇧 English
+                        🇬🇧 <span class="hidden sm:inline ml-0.5">EN</span>
                     </a>
                 </div>
 
-                {{-- Authentication & Navigation --}}
-                @guest
-                    <a
-                        href="{{ route('login') }}"
-                        class="text-sm font-bold text-slate-700 transition hover:text-red-600 px-2 py-1"
-                    >
-                        {{ __('Login') }}
-                    </a>
+                {{-- Authentication & Navigation (Desktop) --}}
+                <div class="hidden sm:flex items-center gap-3">
+                    @guest
+                        <a
+                            href="{{ route('login') }}"
+                            class="text-sm font-bold text-slate-700 transition hover:text-red-600 px-2 py-1"
+                        >
+                            {{ __('Login') }}
+                        </a>
 
-                    <a
-                        href="{{ route('register') }}"
-                        class="rounded-xl bg-red-600 px-4 py-2 text-sm font-bold text-white transition hover:bg-red-700 shadow-sm"
-                    >
-                        {{ __('Register') }}
-                    </a>
-                @else
-                    {{-- Logged-in User Links --}}
-                    <div class="flex items-center gap-3">
+                        <a
+                            href="{{ route('register') }}"
+                            class="rounded-xl bg-red-600 px-3 py-2 sm:px-4 text-sm font-bold text-white transition hover:bg-red-700 shadow-sm whitespace-nowrap"
+                        >
+                            {{ __('Register') }}
+                        </a>
+                    @else
                         <a
                             href="{{ route('dashboard') }}"
-                            class="rounded-xl bg-red-600 px-4 py-2 text-sm font-bold text-white transition hover:bg-red-700 shadow-sm flex items-center gap-2"
+                            class="rounded-xl bg-red-600 px-3 py-2 sm:px-4 text-sm font-bold text-white transition hover:bg-red-700 shadow-sm flex items-center gap-2 whitespace-nowrap"
                         >
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                             </svg>
-                            <span>{{ __('Dashboard') }}</span>
+                            <span class="hidden md:inline">{{ __('Dashboard') }}</span>
                         </a>
-                    </div>
-                @endguest
+                    @endguest
+                </div>
+
+                {{-- Mobile Hamburger --}}
+                <button
+                    type="button"
+                    @click="mobileNav = !mobileNav"
+                    class="sm:hidden inline-flex items-center justify-center w-9 h-9 rounded-md text-slate-700 hover:bg-slate-100 transition"
+                    aria-label="{{ __('Menu') }}"
+                    :aria-expanded="mobileNav"
+                >
+                    <svg x-show="!mobileNav" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                    <svg x-show="mobileNav" class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display:none">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
 
             </div>
 
         </div>
 
+        {{-- Mobile Search Bar (collapsible) --}}
+        <div
+            x-show="mobileSearch"
+            x-cloak
+            x-transition:enter="transition ease-out duration-200"
+            x-transition:enter-start="opacity-0 -translate-y-2"
+            x-transition:enter-end="opacity-100 translate-y-0"
+            class="md:hidden border-t border-slate-200 px-3 py-2.5 bg-white"
+        >
+            <form action="{{ route('home') }}" method="GET" class="w-full relative flex items-center">
+                <input
+                    type="text"
+                    name="search"
+                    value="{{ request('search') }}"
+                    placeholder="{{ __('Search news, topics, keywords...') }}"
+                    class="w-full rounded-full border border-slate-200 bg-slate-50 px-4 py-2 pl-4 pr-12 text-sm text-slate-800 focus:border-red-500 focus:bg-white focus:outline-none focus:ring-1 focus:ring-red-500 transition"
+                />
+                <button
+                    type="submit"
+                    class="absolute right-1.5 p-1.5 rounded-full bg-red-600 text-white hover:bg-red-700 transition flex items-center justify-center shadow-sm"
+                    title="{{ __('Search') }}"
+                >
+                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="m21 21-4.35-4.35m1.35-5.65a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"/>
+                    </svg>
+                </button>
+            </form>
+        </div>
+
 
         {{-- Navigation Bar / Category Tabs --}}
         <nav class="border-t border-slate-100 bg-slate-50 shadow-inner">
-            <div class="mx-auto flex max-w-7xl items-center overflow-x-auto px-4 py-2 sm:px-6 lg:px-8 space-x-1 sm:space-x-2 text-xs sm:text-sm font-bold no-scrollbar">
+            <div class="mx-auto flex max-w-7xl items-center overflow-x-auto px-3 py-2 sm:px-6 lg:px-8 space-x-1 sm:space-x-2 text-xs sm:text-sm font-bold no-scrollbar scroll-snap-x">
 
                 <a
                     href="{{ route('home') }}"
@@ -160,13 +223,51 @@
 
                 <a
                     href="{{ route('journalists.index') }}"
-                    class="rounded-lg px-3 py-1.5 whitespace-nowrap transition text-red-600 bg-red-50 hover:bg-red-600 hover:text-white ml-auto"
+                    class="rounded-lg px-3 py-1.5 whitespace-nowrap transition text-red-600 bg-red-50 hover:bg-red-600 hover:text-white ml-auto shrink-0"
                 >
-                    👥 {{ __('Journalists Directory') }}
+                    <x-icon name="users" class="w-4 h-4 inline" />
+                    <span class="hidden sm:inline">{{ __('Journalists Directory') }}</span><span class="sm:hidden">{{ __('Journalists') }}</span>
                 </a>
 
             </div>
         </nav>
+
+        {{-- Mobile Menu Drawer (auth + extras) --}}
+        <div
+            x-show="mobileNav"
+            x-cloak
+            x-transition:enter="transition ease-out duration-200"
+            x-transition:enter-start="opacity-0 -translate-y-2"
+            x-transition:enter-end="opacity-100 translate-y-0"
+            class="sm:hidden border-t border-slate-200 bg-white"
+        >
+            <div class="px-3 py-3 space-y-2">
+                @guest
+                    <a
+                        href="{{ route('login') }}"
+                        class="block text-center rounded-xl border border-slate-300 px-4 py-2.5 text-sm font-bold text-slate-700 hover:bg-slate-50 transition"
+                    >
+                        {{ __('Login') }}
+                    </a>
+                    <a
+                        href="{{ route('register') }}"
+                        class="block text-center rounded-xl bg-red-600 px-4 py-2.5 text-sm font-bold text-white hover:bg-red-700 transition shadow-sm"
+                    >
+                        {{ __('Register') }}
+                    </a>
+                @else
+                    <a
+                        href="{{ route('dashboard') }}"
+                        class="flex items-center justify-center gap-2 rounded-xl bg-red-600 px-4 py-2.5 text-sm font-bold text-white hover:bg-red-700 transition shadow-sm"
+                    >
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                        </svg>
+                        {{ __('Dashboard') }}
+                    </a>
+                @endguest
+            </div>
+        </div>
 
     </header>
 
@@ -180,12 +281,12 @@
     {{-- ================= FOOTER ================= --}}
     <footer class="mt-16 bg-slate-950 text-white">
 
-        <div class="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-2 lg:grid-cols-4 lg:px-8">
+        <div class="mx-auto grid max-w-7xl gap-8 sm:gap-10 px-4 py-12 sm:py-14 sm:px-6 sm:grid-cols-2 lg:grid-cols-4 lg:px-8">
 
             {{-- Brand --}}
             <div>
                 <div class="flex items-center gap-3">
-                    <img src="{{ asset('images/couja-logo.png') }}" alt="CoUJA Logo" class="h-12 w-12 object-contain bg-white rounded-full p-1 shadow">
+                    <img src="{{ asset('images/couja-logo.png') }}" alt="CoUJA Logo" class="h-12 w-12 object-contain bg-white rounded-full p-1 shadow shrink-0">
                     <span class="text-base font-black leading-snug">
                         {{ __('Comilla University Journalist Association') }}
                     </span>
@@ -248,13 +349,13 @@
                 </h3>
 
                 <div class="mt-5 flex gap-3">
-                    <a href="#" class="flex h-10 w-10 items-center justify-center rounded-full bg-slate-800 text-sm font-bold transition hover:bg-red-600">
+                    <a href="#" aria-label="Facebook" class="flex h-10 w-10 items-center justify-center rounded-full bg-slate-800 text-sm font-bold transition hover:bg-red-600">
                         f
                     </a>
-                    <a href="#" class="flex h-10 w-10 items-center justify-center rounded-full bg-slate-800 text-sm font-bold transition hover:bg-red-600">
+                    <a href="#" aria-label="X" class="flex h-10 w-10 items-center justify-center rounded-full bg-slate-800 text-sm font-bold transition hover:bg-red-600">
                         X
                     </a>
-                    <a href="#" class="flex h-10 w-10 items-center justify-center rounded-full bg-slate-800 text-sm font-bold transition hover:bg-red-600">
+                    <a href="#" aria-label="LinkedIn" class="flex h-10 w-10 items-center justify-center rounded-full bg-slate-800 text-sm font-bold transition hover:bg-red-600">
                         in
                     </a>
                 </div>
@@ -271,6 +372,9 @@
         </div>
 
     </footer>
+
+    {{-- Alpine x-cloak so drawers don't flash before Alpine boots. --}}
+    <style>[x-cloak]{display:none!important}</style>
 
 </body>
 

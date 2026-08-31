@@ -114,8 +114,8 @@
 
             <div class="bg-white rounded-2xl border p-10 text-center">
 
-                <div class="text-5xl mb-4">
-                    🏆
+                <div class="text-5xl mb-4 text-slate-300 flex justify-center">
+                    <x-icon name="trophy" class="w-12 h-12" />
                 </div>
 
                 <h2 class="text-xl font-bold">

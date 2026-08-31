@@ -1,13 +1,13 @@
 <x-app-layout>
 
-    <div class="min-h-screen bg-slate-50 py-10">
+    <div class="min-h-screen bg-slate-50 py-6 sm:py-10">
 
-        <div class="max-w-7xl mx-auto px-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
             {{-- Header --}}
-            <div class="mb-8">
+            <div class="mb-6 sm:mb-8">
 
-                <h1 class="text-3xl font-bold text-slate-900">
+                <h1 class="text-2xl sm:text-3xl font-bold text-slate-900">
                     Pending News
                 </h1>
 
@@ -50,28 +50,28 @@
 
                 @forelse($articles as $article)
 
-                    <div class="p-6 border-b border-slate-200 last:border-b-0">
+                    <div class="p-4 sm:p-6 border-b border-slate-200 last:border-b-0">
 
                         <div class="flex flex-col lg:flex-row
                                     lg:items-start lg:justify-between
-                                    gap-6">
+                                    gap-4 sm:gap-6">
 
 
                             {{-- Article Information --}}
-                            <div class="flex-1">
+                            <div class="flex-1 min-w-0">
 
-                                <h2 class="text-xl font-bold text-slate-900">
+                                <h2 class="text-lg sm:text-xl font-bold text-slate-900 break-words-safe">
                                     {{ $article->title }}
                                 </h2>
 
 
                                 {{-- Category --}}
                                 <div class="flex flex-wrap items-center
-                                            gap-3 mt-3">
+                                            gap-2 sm:gap-3 mt-3">
 
                                     @if($article->category)
 
-                                        <span class="text-sm text-slate-500">
+                                        <span class="text-xs sm:text-sm text-slate-500">
                                             Category:
                                             <strong>
                                                 {{ $article->category->name }}
@@ -81,8 +81,8 @@
                                     @endif
 
 
-                                    <span class="px-3 py-1 rounded-full
-                                                 text-sm font-medium
+                                    <span class="px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full
+                                                 text-xs sm:text-sm font-medium
                                                  bg-yellow-100
                                                  text-yellow-700">
                                         Pending
@@ -92,7 +92,7 @@
 
 
                                 {{-- Journalist --}}
-                                <p class="text-sm text-slate-500 mt-3">
+                                <p class="text-xs sm:text-sm text-slate-500 mt-3">
 
                                     Journalist:
 
@@ -117,7 +117,7 @@
                                 {{-- Excerpt --}}
                                 @if($article->excerpt)
 
-                                    <p class="text-slate-600 mt-4 leading-6">
+                                    <p class="text-sm sm:text-base text-slate-600 mt-4 leading-6">
                                         {{ $article->excerpt }}
                                     </p>
 
@@ -143,7 +143,7 @@
 
 
                             {{-- Actions --}}
-                            <div class="flex flex-wrap items-center gap-2">
+                            <div class="flex flex-wrap items-center gap-2 w-full lg:w-auto">
 
 
                                 {{-- View --}}
@@ -152,12 +152,12 @@
                                         'admin.articles.show',
                                         $article
                                     ) }}"
-                                    class="px-4 py-2 bg-slate-700
+                                    class="flex-1 sm:flex-none text-center px-4 py-2 bg-slate-700
                                            text-white rounded-lg
                                            text-sm font-semibold
                                            hover:bg-slate-800"
                                 >
-                                    👁 View
+                                    <x-icon name="eye" class="w-3.5 h-3.5 inline-block -mt-0.5" /> View
                                 </a>
 
 
@@ -171,6 +171,7 @@
                                     onsubmit="return confirm(
                                         'Are you sure you want to publish this news?'
                                     )"
+                                    class="flex-1 sm:flex-none"
                                 >
 
                                     @csrf
@@ -179,12 +180,12 @@
 
                                     <button
                                         type="submit"
-                                        class="px-4 py-2 bg-green-600
+                                        class="w-full px-4 py-2 bg-green-600
                                                text-white rounded-lg
                                                text-sm font-semibold
                                                hover:bg-green-700"
                                     >
-                                        ✓ Approve
+                                        <x-icon name="check" class="w-3.5 h-3.5 inline-block -mt-0.5" /> Approve
                                     </button>
 
                                 </form>
@@ -196,12 +197,12 @@
                                     onclick="document.getElementById(
                                         'reject-{{ $article->id }}'
                                     ).classList.toggle('hidden')"
-                                    class="px-4 py-2 bg-red-600
+                                    class="flex-1 sm:flex-none px-4 py-2 bg-red-600
                                            text-white rounded-lg
                                            text-sm font-semibold
                                            hover:bg-red-700"
                                 >
-                                    ✕ Reject
+                                    <x-icon name="close" class="w-3.5 h-3.5 inline-block -mt-0.5" /> Reject
                                 </button>
 
                             </div>
@@ -272,8 +273,8 @@
                     {{-- Empty --}}
                     <div class="text-center py-20">
 
-                        <div class="text-5xl mb-4">
-                            📰
+                        <div class="text-5xl mb-4 text-slate-400 flex justify-center">
+                            <x-icon name="newspaper" class="w-12 h-12" />
                         </div>
 
                         <h2 class="text-xl font-bold text-slate-900">

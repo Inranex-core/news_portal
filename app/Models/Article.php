@@ -125,29 +125,42 @@ class Article extends Model
     public function scopeForLocale($query, ?string $locale = null)
     {
         $locale = $locale ?? app()->getLocale();
+        $driver = $query->getConnection()->getDriverName();
 
         if ($locale === 'bn') {
-            return $query->where(function ($q) {
+            return $query->where(function ($q) use ($driver) {
                 $q->where(function ($sub) {
                     $sub->whereNotNull('title_bn')
                         ->where('title_bn', '!=', '');
-                })
-                ->orWhere('title', 'REGEXP', '[\x{0980}-\x{09FF}]')
-                ->orWhereRaw("HEX(title) LIKE '%E0A6%' OR HEX(title) LIKE '%E0A7%'");
+                });
+
+                // Detect Bengali-script characters by their UTF-8 byte ranges (E0A6**, E0A7**).
+                // HEX() is supported by both MySQL and SQLite.
+                $q->orWhereRaw("HEX(title) LIKE '%E0A6%'")
+                  ->orWhereRaw("HEX(title) LIKE '%E0A7%'");
             });
         } else {
-            return $query->where(function ($q) {
+            return $query->where(function ($q) use ($driver) {
                 $q->where(function ($sub) {
                     $sub->whereNotNull('title_bn')
                         ->where('title_bn', '!=', '')
                         ->whereNotNull('title')
                         ->where('title', '!=', '');
                 })
-                ->orWhere(function ($sub) {
+                ->orWhere(function ($sub) use ($driver) {
                     $sub->where(function ($s) {
                         $s->whereNull('title_bn')->orWhere('title_bn', '');
                     })
-                    ->whereRaw("HEX(title) NOT LIKE 'E0A6%' AND HEX(title) NOT LIKE 'E0A7%' AND title REGEXP '[a-zA-Z]'");
+                    ->whereRaw("HEX(title) NOT LIKE 'E0A6%' AND HEX(title) NOT LIKE 'E0A7%'");
+
+                    if ($driver === 'mysql') {
+                        $sub->where('title', 'REGEXP', '[a-zA-Z]');
+                    } elseif ($driver === 'sqlite') {
+                        // SQLite: use GLOB (built-in, no extension required) for ASCII-letter presence.
+                        $sub->where('title', 'GLOB', '*[a-zA-Z]*');
+                    } else {
+                        $sub->whereRaw("title ~ '[a-zA-Z]'");
+                    }
                 });
             });
         }

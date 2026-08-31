@@ -1,15 +1,15 @@
 <x-app-layout>
 
-<div class="min-h-screen bg-slate-50 py-10">
+<div class="min-h-screen bg-slate-50 py-6 sm:py-10">
 
-    <div class="max-w-7xl mx-auto px-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {{-- Header --}}
-        <div class="flex items-center justify-between mb-8">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
 
             <div>
 
-                <h1 class="text-3xl font-bold text-slate-900">
+                <h1 class="text-2xl sm:text-3xl font-bold text-slate-900">
                     News Articles
                 </h1>
 
@@ -22,7 +22,7 @@
 
             <a
                 href="{{ route('admin.articles.pending') }}"
-                class="px-5 py-3 bg-yellow-500 text-white rounded-xl font-semibold hover:bg-yellow-600"
+                class="px-5 py-3 bg-yellow-500 text-white rounded-xl font-semibold hover:bg-yellow-600 text-center whitespace-nowrap"
             >
                 Pending Articles
             </a>
@@ -63,7 +63,7 @@
 
 
                             {{-- IMAGE --}}
-                            <div class="md:w-80 h-64 md:h-auto bg-slate-100 flex-shrink-0">
+                            <div class="md:w-56 lg:w-80 h-56 md:h-auto bg-slate-100 flex-shrink-0">
 
                                 @if($article->image)
 
@@ -75,10 +75,10 @@
 
                                 @else
 
-                                    <div class="w-full h-full min-h-64 flex flex-col items-center justify-center text-slate-400">
+                                    <div class="w-full h-full min-h-56 flex flex-col items-center justify-center text-slate-400">
 
-                                        <div class="text-5xl mb-3">
-                                            📰
+                                        <div class="mb-3">
+                                            <x-icon name="newspaper" class="w-12 h-12" />
                                         </div>
 
                                         <span class="text-sm">
@@ -93,19 +93,19 @@
 
 
                             {{-- INFORMATION --}}
-                            <div class="flex-1 p-6">
+                            <div class="flex-1 p-4 sm:p-6">
 
-                                <div class="flex items-start justify-between gap-5">
+                                <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 lg:gap-5">
 
-                                    <div class="flex-1">
+                                    <div class="flex-1 min-w-0">
 
 
                                         {{-- Category + Status --}}
-                                        <div class="flex items-center gap-3 mb-3">
+                                        <div class="flex flex-wrap items-center gap-2 sm:gap-3 mb-3">
 
                                             @if($article->category)
 
-                                                <span class="text-sm font-medium text-slate-500">
+                                                <span class="text-xs sm:text-sm font-medium text-slate-500">
                                                     {{ $article->category->name }}
                                                 </span>
 
@@ -113,7 +113,7 @@
 
 
                                             <span
-                                                class="text-sm px-3 py-1 rounded-full font-medium
+                                                class="text-xs sm:text-sm px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full font-medium
 
                                                 @if($article->status === 'draft')
                                                     bg-slate-100 text-slate-700
@@ -139,7 +139,7 @@
 
 
                                         {{-- Title --}}
-                                        <h2 class="text-2xl font-bold text-slate-900">
+                                        <h2 class="text-lg sm:text-2xl font-bold text-slate-900 break-words-safe">
 
                                             <a
                                                 href="{{ route('admin.articles.show', $article) }}"
@@ -154,7 +154,7 @@
                                         {{-- Excerpt --}}
                                         @if($article->display_excerpt)
 
-                                            <p class="mt-3 text-slate-600 leading-7">
+                                            <p class="mt-3 text-slate-600 leading-7 text-sm sm:text-base">
                                                 {{ $article->display_excerpt }}
                                             </p>
 
@@ -180,7 +180,7 @@
 
 
                                         {{-- Journalist --}}
-                                        <div class="mt-5 flex flex-wrap items-center gap-5 text-sm text-slate-500">
+                                        <div class="mt-4 sm:mt-5 flex flex-wrap items-center gap-x-5 gap-y-1 text-xs sm:text-sm text-slate-500">
 
                                             <div>
 
@@ -209,12 +209,12 @@
 
 
                                     {{-- ACTIONS --}}
-                                    <div class="flex flex-col gap-2 min-w-32">
+                                    <div class="flex flex-row lg:flex-col gap-2 w-full lg:w-32 lg:shrink-0">
 
 
                                         <a
                                             href="{{ route('admin.articles.show', $article) }}"
-                                            class="px-5 py-2.5 bg-slate-900 text-white rounded-xl text-sm font-semibold text-center hover:bg-slate-800"
+                                            class="flex-1 lg:flex-none px-3 sm:px-5 py-2.5 bg-slate-900 text-white rounded-xl text-sm font-semibold text-center hover:bg-slate-800"
                                         >
                                             View
                                         </a>
@@ -225,6 +225,7 @@
                                             <form
                                                 method="POST"
                                                 action="{{ route('admin.articles.approve', $article) }}"
+                                                class="flex-1 lg:flex-none"
                                             >
 
                                                 @csrf
@@ -232,9 +233,9 @@
 
                                                 <button
                                                     type="submit"
-                                                    class="w-full px-5 py-2.5 bg-green-600 text-white rounded-xl text-sm font-semibold hover:bg-green-700"
+                                                    class="w-full px-3 sm:px-5 py-2.5 bg-green-600 text-white rounded-xl text-sm font-semibold hover:bg-green-700"
                                                 >
-                                                    ✓ Approve
+                                                    <x-icon name="check" class="w-3.5 h-3.5 inline-block -mt-0.5" /> Approve
                                                 </button>
 
                                             </form>
@@ -246,9 +247,10 @@
                                             --}}
                                             <a
                                                 href="{{ route('admin.articles.show', $article) }}"
-                                                class="px-5 py-2.5 bg-red-600 text-white rounded-xl text-sm font-semibold text-center hover:bg-red-700"
+                                                class="flex-1 lg:flex-none px-3 sm:px-5 py-2.5 bg-red-600 text-white rounded-xl text-sm font-semibold text-center hover:bg-red-700 inline-flex items-center justify-center gap-1"
                                             >
-                                                ✕ Review / Reject
+                                                <x-icon name="close" class="w-3.5 h-3.5" />
+                                                Review / Reject
                                             </a>
 
                                         @endif
@@ -282,8 +284,8 @@
 
             <div class="bg-white border border-slate-200 rounded-2xl py-20 text-center">
 
-                <div class="text-6xl mb-5">
-                    📰
+                <div class="mb-5 text-slate-400 flex justify-center">
+                    <x-icon name="newspaper" class="w-16 h-16" />
                 </div>
 
                 <h2 class="text-2xl font-bold text-slate-900">

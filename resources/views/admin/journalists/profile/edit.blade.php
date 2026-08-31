@@ -110,8 +110,8 @@
                                             flex items-center
                                             justify-center mb-4">
 
-                                    <span class="text-4xl">
-                                        👤
+                                    <span class="text-4xl text-gray-400 inline-flex items-center justify-center">
+                                        <x-icon name="user" class="w-12 h-12" />
                                     </span>
 
                                 </div>

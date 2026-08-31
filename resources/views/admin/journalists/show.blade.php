@@ -5,7 +5,7 @@
         {{-- Header --}}
         <div class="bg-white border-b">
 
-            <div class="max-w-6xl mx-auto px-6 py-8">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8">
 
                 <a href="{{ route('admin.journalists.index') }}"
                    class="text-red-600 font-semibold">
@@ -17,7 +17,7 @@
         </div>
 
 
-        <div class="max-w-6xl mx-auto px-6 py-10">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-10">
 
             {{-- Profile Card --}}
             <div class="bg-white rounded-3xl
@@ -115,7 +115,7 @@
                                          text-green-700
                                          font-semibold">
 
-                                ✓ Verified Journalist
+                                <x-icon name="check" class="w-4 h-4 inline-block -mt-0.5" /> Verified Journalist
 
                             </span>
 

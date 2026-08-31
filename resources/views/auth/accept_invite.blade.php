@@ -1,7 +1,7 @@
 <x-guest-layout>
     <div class="mb-6 text-center">
         <div class="w-16 h-16 rounded-3xl bg-red-50 text-red-600 flex items-center justify-center mx-auto mb-4 text-3xl font-black shadow-sm">
-            📜
+            <x-icon name="shield" class="w-8 h-8" />
         </div>
         <h2 class="text-2xl font-black text-slate-900 tracking-tight">
             {{ __('Activate Journalist Account') }}
@@ -39,7 +39,7 @@
                 type="submit"
                 class="w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-red-600 to-rose-700 hover:from-red-700 hover:to-rose-800 text-white font-black text-sm shadow-lg shadow-red-600/25 transition active:scale-98"
             >
-                🚀 {{ __('Set Password & Activate Account') }}
+                <x-icon name="check" class="w-4 h-4 inline-block -mt-0.5" /> {{ __('Set Password & Activate Account') }}
             </button>
         </div>
     </form>

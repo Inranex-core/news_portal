@@ -16,14 +16,14 @@
             {{-- Alert Flash Messages --}}
             @if(session('success'))
                 <div class="mb-6 bg-emerald-50 border border-emerald-200 text-emerald-800 p-4 rounded-2xl text-sm font-bold flex items-center gap-2">
-                    <span>✅</span>
+                    <x-icon name="check" class="w-4 h-4 text-emerald-600" />
                     <span>{{ session('success') }}</span>
                 </div>
             @endif
 
             @if(session('error'))
                 <div class="mb-6 bg-red-50 border border-red-200 text-red-800 p-4 rounded-2xl text-sm font-bold flex items-center gap-2">
-                    <span>⚠️</span>
+                    <x-icon name="warning" class="w-4 h-4" />
                     <span>{{ session('error') }}</span>
                 </div>
             @endif
@@ -34,8 +34,9 @@
                 {{-- Card Header --}}
                 <div class="bg-slate-900 text-white p-6 sm:p-8 flex items-center justify-between">
                     <div>
-                        <span class="text-xs font-black uppercase tracking-widest text-red-400 bg-red-950/80 px-2.5 py-1 rounded-full">
-                            ✉️ {{ __('ADMIN COMMUNICATION DESK') }}
+                        <span class="text-xs font-black uppercase tracking-widest text-red-400 bg-red-950/80 px-2.5 py-1 rounded-full inline-flex items-center gap-1.5">
+                            <x-icon name="mail" class="w-3.5 h-3.5" />
+                            {{ __('ADMIN COMMUNICATION DESK') }}
                         </span>
                         <h1 class="text-2xl font-black mt-2">
                             {{ __('Send Direct Email to Journalist') }}
@@ -120,7 +121,7 @@
                             type="submit"
                             class="bg-red-600 hover:bg-red-700 text-white font-bold text-sm px-8 py-3 rounded-xl transition shadow-md flex items-center gap-2"
                         >
-                            <span>✉️</span>
+                            <x-icon name="paper-airplane" class="w-4 h-4" />
                             <span>{{ __('Send Email Now') }}</span>
                         </button>
                     </div>

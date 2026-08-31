@@ -38,7 +38,7 @@
         {{-- ================= ADMIN SYSTEM FOOTER ================= --}}
         <footer class="bg-slate-950 text-white border-t border-slate-800 mt-20">
             <div class="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
-                <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
                     
                     {{-- Left Branding & Status --}}
                     <div class="flex items-center gap-3">
@@ -89,8 +89,9 @@
                             </a>
                         @endif
                         <span>•</span>
-                        <a href="{{ route('home') }}" target="_blank" class="text-red-400 hover:text-red-300 transition">
-                            🌐 {{ __('Live Portal') }}
+                        <a href="{{ route('home') }}" target="_blank" class="text-red-400 hover:text-red-300 transition inline-flex items-center gap-1.5">
+                            <x-icon name="globe" class="w-3.5 h-3.5" />
+                            {{ __('Live Portal') }}
                         </a>
                     </div>
 

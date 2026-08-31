@@ -11,7 +11,10 @@
                         </a>
                     </div>
                     <h1 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight mt-2 flex items-center gap-3">
-                        <span>⏳ {{ __('Pending Journalist Applications') }}</span>
+                        <span class="inline-flex items-center gap-2">
+                            <x-icon name="clock" class="w-7 h-7 text-amber-600" />
+                            {{ __('Pending Journalist Applications') }}
+                        </span>
                         <span class="text-xs font-extrabold bg-amber-100 text-amber-800 border border-amber-200 px-3 py-1 rounded-full">
                             {{ $pendingJournalists->total() }}
                         </span>
@@ -24,14 +27,16 @@
 
             {{-- ALERTS --}}
             @if(session('success'))
-                <div class="p-4 rounded-2xl bg-emerald-50 text-emerald-800 text-xs font-bold border border-emerald-200">
-                    ✓ {{ session('success') }}
+                <div class="p-4 rounded-2xl bg-emerald-50 text-emerald-800 text-xs font-bold border border-emerald-200 inline-flex items-center gap-2">
+                    <x-icon name="check" class="w-4 h-4" />
+                    {{ session('success') }}
                 </div>
             @endif
 
             @if(session('error'))
-                <div class="p-4 rounded-2xl bg-rose-50 text-rose-800 text-xs font-bold border border-rose-200">
-                    ⚠️ {{ session('error') }}
+                <div class="p-4 rounded-2xl bg-rose-50 text-rose-800 text-xs font-bold border border-rose-200 inline-flex items-center gap-2">
+                    <x-icon name="warning" class="w-4 h-4" />
+                    {{ session('error') }}
                 </div>
             @endif
 
@@ -55,18 +60,21 @@
                                             <div class="font-extrabold text-slate-900 text-base">
                                                 {{ $applicant->name }}
                                             </div>
-                                            <div class="text-xs text-slate-500 font-semibold">
-                                                ✉️ {{ $applicant->email }}
+                                            <div class="text-xs text-slate-500 font-semibold inline-flex items-center gap-1">
+                                                <x-icon name="mail" class="w-3.5 h-3.5" />
+                                                {{ $applicant->email }}
                                             </div>
                                         </td>
                                         <td class="px-6 py-4">
                                             @if($applicant->email_verified_at)
                                                 <span class="inline-flex items-center gap-1 text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 px-3 py-1 rounded-full">
-                                                    ✓ {{ __('Verified') }}
+                                                    <x-icon name="check" class="w-3.5 h-3.5" />
+                                                    {{ __('Verified') }}
                                                 </span>
                                             @else
                                                 <span class="inline-flex items-center gap-1 text-xs font-bold bg-amber-50 text-amber-700 border border-amber-200 px-3 py-1 rounded-full">
-                                                    ⏳ {{ __('Unverified OTP') }}
+                                                    <x-icon name="clock" class="w-3.5 h-3.5" />
+                                                    {{ __('Unverified OTP') }}
                                                 </span>
                                             @endif
                                         </td>
@@ -81,7 +89,8 @@
                                                     type="submit"
                                                     class="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black rounded-xl shadow-sm transition"
                                                 >
-                                                    ✓ {{ __('Approve Application') }}
+                                                    <x-icon name="check" class="w-3.5 h-3.5" />
+                                                    {{ __('Approve Application') }}
                                                 </button>
                                             </form>
                                         </td>
@@ -97,7 +106,7 @@
                 @else
                     <div class="p-16 text-center text-slate-500 space-y-3">
                         <div class="w-16 h-16 rounded-3xl bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto text-3xl font-black">
-                            ✓
+                            <x-icon name="check" class="w-8 h-8" />
                         </div>
                         <h3 class="text-lg font-black text-slate-900">
                             {{ __('No pending applications') }}

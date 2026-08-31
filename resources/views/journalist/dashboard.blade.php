@@ -1,394 +1,354 @@
 <x-app-layout>
+    <div class="min-h-screen bg-slate-50">
 
-    <div class="min-h-screen bg-slate-100/80 pb-16" style="background-color: #f1f5f9;">
-
-        {{-- Top Hero Header Card with Guaranteed Contrast --}}
-        <div style="background: linear-gradient(135deg, #4c0519 0%, #881337 50%, #0f172a 100%); color: #ffffff; padding: 36px 0; border-bottom: 3px solid #9f1239; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6" style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;">
-
-                    {{-- Reporter Avatar & Profile Detail --}}
-                    <div class="flex items-center gap-5" style="display: flex; align-items: center; gap: 20px;">
-                        <div class="relative shrink-0" style="position: relative;">
-                            @if($profile && $profile->profile_image)
-                                <img
-                                    src="{{ asset('storage/' . $profile->profile_image) }}"
-                                    alt="{{ auth()->user()->name }}"
-                                    class="w-20 h-20 md:w-24 md:h-24 rounded-2xl object-cover shadow-xl"
-                                    style="width: 88px; height: 88px; border-radius: 16px; border: 3px solid rgba(255,255,255,0.3); object-fit: cover;"
-                                >
-                            @else
-                                <div
-                                    class="w-20 h-20 md:w-24 md:h-24 rounded-2xl font-black text-3xl flex items-center justify-center shadow-xl"
-                                    style="width: 88px; height: 88px; border-radius: 16px; border: 3px solid rgba(255,255,255,0.3); background: linear-gradient(135deg, #e11d48, #9f1239); color: #ffffff; font-size: 32px; font-weight: 900; display: flex; align-items: center; justify-content: center;"
-                                >
-                                    {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
-                                </div>
-                            @endif
-
-                            @if($profile?->is_verified)
-                                <div style="position: absolute; bottom: -4px; right: -4px; background: #10b981; color: #ffffff; border-radius: 9999px; padding: 4px; border: 2px solid #0f172a; display: flex; align-items: center; justify-content: center;" title="Verified Reporter">
-                                    <svg style="width: 14px; height: 14px;" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                                    </svg>
-                                </div>
-                            @endif
+        {{-- ============== WELCOME BANNER ============== --}}
+        <div class="bg-slate-900 rounded-3xl mb-8 overflow-hidden">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+                <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+                    <div class="flex-1 min-w-0">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 bg-red-600/20 text-red-300 rounded-full text-xs font-bold mb-4">
+                            <x-icon name="shield" class="w-3.5 h-3.5" />
+                            {{ __('Journalist Desk') }}
                         </div>
-
-                        <div>
-                            <div class="flex items-center gap-3 flex-wrap" style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
-                                <h1 style="color: #ffffff !important; font-size: 28px; font-weight: 900; margin: 0; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">
-                                    {{ auth()->user()->name }}
-                                </h1>
-
-                                @if($profile?->is_verified)
-                                    <span style="background: rgba(16, 185, 129, 0.25); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.4); padding: 4px 12px; border-radius: 9999px; font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
-                                        ✓ {{ __('Verified Journalist') }}
-                                    </span>
-                                @else
-                                    <span style="background: rgba(245, 158, 11, 0.25); color: #fde68a; border: 1px solid rgba(245, 158, 11, 0.4); padding: 4px 12px; border-radius: 9999px; font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
-                                        ⏳ {{ __('Verification Pending') }}
-                                    </span>
-                                @endif
-                            </div>
-
-                            <p style="color: #fecdd3 !important; font-size: 14px; font-weight: 600; margin-top: 6px;">
-                                {{ $profile->display_designation }}
-                                @if($profile?->display_organization)
-                                    <span style="color: #cbd5e1; font-weight: 400;"> • {{ $profile->display_organization }}</span>
-                                @endif
-                            </p>
-
-                            @if($profile?->location)
-                                <p style="color: #cbd5e1 !important; font-size: 12px; margin-top: 4px;">
-                                    📍 {{ $profile->location }}
-                                </p>
-                            @endif
-                        </div>
+                        <h1 class="text-3xl sm:text-4xl font-black text-white tracking-tight">
+                            {{ __('Welcome back,') }} {{ auth()->user()->name }}
+                        </h1>
+                        <p class="mt-2 text-slate-400 text-sm sm:text-base">
+                            {{ app()->getLocale() === 'bn' ? \Carbon\Carbon::now()->locale('bn')->isoFormat('dddd, D MMMM, YYYY') : \Carbon\Carbon::now()->format('l, F j, Y') }}
+                            · {{ number_format($articlesCount ?? 0) }} {{ __('articles filed') }}
+                        </p>
                     </div>
-
-                    {{-- Header Action Buttons with Explicit Bulletproof Inline Style --}}
-                    <div class="flex items-center gap-3 shrink-0" style="display: flex; align-items: center; gap: 12px;">
-                        <a
-                            href="{{ route('journalist.articles.create') }}"
-                            style="background-color: #ffffff !important; color: #881337 !important; font-weight: 900 !important; font-size: 14px; padding: 12px 22px; border-radius: 12px; border: 1px solid #ffffff; box-shadow: 0 4px 14px rgba(0,0,0,0.25); display: inline-flex; align-items: center; gap: 8px; text-decoration: none; transition: transform 0.2s;"
-                        >
-                            <svg style="width: 18px; height: 18px; color: #be123c;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
-                            </svg>
-                            <span>{{ __('Write New Article') }}</span>
+                    <div class="flex flex-wrap gap-3">
+                        <a href="{{ route('journalist.articles.create') }}"
+                           class="inline-flex items-center gap-2 px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white font-bold text-sm rounded-xl shadow-lg shadow-red-600/25 transition active:scale-95">
+                            <x-icon name="plus" class="w-4 h-4" />
+                            {{ __('Write New Article') }}
                         </a>
-
                         @if($profile?->slug)
-                            <a
-                                href="{{ route('journalists.show', $profile->slug) }}"
-                                target="_blank"
-                                style="background-color: rgba(255, 255, 255, 0.15) !important; color: #ffffff !important; font-weight: 700 !important; font-size: 13px; padding: 12px 18px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.3); display: inline-flex; align-items: center; gap: 6px; text-decoration: none;"
-                            >
-                                <span>🌐</span>
-                                <span>{{ __('View Portfolio') }}</span>
+                            <a href="{{ route('journalists.show', $profile->slug) }}" target="_blank"
+                               class="inline-flex items-center gap-2 px-5 py-2.5 bg-white/10 hover:bg-white/20 text-white font-bold text-sm rounded-xl border border-white/20 transition">
+                                <x-icon name="globe" class="w-4 h-4" />
+                                {{ __('View Portfolio') }}
                             </a>
                         @endif
+                        <a href="{{ route('journalist.profile.edit') }}"
+                           class="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-700 hover:bg-slate-600 text-white font-bold text-sm rounded-xl transition">
+                            <x-icon name="cog" class="w-4 h-4" />
+                            {{ __('Edit Profile') }}
+                        </a>
                     </div>
-
                 </div>
-
             </div>
         </div>
 
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
 
-        {{-- Main Dashboard Content --}}
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8" style="margin-top: 24px;">
-
-            {{-- 1. Metrics Cards Grid --}}
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px;">
+            {{-- ============== METRIC GRID ============== --}}
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
 
                 {{-- Total Articles --}}
-                <div style="background: #ffffff; border-radius: 16px; padding: 20px; border: 1px solid #e2e8f0; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
-                    <div style="display: flex; justify-between; align-items: center; justify-content: space-between;">
-                        <span style="font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.05em; color: #64748b;">{{ __('Total Articles') }}</span>
-                        <div style="width: 40px; height: 40px; border-radius: 10px; background: #fff1f2; color: #e11d48; display: flex; align-items: center; justify-content: center; font-size: 18px;">
-                            📰
+                <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition group">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 rounded-2xl bg-red-50 text-red-600 flex items-center justify-center group-hover:scale-110 transition">
+                            <x-icon name="newspaper" class="w-6 h-6" />
                         </div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-400">{{ __('Total') }}</span>
                     </div>
-                    <p style="font-size: 32px; font-weight: 900; color: #0f172a; margin: 12px 0 0 0;">
-                        {{ $articlesCount ?? 0 }}
-                    </p>
-                    <a href="{{ route('journalist.articles.index') }}" style="font-size: 12px; font-weight: 800; color: #be123c; text-decoration: none; margin-top: 8px; display: inline-block;">
-                        {{ __('View List') }} →
-                    </a>
+                    <p class="text-3xl font-black text-slate-900 tabular-nums">{{ number_format($articlesCount ?? 0) }}</p>
+                    <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between">
+                        <p class="text-xs text-slate-500 font-medium">{{ __('Articles filed') }}</p>
+                        <a href="{{ route('journalist.articles.index') }}" class="text-xs font-bold text-red-600 hover:text-red-700 inline-flex items-center gap-1">
+                            {{ __('View') }}
+                            <x-icon name="arrow-right" class="w-3 h-3" />
+                        </a>
+                    </div>
                 </div>
 
                 {{-- Published --}}
-                <div style="background: #ffffff; border-radius: 16px; padding: 20px; border: 1px solid #e2e8f0; border-left: 5px solid #10b981; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
-                    <div style="display: flex; justify-between; align-items: center; justify-content: space-between;">
-                        <span style="font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.05em; color: #64748b;">{{ __('Published') }}</span>
-                        <div style="width: 40px; height: 40px; border-radius: 10px; background: #ecfdf5; color: #059669; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 900;">
-                            ✓
+                <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition group">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:scale-110 transition">
+                            <x-icon name="check" class="w-6 h-6" />
                         </div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-emerald-600">{{ __('Live') }}</span>
                     </div>
-                    <p style="font-size: 32px; font-weight: 900; color: #059669; margin: 12px 0 0 0;">
-                        {{ $publishedArticlesCount ?? 0 }}
-                    </p>
-                    <span style="font-size: 11px; color: #94a3b8; font-weight: 600; margin-top: 8px; display: block;">{{ __('Live on portal') }}</span>
+                    <p class="text-3xl font-black text-slate-900 tabular-nums">{{ number_format($publishedArticlesCount ?? 0) }}</p>
+                    <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between">
+                        <p class="text-xs text-slate-500 font-medium">{{ __('Published articles') }}</p>
+                        <a href="{{ route('journalist.articles.index', ['status' => 'published']) }}" class="text-xs font-bold text-emerald-600 hover:text-emerald-700 inline-flex items-center gap-1">
+                            {{ __('View') }}
+                            <x-icon name="arrow-right" class="w-3 h-3" />
+                        </a>
+                    </div>
                 </div>
 
-                {{-- Pending --}}
-                <div style="background: #ffffff; border-radius: 16px; padding: 20px; border: 1px solid #e2e8f0; border-left: 5px solid #f59e0b; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
-                    <div style="display: flex; justify-between; align-items: center; justify-content: space-between;">
-                        <span style="font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.05em; color: #64748b;">{{ __('Pending Review') }}</span>
-                        <div style="width: 40px; height: 40px; border-radius: 10px; background: #fffbeb; color: #d97706; display: flex; align-items: center; justify-content: center; font-size: 18px;">
-                            ⏳
+                {{-- Pending Review --}}
+                <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition group">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center group-hover:scale-110 transition">
+                            <x-icon name="clock" class="w-6 h-6" />
                         </div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-amber-600">{{ __('Pending') }}</span>
                     </div>
-                    <p style="font-size: 32px; font-weight: 900; color: #d97706; margin: 12px 0 0 0;">
-                        {{ $pendingArticlesCount ?? 0 }}
-                    </p>
-                    <span style="font-size: 11px; color: #94a3b8; font-weight: 600; margin-top: 8px; display: block;">{{ __('Under Admin review') }}</span>
+                    <p class="text-3xl font-black text-slate-900 tabular-nums">{{ number_format($pendingArticlesCount ?? 0) }}</p>
+                    <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between">
+                        <p class="text-xs text-slate-500 font-medium">{{ __('Awaiting review') }}</p>
+                        <a href="{{ route('journalist.articles.index', ['status' => 'pending']) }}" class="text-xs font-bold text-amber-600 hover:text-amber-700 inline-flex items-center gap-1">
+                            {{ __('View') }}
+                            <x-icon name="arrow-right" class="w-3 h-3" />
+                        </a>
+                    </div>
                 </div>
 
                 {{-- Experience --}}
-                <div style="background: #ffffff; border-radius: 16px; padding: 20px; border: 1px solid #e2e8f0; border-left: 5px solid #6366f1; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
-                    <div style="display: flex; justify-between; align-items: center; justify-content: space-between;">
-                        <span style="font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.05em; color: #64748b;">{{ __('Experience') }}</span>
-                        <div style="width: 40px; height: 40px; border-radius: 10px; background: #e0e7ff; color: #4f46e5; display: flex; align-items: center; justify-content: center; font-size: 18px;">
-                            🎓
+                <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition group">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center group-hover:scale-110 transition">
+                            <x-icon name="briefcase" class="w-6 h-6" />
                         </div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-400">{{ __('Experience') }}</span>
                     </div>
-                    <p style="font-size: 32px; font-weight: 900; color: #0f172a; margin: 12px 0 0 0;">
-                        {{ $profile?->experience_years ?? 0 }} <span style="font-size: 14px; font-weight: 600; color: #64748b;">{{ __('Yrs') }}</span>
+                    <p class="text-3xl font-black text-slate-900 tabular-nums">
+                        {{ number_format($profile?->experience_years ?? 0) }}<span class="text-lg text-slate-400 font-bold ml-1">{{ __('yrs') }}</span>
                     </p>
-                    <span style="font-size: 11px; color: #94a3b8; font-weight: 600; margin-top: 8px; display: block;">{{ __('Professional Years') }}</span>
+                    <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between">
+                        <p class="text-xs text-slate-500 font-medium">{{ __('Years in journalism') }}</p>
+                        <a href="{{ route('journalist.profile.edit') }}" class="text-xs font-bold text-indigo-600 hover:text-indigo-700 inline-flex items-center gap-1">
+                            {{ __('Edit') }}
+                            <x-icon name="arrow-right" class="w-3 h-3" />
+                        </a>
+                    </div>
                 </div>
 
             </div>
 
+            {{-- ============== TWO-COLUMN LAYOUT ============== --}}
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
 
-            {{-- 2. Two-Column Layout --}}
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8" style="margin-top: 28px;">
-
-                {{-- LEFT COLUMN: Recent Articles & Profile (8 Cols) --}}
+                {{-- LEFT (8 cols): Recent Articles + Bio --}}
                 <div class="lg:col-span-8 space-y-8">
 
-                    {{-- Recent Articles Card --}}
-                    <div style="background: #ffffff; border-radius: 20px; border: 1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.03); overflow: hidden;">
-                        <div style="padding: 20px 24px; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
-                            <div>
-                                <h2 style="font-size: 18px; font-weight: 900; color: #0f172a; margin: 0; display: flex; align-items: center; gap: 8px;">
-                                    <span style="width: 10px; height: 10px; border-radius: 9999px; background: #be123c; display: inline-block;"></span>
-                                    {{ __('My Recent News Articles') }}
-                                </h2>
-                                <p style="font-size: 12px; color: #64748b; margin-top: 4px;">
-                                    {{ __('Latest articles authored and submitted by you') }}
-                                </p>
+                    {{-- Recent articles --}}
+                    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm">
+                        <div class="px-6 py-5 border-b border-slate-100 flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-red-50 text-red-600 flex items-center justify-center">
+                                    <x-icon name="newspaper" class="w-5 h-5" />
+                                </div>
+                                <div>
+                                    <h2 class="text-lg font-black text-slate-900">{{ __('My Recent Articles') }}</h2>
+                                    <p class="text-xs text-slate-500 font-medium">{{ __('Your latest submissions and their status') }}</p>
+                                </div>
                             </div>
-
-                            <a
-                                href="{{ route('journalist.articles.create') }}"
-                                style="background: #be123c !important; color: #ffffff !important; font-weight: 800 !important; font-size: 13px; padding: 10px 18px; border-radius: 10px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 6px rgba(190, 18, 60, 0.3);"
-                            >
-                                <svg style="width: 14px; height: 14px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
-                                </svg>
-                                <span>{{ __('Write Article') }}</span>
-                            </a>
+                            @if(isset($latestArticles) && $latestArticles->count() > 0)
+                                <a href="{{ route('journalist.articles.index') }}" class="text-xs font-bold text-red-600 hover:text-red-700 inline-flex items-center gap-1">
+                                    {{ __('View all') }}
+                                    <x-icon name="arrow-right" class="w-3 h-3" />
+                                </a>
+                            @endif
                         </div>
 
-                        @if(isset($latestArticles) && $latestArticles->count() > 0)
-                            <div style="overflow-x: auto;">
-                                <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 13px;">
-                                    <thead>
-                                        <tr style="background: #f8fafc; color: #475569; font-size: 11px; font-weight: 800; text-transform: uppercase; border-bottom: 1px solid #e2e8f0;">
-                                            <th style="padding: 14px 20px;">{{ __('Article Title') }}</th>
-                                            <th style="padding: 14px 16px;">{{ __('Category') }}</th>
-                                            <th style="padding: 14px 16px;">{{ __('Status') }}</th>
-                                            <th style="padding: 14px 16px;">{{ __('Date') }}</th>
-                                            <th style="padding: 14px 20px; text-align: right;">{{ __('Actions') }}</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody style="color: #334155;">
-                                        @foreach($latestArticles as $art)
-                                            <tr style="border-bottom: 1px solid #f1f5f9;">
-                                                <td style="padding: 16px 20px; font-weight: 800; color: #0f172a; max-width: 280px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                                                    {{ $art->display_title }}
-                                                </td>
-                                                <td style="padding: 16px;">
-                                                    <span style="background: #fff1f2; color: #be123c; border: 1px solid #ffe4e6; font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 6px;">
-                                                        {{ $art->category->display_name }}
+                        <div class="p-4 sm:p-6">
+                            @if(isset($latestArticles) && $latestArticles->count() > 0)
+                                <ul class="space-y-3">
+                                    @foreach($latestArticles as $art)
+                                        <li class="flex items-start sm:items-center justify-between gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100 hover:border-slate-200 transition">
+                                            <div class="flex-1 min-w-0">
+                                                <div class="flex items-center gap-2 mb-1.5 flex-wrap">
+                                                    <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 bg-red-100 text-red-700 rounded-full">
+                                                        {{ $art->category->display_name ?? __('Uncategorized') }}
                                                     </span>
-                                                </td>
-                                                <td style="padding: 16px;">
-                                                    @if($art->status === 'published')
-                                                        <span style="background: #d1fae5; color: #065f46; font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 9999px; display: inline-flex; align-items: center; gap: 4px;">
-                                                            ✓ {{ __('Published') }}
-                                                        </span>
-                                                    @elseif($art->status === 'pending')
-                                                        <span style="background: #fef3c7; color: #92400e; font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 9999px; display: inline-flex; align-items: center; gap: 4px;">
-                                                            ⏳ {{ __('Pending Review') }}
-                                                        </span>
-                                                    @elseif($art->status === 'rejected')
-                                                        <span style="background: #fee2e2; color: #991b1b; font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 9999px; display: inline-flex; align-items: center; gap: 4px;">
-                                                            ❌ {{ __('Rejected') }}
-                                                        </span>
-                                                    @else
-                                                        <span style="background: #f1f5f9; color: #475569; font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 9999px;">
-                                                            📝 {{ __('Draft') }}
-                                                        </span>
-                                                    @endif
-                                                </td>
-                                                <td style="padding: 16px; color: #64748b; font-size: 12px; font-weight: 600;">
-                                                    {{ $art->created_at->format('M d, Y') }}
-                                                </td>
-                                                <td style="padding: 16px 20px; text-align: right;">
-                                                    <a href="{{ route('journalist.articles.edit', $art->id) }}" style="color: #2563eb; font-weight: 800; text-decoration: none; margin-right: 12px; font-size: 12px;">
-                                                        ✏️ {{ __('Edit') }}
-                                                    </a>
-                                                    @if($art->status === 'published')
-                                                        <a href="{{ route('articles.show', $art->slug) }}" target="_blank" style="color: #059669; font-weight: 800; text-decoration: none; font-size: 12px;">
-                                                            👁️ {{ __('View Live') }}
-                                                        </a>
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-
-                            <div style="padding: 16px; background: #f8fafc; border-top: 1px solid #f1f5f9; text-align: center;">
-                                <a href="{{ route('journalist.articles.index') }}" style="font-size: 13px; font-weight: 800; color: #475569; text-decoration: none;">
-                                    {{ __('View All My Articles') }} ({{ $articlesCount ?? 0 }}) →
-                                </a>
-                            </div>
-                        @else
-                            <div style="text-align: center; padding: 48px 16px; background: #f8fafc;">
-                                <p style="color: #64748b; font-size: 14px; font-weight: 600;">{{ __('No news articles written yet.') }}</p>
-                                <a href="{{ route('journalist.articles.create') }}" style="display: inline-block; margin-top: 12px; background: #be123c; color: #ffffff; font-weight: 800; font-size: 13px; padding: 10px 20px; border-radius: 12px; text-decoration: none;">
-                                    + {{ __('Write Your First Article') }}
-                                </a>
-                            </div>
-                        @endif
+                                                    <span class="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full
+                                                        @if($art->status === 'published') bg-emerald-100 text-emerald-700
+                                                        @elseif($art->status === 'pending') bg-amber-100 text-amber-700
+                                                        @elseif($art->status === 'rejected') bg-rose-100 text-rose-700
+                                                        @else bg-slate-200 text-slate-700
+                                                        @endif
+                                                    ">
+                                                        @if($art->status === 'published')
+                                                            <x-icon name="check" class="w-3 h-3" />
+                                                        @elseif($art->status === 'pending')
+                                                            <x-icon name="clock" class="w-3 h-3" />
+                                                        @elseif($art->status === 'rejected')
+                                                            <x-icon name="x" class="w-3 h-3" />
+                                                        @else
+                                                            <x-icon name="pencil" class="w-3 h-3" />
+                                                        @endif
+                                                        {{ ucfirst($art->status) }}
+                                                    </span>
+                                                </div>
+                                                <h3 class="text-sm sm:text-base font-bold text-slate-900 leading-snug line-clamp-2">
+                                                    {{ $art->display_title }}
+                                                </h3>
+                                                <p class="mt-1 text-xs text-slate-500 inline-flex items-center gap-1">
+                                                    <x-icon name="calendar" class="w-3 h-3" />
+                                                    {{ \Carbon\Carbon::parse($art->published_at ?? $art->created_at)->diffForHumans() }}
+                                                </p>
+                                            </div>
+                                            <a href="{{ route('journalist.articles.edit', $art) }}" class="shrink-0 inline-flex items-center gap-1 px-3 py-2 bg-white hover:bg-slate-900 hover:text-white text-slate-700 text-xs font-bold rounded-lg border border-slate-200 transition">
+                                                <x-icon name="edit" class="w-3.5 h-3.5" />
+                                                <span class="hidden sm:inline">{{ __('Review') }}</span>
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            @else
+                                <div class="text-center py-10">
+                                    <x-icon name="pencil" class="w-12 h-12 text-slate-300 mx-auto" />
+                                    <h3 class="mt-3 text-base font-bold text-slate-700">{{ __('No articles yet') }}</h3>
+                                    <p class="mt-1 text-sm text-slate-500">{{ __('Start writing to build your portfolio.') }}</p>
+                                    <a href="{{ route('journalist.articles.create') }}" class="mt-4 inline-flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-bold rounded-xl transition">
+                                        <x-icon name="plus" class="w-4 h-4" />
+                                        {{ __('Write Your First Article') }}
+                                    </a>
+                                </div>
+                            @endif
+                        </div>
                     </div>
 
-
-                    {{-- Biography & Background Card --}}
-                    <div style="background: #ffffff; border-radius: 20px; border: 1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.03); padding: 28px; margin-top: 24px;">
-                        <div style="display: flex; justify-between; align-items: center; justify-content: space-between; border-bottom: 1px solid #f1f5f9; padding-bottom: 12px; margin-bottom: 16px;">
-                            <h3 style="font-size: 16px; font-weight: 900; color: #0f172a; margin: 0;">
-                                📝 {{ __('Biography & Journalist Bio') }}
-                            </h3>
-                            <a href="{{ route('journalist.profile.edit') }}" style="font-size: 12px; font-weight: 800; color: #be123c; text-decoration: none;">
+                    {{-- Biography --}}
+                    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm">
+                        <div class="px-6 py-5 border-b border-slate-100 flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                                    <x-icon name="user" class="w-5 h-5" />
+                                </div>
+                                <div>
+                                    <h2 class="text-lg font-black text-slate-900">{{ __('Biography & Background') }}</h2>
+                                    <p class="text-xs text-slate-500 font-medium">{{ __('Your public bio as seen by readers') }}</p>
+                                </div>
+                            </div>
+                            <a href="{{ route('journalist.profile.edit') }}" class="text-xs font-bold text-red-600 hover:text-red-700 inline-flex items-center gap-1">
+                                <x-icon name="edit" class="w-3 h-3" />
                                 {{ __('Edit Bio') }}
                             </a>
                         </div>
-
-                        @if($profile?->display_bio)
-                            <p style="color: #334155; font-size: 14px; line-height: 1.7; margin: 0;">
-                                {{ $profile->display_bio }}
-                            </p>
-                        @else
-                            <p style="color: #94a3b8; font-size: 13px; font-style: italic; margin: 0;">
-                                {{ __('No biography added yet. Complete your profile to share your journalism background with readers.') }}
-                            </p>
-                        @endif
+                        <div class="p-6">
+                            @if($profile?->display_bio)
+                                <p class="text-slate-700 leading-relaxed text-sm sm:text-base">
+                                    {{ $profile->display_bio }}
+                                </p>
+                            @else
+                                <p class="text-slate-400 italic text-sm">
+                                    {{ __('No bio on file. Add one to introduce yourself to readers.') }}
+                                </p>
+                            @endif
+                        </div>
                     </div>
 
                 </div>
 
+                {{-- RIGHT (4 cols): Sidebar --}}
+                <aside class="lg:col-span-4 space-y-6">
 
-                {{-- RIGHT COLUMN: Shortcuts & Status (4 Cols) --}}
-                <div class="lg:col-span-4 space-y-6">
-
-                    {{-- Quick Action Shortcuts Card --}}
-                    <div style="background: #ffffff; border-radius: 20px; border: 1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.03); padding: 24px;">
-                        <h3 style="font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.05em; color: #94a3b8; margin: 0 0 16px 0; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px;">
-                            {{ __('Journalist Shortcuts') }}
-                        </h3>
-
-                        <div style="display: flex; flex-direction: column; gap: 12px;">
-                            <a
-                                href="{{ route('journalist.articles.create') }}"
-                                style="display: flex; justify-between; align-items: center; justify-content: space-between; padding: 14px 16px; background: #fff1f2; color: #881337; border: 1px solid #ffe4e6; border-radius: 12px; font-weight: 800; font-size: 13px; text-decoration: none;"
-                            >
-                                <span style="display: flex; align-items: center; gap: 8px;">
-                                    ✍️ {{ __('Write New Article') }}
-                                </span>
-                                <span>→</span>
-                            </a>
-
-                            <a
-                                href="{{ route('journalist.articles.index') }}"
-                                style="display: flex; justify-between; align-items: center; justify-content: space-between; padding: 14px 16px; background: #f8fafc; color: #1e293b; border: 1px solid #e2e8f0; border-radius: 12px; font-weight: 700; font-size: 13px; text-decoration: none;"
-                            >
-                                <span style="display: flex; align-items: center; gap: 8px;">
-                                    📰 {{ __('Manage My Articles') }}
-                                </span>
-                                <span>→</span>
-                            </a>
-
-                            <a
-                                href="{{ route('journalist.profile.edit') }}"
-                                style="display: flex; justify-between; align-items: center; justify-content: space-between; padding: 14px 16px; background: #f8fafc; color: #1e293b; border: 1px solid #e2e8f0; border-radius: 12px; font-weight: 700; font-size: 13px; text-decoration: none;"
-                            >
-                                <span style="display: flex; align-items: center; gap: 8px;">
-                                    ⚙️ {{ __('Edit Profile Details') }}
-                                </span>
-                                <span>→</span>
-                            </a>
-
-                            @if($profile?->slug)
-                                <a
-                                    href="{{ route('journalists.show', $profile->slug) }}"
-                                    target="_blank"
-                                    style="display: flex; justify-between; align-items: center; justify-content: space-between; padding: 14px 16px; background: #f8fafc; color: #1e293b; border: 1px solid #e2e8f0; border-radius: 12px; font-weight: 700; font-size: 13px; text-decoration: none;"
-                                >
-                                    <span style="display: flex; align-items: center; gap: 8px;">
-                                        🌐 {{ __('View Public Portfolio') }}
+                    {{-- Quick actions --}}
+                    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm">
+                        <div class="px-6 py-5 border-b border-slate-100 flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-red-50 text-red-600 flex items-center justify-center">
+                                <x-icon name="dashboard" class="w-5 h-5" />
+                            </div>
+                            <h2 class="text-lg font-black text-slate-900">{{ __('Quick Actions') }}</h2>
+                        </div>
+                        <div class="p-3">
+                            <a href="{{ route('journalist.articles.create') }}" class="flex items-center justify-between p-3 rounded-xl hover:bg-slate-50 transition group">
+                                <span class="flex items-center gap-3">
+                                    <span class="w-9 h-9 rounded-lg bg-red-50 text-red-600 flex items-center justify-center group-hover:bg-red-100 transition">
+                                        <x-icon name="pencil" class="w-4 h-4" />
                                     </span>
-                                    <span>↗</span>
+                                    <span class="text-sm font-bold text-slate-900">{{ __('Write Article') }}</span>
+                                </span>
+                                <x-icon name="arrow-right" class="w-4 h-4 text-slate-400 group-hover:text-red-600 transition" />
+                            </a>
+                            <a href="{{ route('journalist.articles.index') }}" class="flex items-center justify-between p-3 rounded-xl hover:bg-slate-50 transition group">
+                                <span class="flex items-center gap-3">
+                                    <span class="w-9 h-9 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center group-hover:bg-blue-100 transition">
+                                        <x-icon name="newspaper" class="w-4 h-4" />
+                                    </span>
+                                    <span class="text-sm font-bold text-slate-900">{{ __('Manage Articles') }}</span>
+                                </span>
+                                <x-icon name="arrow-right" class="w-4 h-4 text-slate-400 group-hover:text-red-600 transition" />
+                            </a>
+                            <a href="{{ route('journalist.profile.edit') }}" class="flex items-center justify-between p-3 rounded-xl hover:bg-slate-50 transition group">
+                                <span class="flex items-center gap-3">
+                                    <span class="w-9 h-9 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center group-hover:bg-indigo-100 transition">
+                                        <x-icon name="user" class="w-4 h-4" />
+                                    </span>
+                                    <span class="text-sm font-bold text-slate-900">{{ __('Edit Profile') }}</span>
+                                </span>
+                                <x-icon name="arrow-right" class="w-4 h-4 text-slate-400 group-hover:text-red-600 transition" />
+                            </a>
+                            @if($profile?->slug)
+                                <a href="{{ route('journalists.show', $profile->slug) }}" target="_blank" class="flex items-center justify-between p-3 rounded-xl hover:bg-slate-50 transition group">
+                                    <span class="flex items-center gap-3">
+                                        <span class="w-9 h-9 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:bg-emerald-100 transition">
+                                            <x-icon name="globe" class="w-4 h-4" />
+                                        </span>
+                                        <span class="text-sm font-bold text-slate-900">{{ __('View Portfolio') }}</span>
+                                    </span>
+                                    <x-icon name="external" class="w-4 h-4 text-slate-400 group-hover:text-red-600 transition" />
                                 </a>
                             @endif
                         </div>
                     </div>
 
-                    {{-- Verification & Account Status --}}
-                    <div style="background: #ffffff; border-radius: 20px; border: 1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.03); padding: 24px; margin-top: 24px;">
-                        <h3 style="font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.05em; color: #94a3b8; margin: 0 0 12px 0;">
-                            {{ __('Verification Status') }}
-                        </h3>
+                    {{-- Verification status --}}
+                    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 rounded-xl {{ $profile?->is_verified ? 'bg-emerald-50 text-emerald-600' : 'bg-amber-50 text-amber-600' }} flex items-center justify-center">
+                                @if($profile?->is_verified)
+                                    <x-icon name="check" class="w-5 h-5" />
+                                @else
+                                    <x-icon name="clock" class="w-5 h-5" />
+                                @endif
+                            </div>
+                            <div>
+                                <h2 class="text-base font-black text-slate-900">{{ __('Verification') }}</h2>
+                                <p class="text-xs text-slate-500 font-medium">{{ __('Account status') }}</p>
+                            </div>
+                        </div>
 
                         @if($profile?->is_verified)
-                            <div style="background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46; border-radius: 12px; padding: 16px;">
-                                <div style="font-size: 14px; font-weight: 900; color: #064e3b; margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
-                                    <span>✓</span> {{ __('Verified Correspondent') }}
-                                </div>
-                                <p style="font-size: 12px; color: #047857; margin: 0; line-height: 1.5;">
-                                    {{ __('Your journalist profile has been verified by the editorial team.') }}
+                            <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4">
+                                <p class="text-sm font-black text-emerald-900 inline-flex items-center gap-1.5">
+                                    <x-icon name="check" class="w-4 h-4" />
+                                    {{ __('Verified Journalist') }}
+                                </p>
+                                <p class="mt-1.5 text-xs text-emerald-800 leading-relaxed">
+                                    {{ __('Your account is verified. The blue badge appears on your profile.') }}
                                 </p>
                             </div>
                         @else
-                            <div style="background: #fffbeb; border: 1px solid #fde68a; color: #92400e; border-radius: 12px; padding: 16px;">
-                                <div style="font-size: 14px; font-weight: 900; color: #78350f; margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
-                                    <span>⏳</span> {{ __('Pending Editorial Review') }}
-                                </div>
-                                <p style="font-size: 12px; color: #b45309; margin: 0; line-height: 1.5;">
-                                    {{ __('Complete your bio and professional information to get verified.') }}
+                            <div class="bg-amber-50 border border-amber-200 rounded-xl p-4">
+                                <p class="text-sm font-black text-amber-900 inline-flex items-center gap-1.5">
+                                    <x-icon name="clock" class="w-4 h-4" />
+                                    {{ __('Verification Pending') }}
                                 </p>
+                                <p class="mt-1.5 text-xs text-amber-800 leading-relaxed">
+                                    {{ __('Submit credentials and a complete profile to receive the verified badge.') }}
+                                </p>
+                                <a href="{{ route('journalist.profile.edit') }}" class="mt-3 inline-flex items-center gap-1.5 text-xs font-bold text-amber-900 hover:text-amber-700">
+                                    {{ __('Complete profile') }}
+                                    <x-icon name="arrow-right" class="w-3 h-3" />
+                                </a>
                             </div>
                         @endif
                     </div>
 
-                    {{-- Expertise Tags --}}
+                    {{-- Areas of expertise --}}
                     @if($profile?->expertises && $profile->expertises->count() > 0)
-                        <div style="background: #ffffff; border-radius: 20px; border: 1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.03); padding: 24px; margin-top: 24px;">
-                            <h3 style="font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.05em; color: #94a3b8; margin: 0 0 12px 0;">
-                                {{ __('Areas of Expertise') }}
-                            </h3>
-
-                            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="w-10 h-10 rounded-xl bg-red-50 text-red-600 flex items-center justify-center">
+                                    <x-icon name="tag" class="w-5 h-5" />
+                                </div>
+                                <div>
+                                    <h2 class="text-base font-black text-slate-900">{{ __('Areas of Expertise') }}</h2>
+                                    <p class="text-xs text-slate-500 font-medium">{{ __('Your reporting beats') }}</p>
+                                </div>
+                            </div>
+                            <div class="flex flex-wrap gap-2">
                                 @foreach($profile->expertises as $expertise)
-                                    <span style="background: #fff1f2; color: #be123c; font-size: 12px; font-weight: 800; padding: 6px 12px; border-radius: 8px; border: 1px solid #ffe4e6;">
+                                    <span class="text-xs font-bold px-3 py-1.5 bg-red-50 text-red-700 border border-red-100 rounded-full">
                                         {{ $expertise->name }}
                                     </span>
                                 @endforeach
@@ -396,12 +356,11 @@
                         </div>
                     @endif
 
-                </div>
+                </aside>
 
             </div>
 
         </div>
 
     </div>
-
 </x-app-layout>

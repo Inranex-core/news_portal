@@ -3,12 +3,12 @@
 @section('title', __('Journalists & Reporters Directory') . ' - ' . __('News Portal'))
 
 @section('content')
-<div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+<div class="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8 py-6 sm:py-8">
 
     {{-- Page Header --}}
-    <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 mb-8">
+    <div class="bg-white p-4 sm:p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200 mb-6 sm:mb-8">
         <span class="text-xs font-bold text-red-600 uppercase tracking-widest">{{ __('Editorial Team') }}</span>
-        <h1 class="text-3xl font-black text-slate-900 mt-1">
+        <h1 class="text-2xl sm:text-3xl font-black text-slate-900 mt-1 break-words-safe">
             {{ __('Journalists & Reporters Directory') }}
         </h1>
         <p class="text-sm text-slate-500 mt-2">

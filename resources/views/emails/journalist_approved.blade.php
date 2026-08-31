@@ -6,7 +6,7 @@
 </head>
 <body style="font-family: Arial, sans-serif; background-color: #f8fafc; padding: 20px;">
     <div style="max-width: 550px; margin: 0 auto; background-color: #ffffff; padding: 32px; border-radius: 16px; border: 1px solid #e2e8f0;">
-        <h2 style="color: #166534; margin-top: 0;">🎉 Your Journalist Application Has Been Approved!</h2>
+        <h2 style="color: #166534; margin-top: 0;">✓ Your Journalist Application Has Been Approved!</h2>
         <p style="color: #475569;">Hello {{ $user->name }},</p>
         <p style="color: #475569;">Great news! The editorial team has reviewed and approved your application to become a Journalist at <strong>{{ config('app.name') }}</strong>.</p>
         

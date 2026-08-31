@@ -92,8 +92,8 @@
 
                     <div class="text-center py-10">
 
-                        <div class="text-5xl mb-4">
-                            🎯
+                        <div class="text-5xl mb-4 text-slate-300 flex justify-center">
+                            <x-icon name="target" class="w-12 h-12" />
                         </div>
 
                         <h2 class="text-xl font-bold text-slate-900">

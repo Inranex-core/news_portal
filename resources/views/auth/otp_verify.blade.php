@@ -1,7 +1,7 @@
 <x-guest-layout>
     <div class="mb-6 text-center">
         <div class="w-16 h-16 rounded-3xl bg-red-50 text-red-600 flex items-center justify-center mx-auto mb-4 text-3xl font-black shadow-sm">
-            📩
+            <x-icon name="inbox" class="w-8 h-8" />
         </div>
         <h2 class="text-2xl font-black text-slate-900 tracking-tight">
             {{ __('Email OTP Verification') }}
@@ -51,7 +51,7 @@
                 type="submit"
                 class="w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-red-600 to-rose-700 hover:from-red-700 hover:to-rose-800 text-white font-black text-sm shadow-lg shadow-red-600/25 transition active:scale-98"
             >
-                ✓ {{ __('Verify OTP & Continue') }}
+                <x-icon name="check" class="w-4 h-4 inline-block -mt-0.5" /> {{ __('Verify OTP & Continue') }}
             </button>
         </div>
     </form>
@@ -60,8 +60,9 @@
         <span>{{ __("Didn't receive code?") }}</span>
         <form method="POST" action="{{ route('otp.resend') }}">
             @csrf
-            <button type="submit" class="font-bold text-red-600 hover:text-red-700 hover:underline">
-                🔄 {{ __('Resend OTP') }}
+            <button type="submit" class="font-bold text-red-600 hover:text-red-700 hover:underline inline-flex items-center gap-1">
+                <x-icon name="refresh" class="w-3.5 h-3.5" />
+                {{ __('Resend OTP') }}
             </button>
         </form>
     </div>

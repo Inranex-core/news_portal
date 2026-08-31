@@ -9,7 +9,10 @@
                 <div>
                     <div class="flex items-center gap-3">
                         <h1 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight flex items-center gap-3">
-                            <span>📰 {{ __('Manage Journalists') }}</span>
+                            <span class="inline-flex items-center gap-2">
+                                <x-icon name="users" class="w-7 h-7 text-slate-700" />
+                                {{ __('Manage Journalists') }}
+                            </span>
                             <span class="text-xs font-extrabold bg-slate-100 text-slate-700 px-3 py-1 rounded-full border border-slate-200">
                                 {{ $journalists->total() }}
                             </span>
@@ -26,7 +29,8 @@
                             href="{{ route('admin.journalists.pending') }}"
                             class="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 font-extrabold text-xs transition shadow-xs"
                         >
-                            <span>⏳ {{ __('Pending Approvals') }}</span>
+                            <x-icon name="clock" class="w-4 h-4" />
+                            <span>{{ __('Pending Approvals') }}</span>
                             <span class="bg-amber-600 text-white px-2 py-0.5 rounded-full text-[11px]">
                                 {{ $pendingCount }}
                             </span>
@@ -43,7 +47,9 @@
             {{-- DIRECT INVITATION CARD --}}
             <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-sm space-y-4">
                 <div class="flex items-center gap-3">
-                    <span class="text-2xl">✉️</span>
+                    <span class="text-2xl text-blue-600 inline-flex items-center justify-center">
+                    <x-icon name="mail" class="w-6 h-6" />
+                </span>
                     <div>
                         <h3 class="text-base font-black text-slate-900">
                             {{ __('Send Direct Email Invitation') }}
@@ -72,8 +78,9 @@
                     </div>
 
                     <div>
-                        <button type="submit" class="w-full py-2.5 px-6 rounded-2xl bg-gradient-to-r from-red-600 to-rose-700 hover:from-red-700 hover:to-rose-800 text-white font-black text-xs shadow-md shadow-red-600/25 transition">
-                            🚀 {{ __('Send Email Invite') }}
+                        <button type="submit" class="w-full py-2.5 px-6 rounded-2xl bg-gradient-to-r from-red-600 to-rose-700 hover:from-red-700 hover:to-rose-800 text-white font-black text-xs shadow-md shadow-red-600/25 transition inline-flex items-center justify-center gap-1.5">
+                            <x-icon name="paper-airplane" class="w-4 h-4" />
+                            {{ __('Send Email Invite') }}
                         </button>
                     </div>
                 </form>
@@ -82,14 +89,16 @@
 
             {{-- ALERTS --}}
             @if(session('success'))
-                <div class="p-4 rounded-2xl bg-emerald-50 text-emerald-800 text-xs font-bold border border-emerald-200">
-                    ✓ {{ session('success') }}
+                <div class="p-4 rounded-2xl bg-emerald-50 text-emerald-800 text-xs font-bold border border-emerald-200 inline-flex items-center gap-2">
+                    <x-icon name="check" class="w-4 h-4" />
+                    {{ session('success') }}
                 </div>
             @endif
 
             @if(session('error'))
-                <div class="p-4 rounded-2xl bg-rose-50 text-rose-800 text-xs font-bold border border-rose-200">
-                    ⚠️ {{ session('error') }}
+                <div class="p-4 rounded-2xl bg-rose-50 text-rose-800 text-xs font-bold border border-rose-200 inline-flex items-center gap-2 w-full">
+                    <x-icon name="warning" class="w-4 h-4" />
+                    {{ session('error') }}
                 </div>
             @endif
 
@@ -148,7 +157,8 @@
                                         <td class="px-6 py-4">
                                             @if($journalist->is_verified)
                                                 <span class="inline-flex items-center gap-1 text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 px-3 py-1 rounded-full">
-                                                    ✓ {{ __('Verified') }}
+                                                    <x-icon name="check" class="w-3.5 h-3.5" />
+                                                    {{ __('Verified') }}
                                                 </span>
                                             @else
                                                 <span class="inline-flex items-center gap-1 text-xs font-bold bg-slate-100 text-slate-700 border border-slate-200 px-3 py-1 rounded-full">
@@ -158,11 +168,13 @@
                                         </td>
                                         <td class="px-6 py-4 text-right">
                                             <div class="flex items-center justify-end gap-2">
-                                                <a href="{{ route('admin.email.create', $journalist) }}" class="px-3 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-bold transition">
-                                                    ✉️ {{ __('Email') }}
+                                                <a href="{{ route('admin.email.create', $journalist) }}" class="px-3 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-bold transition inline-flex items-center gap-1.5">
+                                                    <x-icon name="mail" class="w-3.5 h-3.5" />
+                                                    {{ __('Email') }}
                                                 </a>
-                                                <a href="{{ route('admin.journalists.show', $journalist) }}" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition">
-                                                    👁️ {{ __('View') }}
+                                                <a href="{{ route('admin.journalists.show', $journalist) }}" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition inline-flex items-center gap-1.5">
+                                                    <x-icon name="eye" class="w-3.5 h-3.5" />
+                                                    {{ __('View') }}
                                                 </a>
                                                 <form method="POST" action="{{ route('admin.journalists.verification', $journalist) }}" class="inline-block">
                                                     @csrf
@@ -183,7 +195,9 @@
                     </div>
                 @else
                     <div class="p-16 text-center text-slate-500 space-y-3">
-                        <div class="text-4xl">📰</div>
+                        <div class="text-slate-400 flex justify-center">
+                            <x-icon name="users" class="w-10 h-10" />
+                        </div>
                         <h3 class="text-lg font-black text-slate-900">{{ __('No active journalists found') }}</h3>
                         <p class="text-xs font-medium text-slate-500">{{ __('Invite a new journalist using the form above.') }}</p>
                     </div>

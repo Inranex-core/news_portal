@@ -1,3 +1,43 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Global responsive utilities. */
+@layer utilities {
+    /* Hide scrollbar while keeping scroll functionality (used by horizontal category nav). */
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    /* Smooth, momentum-based horizontal scrolling on iOS for carousels. */
+    .scroll-snap-x {
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+    }
+    .scroll-snap-x > * {
+        scroll-snap-align: start;
+    }
+
+    /* Prevent layout shift from scrollbar appearance on Windows. */
+    html {
+        scrollbar-gutter: stable;
+    }
+
+    /* Long Bangla/English titles: allow graceful word breaking on tiny screens. */
+    .break-words-safe {
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }
+}
+
+/* Touch-target sizing: bump up tap areas on small screens. */
+@media (max-width: 640px) {
+    a,
+    button {
+        -webkit-tap-highlight-color: rgba(220, 38, 38, 0.15);
+    }
+}

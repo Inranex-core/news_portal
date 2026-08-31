@@ -7,8 +7,9 @@
             {{-- Header --}}
             <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div>
-                    <span class="text-xs font-black uppercase tracking-widest text-amber-600 bg-amber-50 px-3 py-1 rounded-full border border-amber-200">
-                        📢 {{ __('SPONSORSHIPS & CAMPAIGNS') }}
+                    <span class="text-xs font-black uppercase tracking-widest text-amber-600 bg-amber-50 px-3 py-1 rounded-full border border-amber-200 inline-flex items-center gap-1.5">
+                        <x-icon name="megaphone" class="w-3.5 h-3.5" />
+                        {{ __('SPONSORSHIPS & CAMPAIGNS') }}
                     </span>
                     <h1 class="text-2xl sm:text-3xl font-black text-slate-900 mt-2">
                         {{ __('Advertisement Banners') }}
@@ -23,7 +24,7 @@
                         ← {{ __('Dashboard') }}
                     </a>
                     <a href="{{ route('admin.advertisements.create') }}" class="px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs transition shadow-sm flex items-center gap-1.5">
-                        <span>➕</span>
+                        <x-icon name="plus" class="w-3.5 h-3.5" />
                         <span>{{ __('Create New Ad') }}</span>
                     </a>
                 </div>
@@ -32,7 +33,7 @@
             {{-- Success Message --}}
             @if(session('success'))
                 <div class="bg-emerald-50 border border-emerald-200 text-emerald-800 p-4 rounded-2xl text-sm font-bold flex items-center gap-2">
-                    <span>✅</span>
+                    <x-icon name="check" class="w-4 h-4 text-emerald-600" />
                     <span>{{ session('success') }}</span>
                 </div>
             @endif
@@ -79,12 +80,14 @@
                                         </td>
                                         <td class="px-6 py-4">
                                             @if($ad->status)
-                                                <span class="inline-flex items-center gap-1 bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full">
-                                                    🟢 {{ __('Active') }}
+                                                <span class="inline-flex items-center gap-1.5 bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full">
+                                                    <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                                                    {{ __('Active') }}
                                                 </span>
                                             @else
-                                                <span class="inline-flex items-center gap-1 bg-slate-100 text-slate-500 text-xs font-bold px-3 py-1 rounded-full">
-                                                    ⚪ {{ __('Inactive') }}
+                                                <span class="inline-flex items-center gap-1.5 bg-slate-100 text-slate-500 text-xs font-bold px-3 py-1 rounded-full">
+                                                    <span class="w-2 h-2 rounded-full bg-slate-400"></span>
+                                                    {{ __('Inactive') }}
                                                 </span>
                                             @endif
                                         </td>
@@ -118,7 +121,9 @@
                     </div>
                 @else
                     <div class="py-16 text-center text-slate-400">
-                        <span class="text-4xl">📢</span>
+                        <span class="inline-flex justify-center text-slate-400">
+                            <x-icon name="megaphone" class="w-10 h-10" />
+                        </span>
                         <h3 class="text-lg font-bold text-slate-700 mt-2">{{ __('No Advertisements Found') }}</h3>
                         <p class="text-xs text-slate-500 mt-1">{{ __('Create your first campaign advertisement banner.') }}</p>
                     </div>

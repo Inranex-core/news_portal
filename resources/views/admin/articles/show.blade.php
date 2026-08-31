@@ -246,7 +246,7 @@
                                     type="submit"
                                     class="w-full px-6 py-3 bg-green-600 text-white rounded-xl font-semibold hover:bg-green-700"
                                 >
-                                    ✓ Approve & Publish
+                                    <x-icon name="check" class="w-4 h-4 inline-block -mt-0.5" /> Approve & Publish
                                 </button>
 
                             </form>
@@ -302,7 +302,7 @@
                                     type="submit"
                                     class="w-full mt-4 px-6 py-3 bg-red-600 text-white rounded-xl font-semibold hover:bg-red-700"
                                 >
-                                    ✕ Reject Article
+                                    <x-icon name="close" class="w-4 h-4 inline-block -mt-0.5" /> Reject Article
                                 </button>
 
                             </form>

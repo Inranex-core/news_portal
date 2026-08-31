@@ -2,7 +2,7 @@
 
     <div class="min-h-screen bg-slate-50 py-10">
 
-        <div class="max-w-6xl mx-auto px-6">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
 
             <div class="flex items-center justify-between mb-8">
 
@@ -127,8 +127,8 @@
 
                     <div class="bg-white rounded-2xl border border-slate-200 p-12 text-center">
 
-                        <div class="text-5xl mb-4">
-                            🎓
+                        <div class="text-5xl mb-4 text-slate-300 flex justify-center">
+                            <x-icon name="briefcase" class="w-12 h-12" />
                         </div>
 
                         <h2 class="text-xl font-bold text-slate-900">

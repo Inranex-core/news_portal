@@ -3,29 +3,29 @@
 @section('title', $article->display_title . ' - ' . __('News Portal'))
 
 @section('content')
-<div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+<div class="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8 py-6 sm:py-8">
 
     {{-- Breadcrumb Navigation --}}
-    <nav class="flex text-sm font-medium text-slate-500 mb-6 gap-2 items-center">
+    <nav class="flex flex-wrap text-xs sm:text-sm font-medium text-slate-500 mb-4 sm:mb-6 gap-1.5 sm:gap-2 items-center">
         <a href="{{ route('home') }}" class="hover:text-red-600 transition">{{ __('Home') }}</a>
         <span>/</span>
         <a href="{{ route('categories.show', $article->category->slug) }}" class="hover:text-red-600 transition">
             {{ $article->category->display_name }}
         </a>
         <span>/</span>
-        <span class="text-slate-800 line-clamp-1 max-w-xs">{{ $article->display_title }}</span>
+        <span class="text-slate-800 line-clamp-1 max-w-full sm:max-w-xs">{{ $article->display_title }}</span>
     </nav>
 
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10">
 
         {{-- Main Article Content --}}
         <div class="lg:col-span-8 space-y-8">
 
-            <article class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200">
+            <article class="bg-white p-4 sm:p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200">
 
                 {{-- Category & Date Meta --}}
-                <div class="flex items-center gap-3 mb-4 flex-wrap">
-                    <a href="{{ route('categories.show', $article->category->slug) }}" class="rounded-full bg-red-100 text-red-600 font-bold px-3.5 py-1 text-xs uppercase tracking-wide hover:bg-red-200 transition">
+                <div class="flex items-center gap-2 sm:gap-3 mb-4 flex-wrap">
+                    <a href="{{ route('categories.show', $article->category->slug) }}" class="rounded-full bg-red-100 text-red-600 font-bold px-3 sm:px-3.5 py-1 text-xs uppercase tracking-wide hover:bg-red-200 transition">
                         {{ $article->category->display_name }}
                     </a>
                     <span class="text-xs text-slate-400 font-medium">
@@ -41,7 +41,7 @@
                 </div>
 
                 {{-- Article Title --}}
-                <h1 class="text-3xl sm:text-4xl font-black text-slate-900 leading-tight mb-6">
+                <h1 class="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 leading-tight mb-6 break-words-safe">
                     {{ $article->display_title }}
                 </h1>
 
@@ -85,24 +85,25 @@
 
                 {{-- Featured Image --}}
                 @if($article->image)
-                    <div class="rounded-xl overflow-hidden mb-8 shadow-sm">
-                        <img src="{{ asset('storage/' . $article->image) }}" alt="{{ $article->display_title }}" class="w-full max-h-[480px] object-cover">
+                    <div class="rounded-xl overflow-hidden mb-6 sm:mb-8 shadow-sm">
+                        <img src="{{ asset('storage/' . $article->image) }}" alt="{{ $article->display_title }}" class="w-full max-h-72 sm:max-h-[480px] object-cover">
                     </div>
                 @endif
 
                 {{-- Main Body Content --}}
-                <div class="prose prose-slate max-w-none text-slate-800 leading-relaxed space-y-4 text-base">
+                <div class="prose prose-slate max-w-none text-slate-800 leading-relaxed space-y-4 text-sm sm:text-base break-words-safe">
                     {!! nl2br(e($article->display_content)) !!}
                 </div>
 
             </article>
 
             {{-- ================= COMMENTS SECTION ================= --}}
-            <section class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200">
+            <section class="bg-white p-4 sm:p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200">
 
                 <div class="flex items-center justify-between mb-8 pb-3 border-b border-slate-100">
                     <h3 class="text-xl font-black text-slate-900 flex items-center gap-2">
-                        💬 {{ __('Reader Comments') }}
+                        <x-icon name="chat" class="w-5 h-5" />
+                        {{ __('Reader Comments') }}
                         <span class="text-sm font-bold text-red-600 bg-red-50 px-3 py-0.5 rounded-full">
                             {{ $comments->count() }}
                         </span>
@@ -112,13 +113,13 @@
                 {{-- Success Flash Message --}}
                 @if(session('success'))
                     <div class="mb-6 bg-emerald-50 border border-emerald-200 text-emerald-800 p-4 rounded-xl text-sm font-bold flex items-center gap-2">
-                        <span>✅</span>
+                        <x-icon name="check" class="w-4 h-4 text-emerald-600" />
                         <span>{{ session('success') }}</span>
                     </div>
                 @endif
 
                 {{-- Comment Form --}}
-                <form action="{{ route('articles.comments.store', $article->slug) }}" method="POST" class="mb-10 bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4">
+                <form action="{{ route('articles.comments.store', $article->slug) }}" method="POST" class="mb-8 sm:mb-10 bg-slate-50 p-4 sm:p-6 rounded-2xl border border-slate-200 space-y-4">
                     @csrf
 
                     @guest
@@ -213,12 +214,12 @@
         </div>
 
         {{-- Sidebar: Related Articles & Categories --}}
-        <aside class="lg:col-span-4 space-y-8">
+        <aside class="lg:col-span-4 space-y-6 lg:space-y-8">
 
             {{-- Related News --}}
             @if($relatedArticles->count() > 0)
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-                    <h3 class="text-lg font-black text-slate-900 mb-4 pb-2 border-b border-slate-100 flex items-center gap-2">
+                <div class="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-200">
+                    <h3 class="text-base sm:text-lg font-black text-slate-900 mb-4 pb-2 border-b border-slate-100 flex items-center gap-2">
                         <span class="w-2.5 h-2.5 rounded-full bg-red-600"></span>
                         {{ __('Related News') }}
                     </h3>
@@ -229,7 +230,7 @@
                                 <span class="text-xs text-red-600 font-bold uppercase tracking-wider">
                                     {{ $rel->category->display_name }}
                                 </span>
-                                <h4 class="text-sm font-bold text-slate-900 group-hover:text-red-600 transition leading-snug line-clamp-2">
+                                <h4 class="text-sm font-bold text-slate-900 group-hover:text-red-600 transition leading-snug line-clamp-2 break-words-safe">
                                     {{ $rel->display_title }}
                                 </h4>
                                 <span class="text-xs text-slate-400 font-medium">
@@ -242,13 +243,13 @@
             @endif
 
             {{-- Category Filter Card --}}
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-                <h3 class="text-lg font-black text-slate-900 mb-4 pb-2 border-b border-slate-100">
+            <div class="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-200">
+                <h3 class="text-base sm:text-lg font-black text-slate-900 mb-4 pb-2 border-b border-slate-100">
                     {{ __('Explore Categories') }}
                 </h3>
                 <div class="flex flex-wrap gap-2">
                     @foreach($categories as $cat)
-                        <a href="{{ route('categories.show', $cat->slug) }}" class="rounded-xl bg-slate-100 px-3.5 py-2 text-xs font-bold text-slate-700 transition hover:bg-red-600 hover:text-white">
+                        <a href="{{ route('categories.show', $cat->slug) }}" class="rounded-xl bg-slate-100 px-3 sm:px-3.5 py-1.5 sm:py-2 text-xs font-bold text-slate-700 transition hover:bg-red-600 hover:text-white">
                             {{ $cat->display_name }}
                         </a>
                     @endforeach

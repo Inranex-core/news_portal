@@ -18,7 +18,10 @@
                 </a>
 
                 <h1 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight flex items-center gap-3">
-                    <span>✍️ {{ __('Create News') }}</span>
+                    <span class="inline-flex items-center gap-2">
+                        <x-icon name="pencil" class="w-7 h-7 text-slate-700" />
+                        {{ __('Create News') }}
+                    </span>
                 </h1>
 
                 <p class="text-sm text-slate-500 font-medium mt-1">
@@ -252,7 +255,7 @@
                         value="draft"
                         class="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-slate-800 hover:bg-slate-900 text-white font-bold text-sm transition flex items-center justify-center gap-2 shadow-sm"
                     >
-                        <span>📝</span>
+                        <x-icon name="pencil" class="w-4 h-4" />
                         <span>{{ __('Save as Draft') }}</span>
                     </button>
 
@@ -262,7 +265,7 @@
                         value="submit"
                         class="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-gradient-to-r from-red-600 to-rose-700 hover:from-red-700 hover:to-rose-800 text-white font-black text-sm transition flex items-center justify-center gap-2 shadow-lg shadow-red-600/25 active:scale-98"
                     >
-                        <span>🚀</span>
+                        <x-icon name="paper-airplane" class="w-4 h-4" />
                         <span>{{ __('Submit for Review') }}</span>
                     </button>
                 </div>

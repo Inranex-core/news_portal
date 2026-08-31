@@ -12,7 +12,7 @@
     <section class="relative">
 
         {{-- Cover --}}
-        <div class="relative h-72 overflow-hidden bg-slate-900 md:h-96">
+        <div class="relative h-48 sm:h-72 overflow-hidden bg-slate-900 md:h-96">
 
             @if ($journalist->cover_image)
 
@@ -36,26 +36,26 @@
 
 
         {{-- Profile Card --}}
-        <div class="relative mx-auto -mt-24 max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div class="relative mx-auto -mt-16 sm:-mt-24 max-w-6xl px-3 sm:px-6 lg:px-8">
 
-            <div class="rounded-3xl bg-white p-6 shadow-xl ring-1 ring-slate-200 md:p-8">
+            <div class="rounded-3xl bg-white p-4 sm:p-6 shadow-xl ring-1 ring-slate-200 md:p-8">
 
                 <div class="flex flex-col gap-6 md:flex-row md:items-end">
 
                     {{-- Profile Image --}}
-                    <div class="relative -mt-24 shrink-0">
+                    <div class="relative -mt-16 sm:-mt-24 shrink-0 self-center md:self-auto">
 
                         @if ($journalist->profile_image)
 
                             <img
                                 src="{{ asset('storage/' . $journalist->profile_image) }}"
                                 alt="{{ $journalist->user->name }}"
-                                class="h-36 w-36 rounded-full border-8 border-white object-cover shadow-xl md:h-40 md:w-40"
+                                class="h-28 w-28 sm:h-36 sm:w-36 rounded-full border-4 sm:border-8 border-white object-cover shadow-xl md:h-40 md:w-40"
                             >
 
                         @else
 
-                            <div class="flex h-36 w-36 items-center justify-center rounded-full border-8 border-white bg-slate-100 text-5xl font-black text-slate-500 shadow-xl md:h-40 md:w-40">
+                            <div class="flex h-28 w-28 sm:h-36 sm:w-36 items-center justify-center rounded-full border-4 sm:border-8 border-white bg-slate-100 text-3xl sm:text-5xl font-black text-slate-500 shadow-xl md:h-40 md:w-40">
                                 {{ strtoupper(substr($journalist->user->name, 0, 1)) }}
                             </div>
 
@@ -65,23 +65,23 @@
 
 
                     {{-- Basic Information --}}
-                    <div class="min-w-0 flex-1">
+                    <div class="min-w-0 flex-1 text-center md:text-left">
 
-                        <div class="flex flex-wrap items-center gap-3">
+                        <div class="flex flex-wrap items-center justify-center md:justify-start gap-2 sm:gap-3">
 
-                            <h1 class="text-3xl font-black tracking-tight text-slate-900 md:text-4xl">
+                            <h1 class="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 md:text-4xl break-words-safe">
                                 {{ $journalist->user->name }}
                             </h1>
 
 
                             @if ($journalist->is_verified)
 
-                                <span class="inline-flex items-center gap-1 rounded-full bg-blue-50 px-3 py-1.5 text-sm font-bold text-blue-700 ring-1 ring-blue-100">
-                                    <span class="flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-xs text-white">
-                                        ✓
+                                <span class="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2.5 sm:px-3 py-1 sm:py-1.5 text-xs sm:text-sm font-bold text-blue-700 ring-1 ring-blue-100">
+                                    <span class="flex h-4 w-4 sm:h-5 sm:w-5 items-center justify-center rounded-full bg-blue-600 text-[10px] sm:text-xs text-white">
+                                        <x-icon name="check" class="w-3 h-3" />
                                     </span>
 
-                                    {{ __('Verified Journalist') }}
+                                    {{ __('Verified') }}
                                 </span>
 
                             @endif
@@ -91,7 +91,7 @@
 
                         @if ($journalist->display_designation)
 
-                            <p class="mt-2 text-lg font-bold text-red-600">
+                            <p class="mt-2 text-base sm:text-lg font-bold text-red-600">
                                 {{ $journalist->display_designation }}
                             </p>
 
@@ -100,7 +100,7 @@
 
                         @if ($journalist->display_organization)
 
-                            <p class="mt-1 text-base font-medium text-slate-600">
+                            <p class="mt-1 text-sm sm:text-base font-medium text-slate-600">
                                 {{ $journalist->display_organization }}
                             </p>
 
@@ -109,8 +109,8 @@
 
                         @if ($journalist->location)
 
-                            <p class="mt-3 flex items-center gap-2 text-sm text-slate-500">
-                                <span>📍</span>
+                            <p class="mt-3 flex items-center justify-center md:justify-start gap-2 text-sm text-slate-500">
+                                <x-icon name="globe" class="w-4 h-4" />
                                 {{ $journalist->location }}
                             </p>
 
@@ -120,12 +120,12 @@
 
 
                     {{-- Profile Action --}}
-                    <div class="shrink-0">
+                    <div class="shrink-0 self-center md:self-auto">
 
                         <button
                             type="button"
                             onclick="window.history.back()"
-                            class="rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-700 transition hover:border-red-500 hover:text-red-600"
+                            class="rounded-xl border border-slate-200 bg-white px-4 sm:px-5 py-2 sm:py-3 text-xs sm:text-sm font-bold text-slate-700 transition hover:border-red-500 hover:text-red-600"
                         >
                             {{ __('Back') }}
                         </button>
@@ -145,24 +145,24 @@
     {{-- =========================================================
         MAIN CONTENT
     ========================================================== --}}
-    <section class="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
+    <section class="mx-auto max-w-6xl px-3 sm:px-6 lg:px-8 py-8 sm:py-10">
 
-        <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
+        <div class="grid grid-cols-1 gap-6 sm:gap-8 lg:grid-cols-3">
 
 
             {{-- =================================================
                 LEFT / MAIN CONTENT
             ================================================== --}}
-            <div class="space-y-8 lg:col-span-2">
+            <div class="space-y-6 sm:space-y-8 lg:col-span-2">
 
 
                 {{-- ================= ABOUT ================= --}}
-                <section class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200 md:p-8">
+                <section class="rounded-2xl bg-white p-4 sm:p-6 shadow-sm ring-1 ring-slate-200 md:p-8">
 
                     <div class="mb-6 flex items-center gap-3">
 
                         <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-red-50 text-red-600">
-                            👤
+                            <x-icon name="user" class="w-5 h-5" />
                         </div>
 
                         <div>
@@ -187,12 +187,12 @@
 
 
                 {{-- ================= EXPERTISE ================= --}}
-                <section class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200 md:p-8">
+                <section class="rounded-2xl bg-white p-4 sm:p-6 shadow-sm ring-1 ring-slate-200 md:p-8">
 
                     <div class="mb-6 flex items-center gap-3">
 
                         <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-red-50 text-red-600">
-                            🎯
+                            <x-icon name="target" class="w-5 h-5" />
                         </div>
 
                         <div>
@@ -235,13 +235,13 @@
 
 
                 {{-- ================= EXPERIENCE ================= --}}
-                <section class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200 md:p-8">
+                <section class="rounded-2xl bg-white p-4 sm:p-6 shadow-sm ring-1 ring-slate-200 md:p-8">
 
                     {{-- Section Header --}}
                     <div class="mb-8 flex items-center gap-3">
 
                         <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-red-50 text-red-600">
-                            💼
+                            <x-icon name="briefcase" class="w-5 h-5" />
                         </div>
 
                         <div>
@@ -273,7 +273,7 @@
 
                                         {{-- Timeline Icon --}}
                                         <div class="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-red-600 text-white">
-                                            💼
+                                            <x-icon name="briefcase" class="w-5 h-5" />
                                         </div>
 
 
@@ -348,12 +348,12 @@
                 </section>
 
                 {{-- ================= EDUCATION ================= --}}
-                <section class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200 md:p-8">
+                <section class="rounded-2xl bg-white p-4 sm:p-6 shadow-sm ring-1 ring-slate-200 md:p-8">
 
                     <div class="mb-8 flex items-center gap-3">
 
                         <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-red-50 text-red-600">
-                            🎓
+                            <x-icon name="briefcase" class="w-5 h-5" />
                         </div>
 
                         <div>
@@ -429,12 +429,12 @@
 
 
                 {{-- ================= AWARDS ================= --}}
-                <section class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200 md:p-8">
+                <section class="rounded-2xl bg-white p-4 sm:p-6 shadow-sm ring-1 ring-slate-200 md:p-8">
 
                     <div class="mb-8 flex items-center gap-3">
 
                         <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-red-50 text-red-600">
-                            🏆
+                            <x-icon name="trophy" class="w-5 h-5" />
                         </div>
 
                         <div>
@@ -458,8 +458,8 @@
 
                                 <div class="rounded-xl border border-slate-200 p-5 transition hover:border-red-200 hover:shadow-sm">
 
-                                    <div class="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-yellow-50 text-xl">
-                                        🏆
+                                    <div class="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-yellow-50 text-xl text-yellow-600">
+                                        <x-icon name="trophy" class="w-6 h-6" />
                                     </div>
 
 
@@ -521,7 +521,7 @@
 
 
                 {{-- ================= CONTACT ================= --}}
-                <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
+                <div class="rounded-2xl bg-white p-4 sm:p-6 shadow-sm ring-1 ring-slate-200">
 
                     <h2 class="mb-5 text-lg font-black text-slate-900">
                         {{ __('Contact Information') }}
@@ -534,8 +534,8 @@
 
                             <div class="flex items-start gap-3">
 
-                                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-red-50">
-                                    📞
+                                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-red-50 text-red-600">
+                                    <x-icon name="phone" class="w-4 h-4" />
                                 </div>
 
                                 <div class="min-w-0">
@@ -559,8 +559,8 @@
 
                             <div class="flex items-start gap-3">
 
-                                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-red-50">
-                                    ✉️
+                                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-red-50 text-red-600">
+                                    <x-icon name="mail" class="w-4 h-4" />
                                 </div>
 
                                 <div class="min-w-0">
@@ -584,8 +584,8 @@
 
                             <div class="flex items-start gap-3">
 
-                                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-red-50">
-                                    🌐
+                                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-red-50 text-red-600">
+                                    <x-icon name="globe" class="w-4 h-4" />
                                 </div>
 
                                 <div>
@@ -625,7 +625,7 @@
 
 
                 {{-- ================= EXPERIENCE SUMMARY ================= --}}
-                <div class="overflow-hidden rounded-2xl bg-gradient-to-br from-red-600 to-red-700 p-6 text-white shadow-lg">
+                <div class="overflow-hidden rounded-2xl bg-gradient-to-br from-red-600 to-red-700 p-4 sm:p-6 text-white shadow-lg">
 
                     <p class="text-sm font-semibold text-red-100">
                         {{ __('Professional Experience') }}
@@ -656,12 +656,12 @@
                 {{-- ================= VERIFIED CARD ================= --}}
                 @if ($journalist->is_verified)
 
-                    <div class="rounded-2xl border border-blue-100 bg-blue-50 p-6">
+                    <div class="rounded-2xl border border-blue-100 bg-blue-50 p-4 sm:p-6">
 
                         <div class="flex items-start gap-3">
 
                             <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-600 text-lg text-white">
-                                ✓
+                                <x-icon name="check" class="w-5 h-5" />
                             </div>
 
                             <div>

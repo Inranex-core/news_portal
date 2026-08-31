@@ -16,8 +16,9 @@
             {{-- Form Card --}}
             <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
                 <div class="bg-slate-900 text-white p-6 sm:p-8">
-                    <span class="text-xs font-black uppercase tracking-widest text-amber-400 bg-amber-950/80 px-3 py-1 rounded-full">
-                        📢 {{ __('CAMPAIGN BUILDER') }}
+                    <span class="text-xs font-black uppercase tracking-widest text-amber-400 bg-amber-950/80 px-3 py-1 rounded-full inline-flex items-center gap-1.5">
+                        <x-icon name="megaphone" class="w-3.5 h-3.5" />
+                        {{ __('CAMPAIGN BUILDER') }}
                     </span>
                     <h1 class="text-2xl font-black mt-2">
                         {{ __('Create New Advertisement Banner') }}

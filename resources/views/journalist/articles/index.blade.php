@@ -8,7 +8,10 @@
             <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
                     <h1 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight flex items-center gap-3">
-                        <span>📰 {{ __('My News') }}</span>
+                        <span class="inline-flex items-center gap-2">
+                            <x-icon name="newspaper" class="w-7 h-7 text-slate-700" />
+                            {{ __('My News') }}
+                        </span>
                         <span class="text-xs font-extrabold bg-slate-100 text-slate-700 px-3 py-1 rounded-full border border-slate-200">
                             {{ $articles->count() }}
                         </span>
@@ -34,14 +37,18 @@
             {{-- ALERTS --}}
             @if(session('success'))
                 <div class="bg-emerald-50 border border-emerald-200 text-emerald-800 p-4 sm:p-5 rounded-2xl shadow-xs font-semibold text-sm flex items-center gap-3">
-                    <span class="text-emerald-600 text-lg">✓</span>
+                    <span class="text-emerald-600 inline-flex items-center justify-center">
+                        <x-icon name="check" class="w-5 h-5" />
+                    </span>
                     <span>{{ __(session('success')) }}</span>
                 </div>
             @endif
 
             @if(session('error'))
                 <div class="bg-rose-50 border border-rose-200 text-rose-800 p-4 sm:p-5 rounded-2xl shadow-xs font-semibold text-sm flex items-center gap-3">
-                    <span class="text-rose-600 text-lg">⚠️</span>
+                    <span class="text-rose-600 inline-flex items-center justify-center">
+                        <x-icon name="warning" class="w-5 h-5" />
+                    </span>
                     <span>{{ __(session('error')) }}</span>
                 </div>
             @endif
@@ -97,13 +104,13 @@
                                             @endif
                                         ">
                                             @if($article->status === 'draft')
-                                                📝 {{ __('Draft') }}
+                                                {{ __('Draft') }}
                                             @elseif($article->status === 'pending')
-                                                ⏳ {{ __('Pending Review') }}
+                                                {{ __('Pending Review') }}
                                             @elseif($article->status === 'published')
-                                                ✓ {{ __('Published') }}
+                                                {{ __('Published') }}
                                             @elseif($article->status === 'rejected')
-                                                ❌ {{ __('Rejected') }}
+                                                {{ __('Rejected') }}
                                             @else
                                                 {{ ucfirst($article->status) }}
                                             @endif
@@ -112,7 +119,8 @@
                                         {{-- Date --}}
                                         @if($article->created_at)
                                             <span class="text-slate-400 font-medium flex items-center gap-1">
-                                                📅 {{ __('Created:') }} {{ app()->getLocale() === 'bn' ? $article->created_at->locale('bn')->isoFormat('D MMMM YYYY, hh:mm A') : $article->created_at->format('d M Y, h:i A') }}
+                                                <x-icon name="calendar" class="w-3.5 h-3.5" />
+                                                {{ __('Created:') }} {{ app()->getLocale() === 'bn' ? $article->created_at->locale('bn')->isoFormat('D MMMM YYYY, hh:mm A') : $article->created_at->format('d M Y, h:i A') }}
                                             </span>
                                         @endif
                                     </div>
@@ -134,7 +142,8 @@
                                             href="{{ route('journalist.articles.edit', $article) }}"
                                             class="inline-flex items-center gap-1.5 px-4 py-2.5 bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 text-xs font-bold rounded-xl transition"
                                         >
-                                            ✏️ {{ __('Edit') }}
+                                            <x-icon name="edit" class="w-3.5 h-3.5" />
+                                            {{ __('Edit') }}
                                         </a>
                                     @endif
 
@@ -151,7 +160,8 @@
                                                 type="submit"
                                                 class="inline-flex items-center gap-1.5 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl transition shadow-sm"
                                             >
-                                                📤 {{ __('Submit for Review') }}
+                                                <x-icon name="paper-airplane" class="w-3.5 h-3.5" />
+                                                {{ __('Submit for Review') }}
                                             </button>
                                         </form>
                                     @endif
@@ -169,7 +179,8 @@
                                                 type="submit"
                                                 class="inline-flex items-center gap-1.5 px-3.5 py-2.5 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-bold rounded-xl transition"
                                             >
-                                                🗑️ {{ __('Delete') }}
+                                                <x-icon name="trash" class="w-3.5 h-3.5" />
+                                                {{ __('Delete') }}
                                             </button>
                                         </form>
                                     @endif
@@ -177,7 +188,8 @@
                                     {{-- Under Review Indicator --}}
                                     @if($article->status === 'pending')
                                         <span class="inline-flex items-center gap-1.5 px-4 py-2.5 bg-amber-50 text-amber-800 border border-amber-200 text-xs font-bold rounded-xl">
-                                            ⏳ {{ __('Under Review') }}
+                                            <x-icon name="clock" class="w-3.5 h-3.5" />
+                                            {{ __('Under Review') }}
                                         </span>
                                     @endif
 
@@ -188,7 +200,8 @@
                                             target="_blank"
                                             class="inline-flex items-center gap-1.5 px-4 py-2.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 text-xs font-bold rounded-xl transition"
                                         >
-                                            👁️ {{ __('View Live') }}
+                                            <x-icon name="eye" class="w-3.5 h-3.5" />
+                                            {{ __('View Live') }}
                                         </a>
                                     @endif
                                 </div>
@@ -200,13 +213,14 @@
                             @if($article->status === 'rejected' && $article->rejection_reason)
                                 <div class="mt-4 p-4 bg-rose-50/90 border border-rose-200 rounded-2xl text-xs space-y-1">
                                     <div class="font-extrabold text-rose-900 flex items-center gap-1.5">
-                                        ⚠️ {{ __('This news was rejected.') }}
+                                        <x-icon name="warning" class="w-4 h-4" />
+                                        {{ __('This news was rejected.') }}
                                     </div>
                                     <div class="font-medium text-rose-800">
                                         {{ __("Admin's feedback:") }} "{{ $article->rejection_reason }}"
                                     </div>
                                     <div class="text-rose-700 font-semibold mt-1">
-                                        👉 {{ __('Please click Edit to fix the issues and submit it again for review.') }}
+                                        {{ __('Please click Edit to fix the issues and submit it again for review.') }}
                                     </div>
                                 </div>
                             @endif
@@ -217,7 +231,7 @@
                     {{-- EMPTY STATE --}}
                     <div class="text-center py-16 px-6 space-y-4">
                         <div class="w-16 h-16 rounded-3xl bg-red-50 text-red-600 flex items-center justify-center mx-auto text-3xl font-black">
-                            📰
+                            <x-icon name="newspaper" class="w-8 h-8" />
                         </div>
                         <h2 class="text-xl font-black text-slate-900">
                             {{ __('No news yet') }}

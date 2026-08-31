@@ -18,18 +18,22 @@
                 </a>
 
                 <h1 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight flex items-center gap-3">
-                    <span>✏️ {{ __('Edit News') }}</span>
+                    <span class="inline-flex items-center gap-2">
+                        <x-icon name="edit" class="w-7 h-7 text-slate-700" />
+                        {{ __('Edit News') }}
+                    </span>
                     @if($article->status === 'rejected')
                         <span class="text-xs font-bold bg-red-100 text-red-800 border border-red-200 px-3 py-1 rounded-full">
-                            ❌ {{ __('Rejected') }}
+                            {{ __('Rejected') }}
                         </span>
                     @elseif($article->status === 'draft')
                         <span class="text-xs font-bold bg-slate-100 text-slate-700 border border-slate-200 px-3 py-1 rounded-full">
-                            📝 {{ __('Draft') }}
+                            {{ __('Draft') }}
                         </span>
                     @elseif($article->status === 'pending')
-                        <span class="text-xs font-bold bg-amber-100 text-amber-800 border border-amber-200 px-3 py-1 rounded-full">
-                            ⏳ {{ __('Under Review') }}
+                        <span class="text-xs font-bold bg-amber-100 text-amber-800 border border-amber-200 px-3 py-1 rounded-full inline-flex items-center gap-1">
+                            <x-icon name="clock" class="w-3.5 h-3.5" />
+                            {{ __('Under Review') }}
                         </span>
                     @endif
                 </h1>
@@ -46,7 +50,7 @@
             <div class="bg-rose-50/90 border-2 border-rose-200 rounded-3xl p-6 sm:p-8 shadow-sm">
                 <div class="flex items-start gap-4">
                     <div class="w-12 h-12 rounded-2xl bg-rose-600 text-white flex items-center justify-center shrink-0 text-xl font-black shadow-md shadow-rose-600/30">
-                        ⚠️
+                        <x-icon name="warning" class="w-6 h-6" />
                     </div>
                     <div class="flex-1">
                         <div class="flex items-center gap-2">
@@ -67,7 +71,7 @@
                         </div>
 
                         <p class="text-xs text-rose-700 mt-3 font-semibold">
-                            💡 {{ __('Tip: Address the admin feedback above, update the details below, and click "Submit Again for Review".') }}
+                            <x-icon name="bell" class="w-3.5 h-3.5 inline-block -mt-0.5" /> {{ __('Tip: Address the admin feedback above, update the details below, and click "Submit Again for Review".') }}
                         </p>
                     </div>
                 </div>
@@ -276,12 +280,16 @@
                                     class="w-full h-64 object-cover group-hover:scale-105 transition duration-500"
                                 >
                                 <div class="absolute bottom-0 inset-x-0 bg-slate-950/70 backdrop-blur-xs text-white text-xs font-bold px-4 py-2 flex items-center justify-between">
-                                    <span>📸 {{ __('Current active header image') }}</span>
+                                    <span class="inline-flex items-center gap-1.5">
+                                        <x-icon name="image" class="w-3.5 h-3.5" />
+                                        {{ __('Current active header image') }}
+                                    </span>
                                 </div>
                             </div>
                         @else
-                            <div class="max-w-xl bg-slate-50 rounded-2xl border-2 border-dashed border-slate-200 p-8 text-center text-slate-400 font-semibold text-sm">
-                                🖼️ {{ __('No featured image currently assigned') }}
+                            <div class="max-w-xl bg-slate-50 rounded-2xl border-2 border-dashed border-slate-200 p-8 text-center text-slate-400 font-semibold text-sm inline-flex items-center justify-center gap-1.5 w-full">
+                                <x-icon name="image" class="w-4 h-4" />
+                                {{ __('No featured image currently assigned') }}
                             </div>
                         @endif
                     </div>
@@ -325,7 +333,7 @@
                         value="draft"
                         class="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-slate-800 hover:bg-slate-900 text-white font-bold text-sm transition flex items-center justify-center gap-2 shadow-sm"
                     >
-                        <span>📝</span>
+                        <x-icon name="pencil" class="w-4 h-4" />
                         <span>{{ __('Save as Draft') }}</span>
                     </button>
 
@@ -335,7 +343,7 @@
                         value="submit"
                         class="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-gradient-to-r from-red-600 to-rose-700 hover:from-red-700 hover:to-rose-800 text-white font-black text-sm transition flex items-center justify-center gap-2 shadow-lg shadow-red-600/25 active:scale-98"
                     >
-                        <span>📤</span>
+                        <x-icon name="paper-airplane" class="w-4 h-4" />
                         <span>{{ __('Submit Again for Review') }}</span>
                     </button>
                 </div>
