@@ -7,7 +7,7 @@
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}" class="flex items-center gap-2.5 group">
                         <img src="{{ asset('images/couja-logo.png') }}" alt="CoUJA Logo" class="h-10 w-10 object-contain group-hover:scale-105 transition">
-                        <div class="hidden sm:block">
+                        <div>
                             <span class="font-black text-slate-900 tracking-tight text-sm block leading-tight">
                                 {{ __('CoUJA') }}
                             </span>
@@ -79,15 +79,6 @@
             <!-- Settings Dropdown + Language Switcher (desktop) -->
             <div class="hidden sm:flex sm:items-center sm:gap-3 md:gap-4">
 
-                {{-- Language Switcher Pill --}}
-                <div style="display: inline-flex; align-items: center; background-color: #f1f5f9; padding: 3px; border-radius: 9999px; border: 1px solid #cbd5e1; gap: 2px;">
-                    <a href="{{ route('lang.switch', 'bn') }}" style="padding: 4px 10px; border-radius: 9999px; font-size: 11px; font-weight: 800; text-decoration: none; display: inline-flex; align-items: center; {{ app()->getLocale() === 'bn' ? 'background-color: #dc2626; color: #ffffff; box-shadow: 0 1px 3px rgba(0,0,0,0.2);' : 'color: #475569;' }}">
-                        <span style="margin-right: 4px;">🇧🇩</span> বাংলা
-                    </a>
-                    <a href="{{ route('lang.switch', 'en') }}" style="padding: 4px 10px; border-radius: 9999px; font-size: 11px; font-weight: 800; text-decoration: none; display: inline-flex; align-items: center; {{ app()->getLocale() === 'en' ? 'background-color: #dc2626; color: #ffffff; box-shadow: 0 1px 3px rgba(0,0,0,0.2);' : 'color: #475569;' }}">
-                        <span style="margin-right: 4px;">🇬🇧</span> English
-                    </a>
-                </div>
 
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
@@ -190,11 +181,7 @@
                     <div class="font-medium text-base text-gray-800">{{ Auth::user()?->name ?? 'Guest' }}</div>
                     <div class="font-medium text-sm text-gray-500">{{ Auth::user()?->email ?? '' }}</div>
                 </div>
-                {{-- Language Switcher --}}
-                <div class="flex items-center rounded-full bg-slate-100 p-0.5 border text-xs font-bold">
-                    <a href="{{ route('lang.switch', 'bn') }}" class="px-2 py-0.5 rounded-full {{ app()->getLocale() === 'bn' ? 'bg-red-600 text-white' : 'text-slate-600' }}">🇧🇩</a>
-                    <a href="{{ route('lang.switch', 'en') }}" class="px-2 py-0.5 rounded-full {{ app()->getLocale() === 'en' ? 'bg-red-600 text-white' : 'text-slate-600' }}">🇬🇧</a>
-                </div>
+
             </div>
 
             <div class="space-y-1">

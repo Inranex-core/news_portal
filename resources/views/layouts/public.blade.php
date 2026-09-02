@@ -12,6 +12,11 @@
 
     <link rel="icon" href="{{ asset('images/couja-logo.png') }}" type="image/png">
 
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
@@ -30,18 +35,18 @@
                     <span class="shrink-0 inline-flex items-center justify-center">
                         <x-icon name="pin" class="w-3.5 h-3.5" />
                     </span>
-                    <span class="truncate">{{ __('Unwavering on the Path of Truth & Justice') }}</span>
+                    <span class="truncate">{{ __('সত্য ও ন্যায়ের পথে অবিচল') }}</span>
                     <span class="hidden md:inline text-slate-500 font-normal">|</span>
-                    <span class="hidden md:inline text-slate-300 font-normal">{{ __('Established 2013') }}</span>
+                    <span class="hidden md:inline text-slate-300 font-normal">{{ __('প্রতিষ্ঠিত ২০১৩') }}</span>
                 </div>
                 <div class="hidden sm:block text-slate-300 shrink-0">
-                    {{ app()->getLocale() === 'bn' ? \Carbon\Carbon::now()->locale('bn')->isoFormat('dddd, D MMMM, YYYY') : \Carbon\Carbon::now()->format('l, F d, Y') }}
+                    {{ \Carbon\Carbon::now()->locale('bn')->isoFormat('dddd, D MMMM, YYYY') }}
                 </div>
             </div>
         </div>
 
         {{-- Main Header --}}
-        <div class="mx-auto flex max-w-7xl items-center justify-between gap-2 px-3 py-3 sm:px-6 lg:px-8">
+        <div class="mx-auto flex flex-wrap sm:flex-nowrap max-w-7xl items-center justify-between gap-y-3 gap-x-2 px-3 py-3 sm:px-6 lg:px-8">
 
             {{-- CoUJA Official Logo --}}
             <a href="{{ route('home') }}" class="flex items-center gap-2 sm:gap-3 group min-w-0 flex-1 sm:flex-initial">
@@ -89,7 +94,7 @@
 
 
             {{-- Right Side: Actions --}}
-            <div class="flex items-center gap-1.5 sm:gap-3 shrink-0">
+            <div class="flex items-center gap-1.5 sm:gap-3 shrink-0 ml-auto">
 
                 {{-- Mobile Search Toggle --}}
                 <button
@@ -104,23 +109,7 @@
                     </svg>
                 </button>
 
-                {{-- Language Switcher Pill --}}
-                <div style="display: inline-flex; align-items: center; background-color: #f1f5f9; padding: 3px; border-radius: 9999px; border: 1px solid #cbd5e1; gap: 2px;">
-                    <a
-                        href="{{ route('lang.switch', 'bn') }}"
-                        style="padding: 4px 8px; border-radius: 9999px; font-size: 11px; font-weight: 800; text-decoration: none; display: inline-flex; align-items: center; {{ app()->getLocale() === 'bn' ? 'background-color: #dc2626; color: #ffffff; box-shadow: 0 1px 3px rgba(0,0,0,0.2);' : 'color: #475569;' }}"
-                        title="বাংলায় পড়ুন"
-                    >
-                        🇧🇩 <span class="hidden sm:inline ml-0.5">বাংলা</span>
-                    </a>
-                    <a
-                        href="{{ route('lang.switch', 'en') }}"
-                        style="padding: 4px 8px; border-radius: 9999px; font-size: 11px; font-weight: 800; text-decoration: none; display: inline-flex; align-items: center; {{ app()->getLocale() === 'en' ? 'background-color: #dc2626; color: #ffffff; box-shadow: 0 1px 3px rgba(0,0,0,0.2);' : 'color: #475569;' }}"
-                        title="Read in English"
-                    >
-                        🇬🇧 <span class="hidden sm:inline ml-0.5">EN</span>
-                    </a>
-                </div>
+
 
                 {{-- Authentication & Navigation (Desktop) --}}
                 <div class="hidden sm:flex items-center gap-3">
@@ -205,28 +194,46 @@
         <nav class="border-t border-slate-100 bg-slate-50 shadow-inner">
             <div class="mx-auto flex max-w-7xl items-center overflow-x-auto px-3 py-2 sm:px-6 lg:px-8 space-x-1 sm:space-x-2 text-xs sm:text-sm font-bold no-scrollbar scroll-snap-x">
 
+                @php
+                    $currentArticle = $article ?? null;
+                    $isActiveCategory = function($slug) use ($currentArticle) {
+                        if (request('category') === $slug) return true;
+                        if (request()->routeIs('categories.show') && request()->route('slug') === $slug) return true;
+                        if (request()->routeIs('articles.show') && $currentArticle && $currentArticle->category->slug === $slug) return true;
+                        return false;
+                    };
+                    $isHomeActive = request()->routeIs('home') && !request('category');
+                @endphp
+
                 <a
                     href="{{ route('home') }}"
-                    class="rounded-lg px-3 py-1.5 whitespace-nowrap transition {{ !request('category') ? 'bg-red-600 text-white shadow-sm' : 'text-slate-700 hover:bg-red-50 hover:text-red-600' }}"
+                    class="relative rounded-lg px-3 py-1.5 whitespace-nowrap transition group {{ $isHomeActive ? 'bg-red-600 text-white shadow-sm pointer-events-none' : 'text-slate-700 hover:text-red-600' }}"
                 >
                     {{ __('Home') }}
+                    @if(!$isHomeActive)
+                        <span class="absolute left-0 bottom-0 w-full h-[2px] bg-red-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left rounded-b-lg"></span>
+                    @endif
                 </a>
 
                 @foreach(($categories ?? \App\Models\Category::where('status', true)->get()) as $navCat)
                     <a
                         href="{{ route('categories.show', $navCat->slug) }}"
-                        class="rounded-lg px-3 py-1.5 whitespace-nowrap transition {{ request('category') === $navCat->slug || (isset($category) && $category->id === $navCat->id) ? 'bg-red-600 text-white shadow-sm' : 'text-slate-700 hover:bg-red-50 hover:text-red-600' }}"
+                        class="relative rounded-lg px-3 py-1.5 whitespace-nowrap transition group {{ $isActiveCategory($navCat->slug) ? 'bg-red-600 text-white shadow-sm pointer-events-none' : 'text-slate-700 hover:text-red-600' }}"
                     >
                         {{ $navCat->display_name }}
+                        @if(!$isActiveCategory($navCat->slug))
+                            <span class="absolute left-0 bottom-0 w-full h-[2px] bg-red-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left rounded-b-lg"></span>
+                        @endif
                     </a>
                 @endforeach
 
                 <a
                     href="{{ route('journalists.index') }}"
-                    class="rounded-lg px-3 py-1.5 whitespace-nowrap transition text-red-600 bg-red-50 hover:bg-red-600 hover:text-white ml-auto shrink-0"
+                    class="relative rounded-lg px-3 py-1.5 whitespace-nowrap transition group text-red-600 bg-red-50 hover:bg-red-50 hover:text-red-700 ml-auto shrink-0"
                 >
                     <x-icon name="users" class="w-4 h-4 inline" />
                     <span class="hidden sm:inline">{{ __('Journalists Directory') }}</span><span class="sm:hidden">{{ __('Journalists') }}</span>
+                    <span class="absolute left-0 bottom-0 w-full h-[2px] bg-red-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left rounded-b-lg"></span>
                 </a>
 
             </div>
@@ -256,15 +263,38 @@
                         {{ __('Register') }}
                     </a>
                 @else
-                    <a
-                        href="{{ route('dashboard') }}"
-                        class="flex items-center justify-center gap-2 rounded-xl bg-red-600 px-4 py-2.5 text-sm font-bold text-white hover:bg-red-700 transition shadow-sm"
-                    >
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                        </svg>
-                        {{ __('Dashboard') }}
-                    </a>
+                    <div class="px-2 mb-3">
+                        <div class="font-medium text-base text-gray-800">{{ Auth::user()?->name ?? 'User' }}</div>
+                        <div class="font-medium text-sm text-gray-500">{{ Auth::user()?->email ?? '' }}</div>
+                    </div>
+                    <div class="border-t border-slate-100 pt-2 pb-1 space-y-1">
+                        <a
+                            href="{{ route('dashboard') }}"
+                            class="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-bold text-slate-700 hover:bg-slate-50 transition"
+                        >
+                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                            </svg>
+                            {{ __('Dashboard') }}
+                        </a>
+                        <a
+                            href="{{ route('profile.edit') }}"
+                            class="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-bold text-slate-700 hover:bg-slate-50 transition"
+                        >
+                            <x-icon name="cog" class="w-4 h-4 text-slate-400" />
+                            {{ __('Account Settings') }}
+                        </a>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button
+                                type="submit"
+                                class="w-full flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-bold text-red-600 hover:bg-red-50 transition text-left"
+                            >
+                                <x-icon name="logout" class="w-4 h-4 text-red-400" />
+                                {{ __('Logout') }}
+                            </button>
+                        </form>
+                    </div>
                 @endguest
             </div>
         </div>

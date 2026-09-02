@@ -1,11 +1,78 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Comilla University Journalist Association (CoUJA) - News Portal
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This is the official news portal for the Comilla University Journalist Association.
+
+## Prerequisites
+
+Before running this project, make sure you have the following installed:
+- PHP (>= 8.1)
+- Composer
+- Node.js and NPM
+- MySQL or SQLite
+
+## How to Run the Project Locally
+
+Follow these steps to set up and run the project on your local machine:
+
+**1. Clone the repository (if you haven't already)**
+```bash
+git clone <repository-url>
+cd news_portal
+```
+
+**2. Install PHP Dependencies**
+```bash
+composer install
+```
+
+**3. Install JavaScript Dependencies**
+```bash
+npm install
+```
+
+**4. Set up Environment Variables**
+Copy the example environment file and create the `.env` file:
+```bash
+cp .env.example .env
+```
+Generate an application key:
+```bash
+php artisan key:generate
+```
+
+**5. Database Configuration**
+Open the `.env` file and configure your database settings. For a quick start, you can use SQLite by setting:
+```env
+DB_CONNECTION=sqlite
+# And remove or comment out DB_HOST, DB_PORT, DB_DATABASE, DB_USERNAME, DB_PASSWORD
+```
+If using SQLite, create an empty `database.sqlite` file inside the `database` folder:
+```bash
+touch database/database.sqlite
+```
+
+**6. Run Migrations & Seeders**
+Run the database migrations and optionally seed the database with initial data:
+```bash
+php artisan migrate --seed
+```
+
+**7. Compile Frontend Assets**
+Run Vite to build your Tailwind CSS and JavaScript assets:
+```bash
+npm run build
+# OR to watch for changes during development:
+# npm run dev
+```
+
+**8. Start the Local Development Server**
+```bash
+php artisan serve
+```
+
+The application will now be available at: [http://localhost:8000](http://localhost:8000)
+
+---
 
 ## About Laravel
 

@@ -28,7 +28,7 @@
         <section class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
             {{-- Main Featured Hero Article --}}
             @php $mainHero = $featuredArticles->first(); @endphp
-            <div class="lg:col-span-8 bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm flex flex-col group hover:shadow-md transition">
+            <div class="lg:col-span-8 bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm flex flex-col group transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:-translate-y-1">
                 @if($mainHero->image)
                     <div class="h-56 sm:h-72 md:h-96 overflow-hidden relative">
                         <img src="{{ asset('storage/' . $mainHero->image) }}" alt="{{ $mainHero->display_title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
@@ -87,7 +87,7 @@
                 </div>
 
                 @foreach($featuredArticles->skip(1) as $sideHero)
-                    <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between hover:border-red-300 transition group">
+                    <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between hover:border-red-200 group transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:-translate-y-1">
                         <div>
                             <span class="text-xs font-bold text-red-600 uppercase tracking-wider">
                                 {{ $sideHero->category->display_name }}
@@ -133,7 +133,7 @@
         @if($latestArticles->count() > 0)
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
                 @foreach($latestArticles as $article)
-                    <article class="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm flex flex-col hover:shadow-md transition group">
+                    <article class="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm flex flex-col transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:-translate-y-1 group">
                         @if($article->image)
                             <a href="{{ route('articles.show', $article->slug) }}" class="h-44 sm:h-48 overflow-hidden relative block">
                                 <img src="{{ asset('storage/' . $article->image) }}" alt="{{ $article->display_title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">

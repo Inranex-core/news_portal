@@ -49,8 +49,8 @@
                         <div>
                             <label class="block text-sm font-semibold text-slate-700 mb-3">Profile Picture</label>
 
-                            <div class="flex items-center gap-5">
-                                <div class="w-28 h-28 rounded-full overflow-hidden border-4 border-white shadow ring-2 ring-slate-200 bg-slate-100 flex-shrink-0">
+                            <div class="flex flex-col sm:flex-row items-center sm:items-start gap-5 text-center sm:text-left">
+                                <div class="w-28 h-28 rounded-full overflow-hidden border-4 border-white shadow ring-2 ring-slate-200 bg-slate-100 flex-shrink-0 mx-auto sm:mx-0">
                                     @if($profile->profile_image)
                                         <img
                                             src="{{ asset('storage/' . $profile->profile_image) }}"
@@ -66,7 +66,7 @@
                                     @endif
                                 </div>
 
-                                <div>
+                                <div class="w-full">
                                     <input
                                         type="file"
                                         name="profile_image"
@@ -173,7 +173,7 @@
                 {{-- 3. EXPERIENCE --}}
                 {{-- ========================================================= --}}
                 <section class="bg-white rounded-2xl shadow-sm border border-slate-200 mb-6">
-                    <div class="p-6 border-b border-slate-100 flex items-center justify-between gap-4">
+                    <div class="p-6 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4 items-start">
                         <div>
                             <h2 class="text-2xl font-bold text-slate-900">3. Professional Experience</h2>
                             <p class="text-slate-500 mt-1">Add as many professional experiences as you need.</p>
@@ -260,7 +260,7 @@
                 {{-- 4. EDUCATION --}}
                 {{-- ========================================================= --}}
                 <section class="bg-white rounded-2xl shadow-sm border border-slate-200 mb-6">
-                    <div class="p-6 border-b border-slate-100 flex items-center justify-between gap-4">
+                    <div class="p-6 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4 items-start">
                         <div>
                             <h2 class="text-2xl font-bold text-slate-900">4. Education</h2>
                             <p class="text-slate-500 mt-1">Add multiple academic records.</p>
@@ -345,7 +345,7 @@
                 {{-- 6. AWARDS --}}
                 {{-- ========================================================= --}}
                 <section class="bg-white rounded-2xl shadow-sm border border-slate-200 mb-6">
-                    <div class="p-6 border-b border-slate-100 flex items-center justify-between gap-4">
+                    <div class="p-6 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4 items-start">
                         <div>
                             <h2 class="text-2xl font-bold text-slate-900">6. Awards & Achievements</h2>
                             <p class="text-slate-500 mt-1">Add multiple awards and achievements.</p>
@@ -395,10 +395,10 @@
                 </section>
 
                 {{-- Save --}}
-                <div class="sticky bottom-4 z-20 flex justify-end">
+                <div class="sticky bottom-4 z-20 flex justify-end px-4 sm:px-0">
                     <button
                         type="submit"
-                        class="px-8 py-4 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold shadow-lg transition"
+                        class="w-full sm:w-auto px-8 py-4 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold shadow-lg transition"
                     >
                         Save Complete Profile
                     </button>
