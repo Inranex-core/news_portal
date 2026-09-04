@@ -307,8 +307,14 @@
 
         {{-- Copyright --}}
         <div class="border-t border-slate-800">
-            <div class="mx-auto max-w-7xl px-4 py-6 text-center text-xs text-slate-500 sm:px-6 lg:px-8">
-                {{ __('All rights reserved. Built with Laravel.') }}
+            <div class="mx-auto max-w-7xl px-4 py-6 text-center text-xs text-slate-400 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3">
+                <div>
+                    © {{ date('Y') }} {{ __('Comilla University Journalist Association (CoUJA). All rights reserved.') }}
+                </div>
+                <div class="text-slate-400 font-medium flex items-center gap-1">
+                    <span>{{ __('Developed by') }}</span>
+                    <span class="font-bold text-red-500 hover:text-red-400 transition">Infr@nex</span>
+                </div>
             </div>
         </div>
 

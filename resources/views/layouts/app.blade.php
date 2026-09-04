@@ -319,8 +319,11 @@
 
                         </div>
 
-                        <div class="mt-6 pt-6 border-t border-slate-900 text-center text-[11px] text-slate-500 font-medium">
-                            {{ __('All rights reserved © Comilla University Journalist Association (CoUJA). Built with Laravel.') }}
+                        <div class="mt-6 pt-6 border-t border-slate-900 text-center text-[11px] text-slate-500 font-medium flex flex-col sm:flex-row items-center justify-between gap-2">
+                            <span>{{ __('All rights reserved © Comilla University Journalist Association (CoUJA). Built with Laravel.') }}</span>
+                            <span class="text-slate-400 font-bold">
+                                {{ __('Developed by') }} <span class="text-red-500">Infr@nex</span>
+                            </span>
                         </div>
                     </div>
                 </footer>
