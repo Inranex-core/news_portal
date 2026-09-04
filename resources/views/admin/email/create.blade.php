@@ -28,6 +28,20 @@
                 </div>
             @endif
 
+            @if(config('mail.default') === 'log')
+                <div class="mb-6 bg-amber-50 border border-amber-200 text-amber-900 p-4 rounded-2xl text-xs font-semibold flex items-start gap-3 shadow-2xs">
+                    <span class="text-base">💡</span>
+                    <div>
+                        <span class="font-bold text-amber-950 block text-xs">{{ __('Mail Driver Notice (LOG Driver Active)') }}</span>
+                        <span class="text-amber-800 leading-relaxed block mt-0.5">
+                            {{ __('Your system is currently using the LOG mail driver (MAIL_MAILER=log). Emails sent from this page are captured in ') }}
+                            <code class="font-mono bg-amber-100 px-1.5 py-0.5 rounded text-[11px] font-bold text-amber-900">storage/logs/laravel.log</code>.
+                            {{ __(' To deliver real emails to actual Gmail/inboxes, configure SMTP credentials in your .env file.') }}
+                        </span>
+                    </div>
+                </div>
+            @endif
+
             {{-- Main Form Card --}}
             <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
                 

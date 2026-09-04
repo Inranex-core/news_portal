@@ -133,7 +133,8 @@ Route::middleware([
 
 Route::middleware([
     'auth',
-    'role:journalist'
+    'role:journalist',
+    EnsureJournalistApproved::class,
 ])
     ->prefix('journalist')
     ->name('journalist.')
@@ -366,6 +367,11 @@ Route::middleware([
             AdminJournalistController::class,
             'approve',
         ])->name('journalists.approve');
+
+        Route::delete('/journalists/{user}/reject', [
+            AdminJournalistController::class,
+            'reject',
+        ])->name('journalists.reject');
 
         Route::post('/journalists/invite', [
             AdminJournalistController::class,

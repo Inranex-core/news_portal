@@ -17,6 +17,19 @@
 
             </div>
 
+            @if(!auth()->user()->isApproved())
+                <div class="mb-6 bg-amber-50 border-2 border-amber-400 p-4 rounded-2xl flex items-center justify-between gap-3 text-amber-900 shadow-sm">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">⏳</span>
+                        <div>
+                            <p class="text-sm font-black">{{ __('Account Pending Admin Approval') }}</p>
+                            <p class="text-xs font-semibold text-amber-700">{{ __('Your profile is in read-only mode. Updating details is disabled until an administrator approves your account.') }}</p>
+                        </div>
+                    </div>
+                    <span class="bg-amber-200 text-amber-900 text-xs font-black px-3 py-1 rounded-full whitespace-nowrap">🔒 {{ __('Read Only Mode') }}</span>
+                </div>
+            @endif
+
 
             {{-- Profile Form --}}
             <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
@@ -288,12 +301,23 @@
                         </a>
 
 
-                        <button
-                            type="submit"
-                            class="px-8 py-3 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition"
-                        >
-                            Save Profile
-                        </button>
+                        @if(auth()->user()->isApproved())
+                            <button
+                                type="submit"
+                                class="px-8 py-3 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition"
+                            >
+                                Save Profile
+                            </button>
+                        @else
+                            <button
+                                type="button"
+                                disabled
+                                title="{{ __('Disabled: Account Pending Admin Approval') }}"
+                                class="px-8 py-3 bg-slate-300 text-slate-500 font-semibold rounded-lg opacity-60 cursor-not-allowed pointer-events-none"
+                            >
+                                🔒 {{ __('Save Profile') }}
+                            </button>
+                        @endif
 
                     </div>
 

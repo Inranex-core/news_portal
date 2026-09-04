@@ -16,14 +16,37 @@
                     </p>
                 </div>
 
-                <a
-                    href="{{ route('journalist.education.create') }}"
-                    class="px-5 py-3 bg-red-600 text-white rounded-lg font-semibold hover:bg-red-700"
-                >
-                    + Add Education
-                </a>
+                @if(auth()->user()->isApproved())
+                    <a
+                        href="{{ route('journalist.education.create') }}"
+                        class="px-5 py-3 bg-red-600 text-white rounded-lg font-semibold hover:bg-red-700"
+                    >
+                        + Add Education
+                    </a>
+                @else
+                    <button
+                        type="button"
+                        disabled
+                        class="px-5 py-3 bg-slate-300 text-slate-500 rounded-lg font-semibold cursor-not-allowed opacity-60 pointer-events-none"
+                    >
+                        🔒 + Add Education
+                    </button>
+                @endif
 
             </div>
+
+            @if(!auth()->user()->isApproved())
+                <div class="mb-6 bg-amber-50 border-2 border-amber-400 p-4 rounded-2xl flex items-center justify-between gap-3 text-amber-900 shadow-sm">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">⏳</span>
+                        <div>
+                            <p class="text-sm font-black">{{ __('Account Pending Admin Approval') }}</p>
+                            <p class="text-xs font-semibold text-amber-700">{{ __('Managing education records is in read-only mode until an administrator approves your account.') }}</p>
+                        </div>
+                    </div>
+                    <span class="bg-amber-200 text-amber-900 text-xs font-black px-3 py-1 rounded-full shrink-0">🔒 {{ __('Read Only Mode') }}</span>
+                </div>
+            @endif
 
 
             @if(session('success'))

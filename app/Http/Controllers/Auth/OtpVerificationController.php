@@ -24,12 +24,23 @@ class OtpVerificationController extends Controller
             return redirect()->route('login');
         }
 
-        // If email is already verified, redirect to pending approval or dashboard
+        // If email is already verified, redirect to dashboard
         if ($user->email_verified_at) {
-            if ($user->isJournalist() && !$user->isApproved()) {
-                return redirect()->route('journalist.pending');
-            }
             return redirect()->route('dashboard');
+        }
+
+        // If OTP code is missing or expired, generate and send a new code automatically
+        if (empty($user->otp_code) || ($user->otp_expires_at && $user->otp_expires_at->isPast())) {
+            $otp = (string) random_int(100000, 999999);
+            $user->otp_code = $otp;
+            $user->otp_expires_at = now()->addMinutes(15);
+            $user->save();
+
+            try {
+                Mail::to($user->email)->send(new SendOtpMail($otp, $user->name));
+            } catch (\Exception $e) {
+                Log::error('Failed to send OTP email: ' . $e->getMessage());
+            }
         }
 
         return view('auth.otp_verify', compact('user'));
@@ -51,7 +62,7 @@ class OtpVerificationController extends Controller
         }
 
         if (!$user->isValidOtp($request->otp)) {
-            return back()->withErrors(['otp' => __('Invalid or expired OTP code. Please try again or resend.')]);
+            return back()->withErrors(['otp' => __('Invalid or expired OTP code. Please try again or click Resend.')]);
         }
 
         // Mark email as verified and clear OTP
@@ -61,7 +72,7 @@ class OtpVerificationController extends Controller
         $user->save();
 
         if ($user->isJournalist() && !$user->isApproved()) {
-            return redirect()->route('journalist.pending')->with('success', __('Email verified successfully! Your application is now pending admin approval.'));
+            return redirect()->route('journalist.dashboard')->with('success', __('Email verified successfully! Your account is accessible in read-only mode while pending admin approval.'));
         }
 
         return redirect()->route('dashboard')->with('success', __('Email verified successfully!'));

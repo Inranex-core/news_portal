@@ -19,16 +19,40 @@
                     </p>
                 </div>
 
-                <a
-                    href="{{ route('journalist.articles.create') }}"
-                    class="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-gradient-to-r from-red-600 to-rose-700 hover:from-red-700 hover:to-rose-800 text-white font-black text-sm rounded-2xl shadow-lg shadow-red-600/25 transition active:scale-98"
-                >
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
-                    </svg>
-                    <span>{{ __('Create News') }}</span>
-                </a>
+                @if(auth()->user()->isApproved())
+                    <a
+                        href="{{ route('journalist.articles.create') }}"
+                        class="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-gradient-to-r from-red-600 to-rose-700 hover:from-red-700 hover:to-rose-800 text-white font-black text-sm rounded-2xl shadow-lg shadow-red-600/25 transition active:scale-98"
+                    >
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
+                        </svg>
+                        <span>{{ __('Create News') }}</span>
+                    </a>
+                @else
+                    <button
+                        type="button"
+                        disabled
+                        title="{{ __('Disabled: Account Pending Admin Approval') }}"
+                        class="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-slate-200 text-slate-500 font-bold text-sm rounded-2xl opacity-60 cursor-not-allowed pointer-events-none"
+                    >
+                        🔒 <span>{{ __('Create News') }}</span>
+                    </button>
+                @endif
             </div>
+
+            @if(!auth()->user()->isApproved())
+                <div class="bg-amber-50 border-2 border-amber-400 p-4 sm:p-5 rounded-2xl shadow-sm text-amber-900 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">⏳</span>
+                        <div>
+                            <p class="text-sm font-black">{{ __('Account Pending Admin Approval') }}</p>
+                            <p class="text-xs font-semibold text-amber-700">{{ __('Your articles list is in read-only mode. Creating, editing, and deleting news is disabled until approved by an administrator.') }}</p>
+                        </div>
+                    </div>
+                    <span class="bg-amber-200 text-amber-900 text-xs font-black px-3 py-1 rounded-full shrink-0">🔒 {{ __('Read Only Mode') }}</span>
+                </div>
+            @endif
 
 
             {{-- ALERTS --}}

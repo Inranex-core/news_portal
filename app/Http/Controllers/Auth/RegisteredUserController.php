@@ -34,10 +34,19 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'role' => ['nullable', 'string', 'in:user,journalist'],
         ]);
+
+        $existingUser = User::where('email', $request->email)->first();
+        if ($existingUser) {
+            if (!is_null($existingUser->email_verified_at)) {
+                throw ValidationException::withMessages([
+                    'email' => __('The email has already been taken.'),
+                ]);
+            }
+        }
 
         $role = $request->input('role', 'user');
         $isApproved = ($role !== 'journalist');
@@ -50,15 +59,27 @@ class RegisteredUserController extends Controller
             $otpExpiresAt = now()->addMinutes(15);
         }
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => $role,
-            'is_approved' => $isApproved,
-            'otp_code' => $otp,
-            'otp_expires_at' => $otpExpiresAt,
-        ]);
+        if ($existingUser) {
+            $existingUser->update([
+                'name' => $request->name,
+                'password' => Hash::make($request->password),
+                'role' => $role,
+                'is_approved' => $isApproved,
+                'otp_code' => $otp,
+                'otp_expires_at' => $otpExpiresAt,
+            ]);
+            $user = $existingUser;
+        } else {
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'role' => $role,
+                'is_approved' => $isApproved,
+                'otp_code' => $otp,
+                'otp_expires_at' => $otpExpiresAt,
+            ]);
+        }
 
         // Auto-create JournalistProfile if registering as a journalist
         if ($role === 'journalist') {
@@ -68,17 +89,19 @@ class RegisteredUserController extends Controller
             }
             $slug = $baseSlug;
             $count = 1;
-            while (JournalistProfile::where('slug', $slug)->exists()) {
+            while (JournalistProfile::where('user_id', '!=', $user->id)->where('slug', $slug)->exists()) {
                 $slug = $baseSlug . '-' . $count;
                 $count++;
             }
 
-            JournalistProfile::create([
-                'user_id' => $user->id,
-                'slug' => $slug,
-                'status' => true,
-                'is_verified' => false,
-            ]);
+            JournalistProfile::updateOrCreate(
+                ['user_id' => $user->id],
+                [
+                    'slug' => $slug,
+                    'status' => true,
+                    'is_verified' => false,
+                ]
+            );
 
             // Send OTP email
             try {

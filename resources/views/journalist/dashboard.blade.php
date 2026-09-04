@@ -70,15 +70,26 @@
 
                     {{-- Header Action Buttons with Explicit Bulletproof Inline Style --}}
                     <div class="flex items-center gap-3 shrink-0" style="display: flex; align-items: center; gap: 12px;">
-                        <a
-                            href="{{ route('journalist.articles.create') }}"
-                            style="background-color: #ffffff !important; color: #881337 !important; font-weight: 900 !important; font-size: 14px; padding: 12px 22px; border-radius: 12px; border: 1px solid #ffffff; box-shadow: 0 4px 14px rgba(0,0,0,0.25); display: inline-flex; align-items: center; gap: 8px; text-decoration: none; transition: transform 0.2s;"
-                        >
-                            <svg style="width: 18px; height: 18px; color: #be123c;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
-                            </svg>
-                            <span>{{ __('Write New Article') }}</span>
-                        </a>
+                        @if(auth()->user()->isApproved())
+                            <a
+                                href="{{ route('journalist.articles.create') }}"
+                                style="background-color: #ffffff !important; color: #881337 !important; font-weight: 900 !important; font-size: 14px; padding: 12px 22px; border-radius: 12px; border: 1px solid #ffffff; box-shadow: 0 4px 14px rgba(0,0,0,0.25); display: inline-flex; align-items: center; gap: 8px; text-decoration: none; transition: transform 0.2s;"
+                            >
+                                <svg style="width: 18px; height: 18px; color: #be123c;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
+                                </svg>
+                                <span>{{ __('Write New Article') }}</span>
+                            </a>
+                        @else
+                            <button
+                                type="button"
+                                disabled
+                                title="{{ __('Disabled: Account Pending Admin Approval') }}"
+                                style="background-color: #cbd5e1 !important; color: #64748b !important; font-weight: 700 !important; font-size: 14px; padding: 12px 22px; border-radius: 12px; border: 1px solid #94a3b8; opacity: 0.65; cursor: not-allowed; display: inline-flex; align-items: center; gap: 8px;"
+                            >
+                                🔒 <span>{{ __('Write New Article') }}</span>
+                            </button>
+                        @endif
 
                         @if($profile?->slug)
                             <a
@@ -100,6 +111,25 @@
 
         {{-- Main Dashboard Content --}}
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8" style="margin-top: 24px;">
+
+            @if(!auth()->user()->isApproved())
+                <div style="background: #fffbeb; border: 2px solid #f59e0b; padding: 20px; border-radius: 16px; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.15);">
+                    <div style="display: flex; align-items: center; gap: 16px;">
+                        <div style="font-size: 32px;">⏳</div>
+                        <div>
+                            <h3 style="font-size: 16px; font-weight: 900; color: #78350f; margin: 0;">
+                                {{ __('Account Pending Admin Approval') }}
+                            </h3>
+                            <p style="font-size: 13px; font-weight: 600; color: #92400e; margin: 4px 0 0 0;">
+                                {{ __('Your account is waiting for admin approval. You can view your ID & dashboard details, but writing articles, updating profile, and action buttons are disabled until an Admin approves your account.') }}
+                            </p>
+                        </div>
+                    </div>
+                    <span style="background: #fde68a; color: #78350f; font-size: 12px; font-weight: 900; padding: 6px 16px; border-radius: 9999px; border: 1px solid #f59e0b; whitespace: nowrap;">
+                        🔒 {{ __('Read Only Mode') }}
+                    </span>
+                </div>
+            @endif
 
             {{-- 1. Metrics Cards Grid --}}
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px;">

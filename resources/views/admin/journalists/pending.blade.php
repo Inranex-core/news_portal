@@ -73,7 +73,7 @@
                                         <td class="px-6 py-4 text-xs font-semibold text-slate-500">
                                             {{ $applicant->created_at->format('M d, Y h:i A') }}
                                         </td>
-                                        <td class="px-6 py-4 text-right">
+                                        <td class="px-6 py-4 text-right flex items-center justify-end gap-2">
                                             <form method="POST" action="{{ route('admin.journalists.approve', $applicant) }}" class="inline-block" onsubmit="return confirm('{{ __('Approve this user as an active Journalist?') }}')">
                                                 @csrf
                                                 @method('PATCH')
@@ -81,7 +81,17 @@
                                                     type="submit"
                                                     class="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black rounded-xl shadow-sm transition"
                                                 >
-                                                    ✓ {{ __('Approve Application') }}
+                                                    ✓ {{ __('Approve') }}
+                                                </button>
+                                            </form>
+                                            <form method="POST" action="{{ route('admin.journalists.reject', $applicant) }}" class="inline-block" onsubmit="return confirm('{{ __('Are you sure you want to reject and delete this application?') }}')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button
+                                                    type="submit"
+                                                    class="inline-flex items-center gap-1.5 px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white text-xs font-black rounded-xl shadow-sm transition"
+                                                >
+                                                    ✕ {{ __('Reject') }}
                                                 </button>
                                             </form>
                                         </td>

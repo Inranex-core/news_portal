@@ -17,6 +17,19 @@
 
         </div>
 
+        @if(!auth()->user()->isApproved())
+            <div class="mb-6 bg-amber-50 border-2 border-amber-400 p-4 rounded-2xl flex items-center justify-between gap-3 text-amber-900 shadow-sm">
+                <div class="flex items-center gap-3">
+                    <span class="text-2xl">⏳</span>
+                    <div>
+                        <p class="text-sm font-black">{{ __('Account Pending Admin Approval') }}</p>
+                        <p class="text-xs font-semibold text-amber-700">{{ __('Selecting expertise is in read-only mode until an administrator approves your account.') }}</p>
+                    </div>
+                </div>
+                <span class="bg-amber-200 text-amber-900 text-xs font-black px-3 py-1 rounded-full shrink-0">🔒 {{ __('Read Only Mode') }}</span>
+            </div>
+        @endif
+
 
         {{-- Success Message --}}
         @if(session('success'))
@@ -113,12 +126,22 @@
 
                     <div class="flex justify-end mt-8">
 
-                        <button
-                            type="submit"
-                            class="px-6 py-3 bg-red-600 text-white rounded-xl font-semibold hover:bg-red-700"
-                        >
-                            Save Expertise
-                        </button>
+                        @if(auth()->user()->isApproved())
+                            <button
+                                type="submit"
+                                class="px-6 py-3 bg-red-600 text-white rounded-xl font-semibold hover:bg-red-700"
+                            >
+                                Save Expertise
+                            </button>
+                        @else
+                            <button
+                                type="button"
+                                disabled
+                                class="px-6 py-3 bg-slate-300 text-slate-500 rounded-xl font-semibold cursor-not-allowed opacity-60 pointer-events-none"
+                            >
+                                🔒 {{ __('Save Expertise') }}
+                            </button>
+                        @endif
 
                     </div>
 
