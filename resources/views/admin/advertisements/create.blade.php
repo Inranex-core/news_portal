@@ -125,7 +125,7 @@
                                     accept="video/mp4,video/webm,video/ogg,video/quicktime"
                                     class="hidden"
                                     id="ad_video_input"
-                                    @change="const file = $event.target.files[0]; if (file) { if (file.size > 10 * 1024 * 1024) { alert('⚠️ ভিডিও ফাইলের সাইজ ১০MB এর বেশি! সার্ভার লিমিট বজায় রাখতে ১০MB এর কম সাইজের ভিডিও ফাইল আপলোড করুন, অথবা নিচে সরাসরি ভিডিও লিঙ্ক ব্যবহার করুন।'); $event.target.value = ''; videoPreview = null; return; } videoPreview = URL.createObjectURL(file); }"
+                                    @change="const file = $event.target.files[0]; if (file) { if (file.size > 50 * 1024 * 1024) { alert('⚠️ ভিডিও ফাইলের সাইজ ৫০MB এর বেশি! সার্ভার লিমিট বজায় রাখতে ৫০MB এর কম সাইজের ভিডিও ফাইল আপলোড করুন, অথবা নিচে সরাসরি ভিডিও লিঙ্ক ব্যবহার করুন।'); $event.target.value = ''; videoPreview = null; return; } videoPreview = URL.createObjectURL(file); }"
                                 >
                                 <label for="ad_video_input" class="cursor-pointer inline-flex flex-col items-center">
                                     <span class="text-2xl mb-1">🎬</span>

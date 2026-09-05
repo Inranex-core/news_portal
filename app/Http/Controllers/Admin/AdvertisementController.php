@@ -25,8 +25,8 @@ class AdvertisementController extends Controller
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'type' => ['required', 'in:image,video'],
-            'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp,gif', 'max:4096'],
-            'video' => ['nullable', 'file', 'mimes:mp4,webm,ogg,mov', 'max:10240'],
+            'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp,gif', 'max:10240'],
+            'video' => ['nullable', 'file', 'mimes:mp4,webm,ogg,mov', 'max:51200'],
             'video_url' => ['nullable', 'url', 'max:500'],
             'url' => ['nullable', 'url', 'max:500'],
             'placement' => ['required', 'in:sidebar,in_article,footer'],
@@ -64,8 +64,8 @@ class AdvertisementController extends Controller
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'type' => ['required', 'in:image,video'],
-            'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp,gif', 'max:4096'],
-            'video' => ['nullable', 'file', 'mimes:mp4,webm,ogg,mov', 'max:10240'],
+            'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp,gif', 'max:10240'],
+            'video' => ['nullable', 'file', 'mimes:mp4,webm,ogg,mov', 'max:51200'],
             'video_url' => ['nullable', 'url', 'max:500'],
             'url' => ['nullable', 'url', 'max:500'],
             'placement' => ['required', 'in:sidebar,in_article,footer'],
