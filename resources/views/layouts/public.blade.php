@@ -12,6 +12,8 @@
 
     <link rel="icon" href="{{ asset('images/couja-logo.png') }}" type="image/png">
 
+    @yield('meta')
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -309,6 +311,8 @@
         @yield('content')
     </main>
 
+    {{-- Footer Banner Photocard Carousel --}}
+    <x-ad-carousel :ads="$portalAds['footer'] ?? collect()" layout="footer" />
 
     {{-- ================= FOOTER ================= --}}
     <footer class="mt-16 bg-slate-950 text-white">

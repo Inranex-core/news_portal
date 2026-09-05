@@ -40,9 +40,18 @@
 
                 <p class="text-sm text-slate-500 font-medium mt-1">
                     {{ __('Update your article and submit it again for review.') }}
-                </p>
+        @if(!auth()->user()->isApproved())
+            <div class="bg-amber-50 border-2 border-amber-400 p-5 rounded-2xl shadow-sm text-amber-900 flex items-center justify-between gap-4 mb-4">
+                <div class="flex items-center gap-3">
+                    <span class="text-2xl">⏳</span>
+                    <div>
+                        <p class="text-sm font-black">{{ __('Account Pending Admin Approval') }}</p>
+                        <p class="text-xs font-semibold text-amber-700">{{ __('Updating news articles is disabled until an administrator approves your journalist account.') }}</p>
+                    </div>
+                </div>
+                <span class="bg-amber-200 text-amber-900 text-xs font-black px-3 py-1 rounded-full shrink-0">🔒 {{ __('Disabled') }}</span>
             </div>
-        </div>
+        @endif
 
 
         {{-- Rejection Reason Alert Card --}}
@@ -327,6 +336,7 @@
                         {{ __('Cancel') }}
                     </a>
 
+                @if(auth()->user()->isApproved())
                     <button
                         type="submit"
                         name="action"
@@ -346,6 +356,15 @@
                         <x-icon name="paper-airplane" class="w-4 h-4" />
                         <span>{{ __('Submit Again for Review') }}</span>
                     </button>
+                @else
+                    <button
+                        type="button"
+                        disabled
+                        class="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-slate-300 text-slate-500 font-bold text-sm opacity-60 cursor-not-allowed pointer-events-none"
+                    >
+                        🔒 {{ __('Update Disabled (Pending Approval)') }}
+                    </button>
+                @endif
                 </div>
 
             </form>

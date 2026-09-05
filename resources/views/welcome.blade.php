@@ -109,6 +109,9 @@
                         </div>
                     </div>
                 @endforeach
+
+                {{-- Sidebar Photocard Carousel --}}
+                <x-ad-carousel :ads="$portalAds['sidebar'] ?? collect()" layout="sidebar" />
             </div>
         </section>
     @endif
@@ -197,6 +200,9 @@
             </div>
         @endif
     </section>
+
+    {{-- In-Article Feed Photocard Carousel --}}
+    <x-ad-carousel :ads="$portalAds['in_article'] ?? collect()" layout="in_article" />
 
     {{-- Journalist Highlights Banner --}}
     @if($journalists->count() > 0)

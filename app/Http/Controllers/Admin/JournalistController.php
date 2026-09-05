@@ -80,6 +80,23 @@ class JournalistController extends Controller
     }
 
     /**
+     * Reject a pending journalist application.
+     */
+    public function reject(User $user): RedirectResponse
+    {
+        if (!$user->isJournalist()) {
+            return back()->with('error', __('User is not a journalist.'));
+        }
+
+        if ($user->journalistProfile) {
+            $user->journalistProfile->delete();
+        }
+        $user->delete();
+
+        return back()->with('success', __('Journalist application rejected and removed successfully.'));
+    }
+
+    /**
      * Admin Direct Invitation to Journalist.
      */
     public function sendInvite(Request $request): RedirectResponse

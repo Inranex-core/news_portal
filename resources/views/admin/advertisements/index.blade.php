@@ -54,8 +54,10 @@
                         <table class="w-full text-left border-collapse">
                             <thead class="bg-slate-50 text-xs font-bold uppercase tracking-wider text-slate-500 border-b border-slate-100">
                                 <tr>
+                                    <th class="px-6 py-4">{{ __('Photocard') }}</th>
                                     <th class="px-6 py-4">{{ __('Title & Target URL') }}</th>
                                     <th class="px-6 py-4">{{ __('Placement Location') }}</th>
+                                    <th class="px-6 py-4">{{ __('Stats') }}</th>
                                     <th class="px-6 py-4">{{ __('Status') }}</th>
                                     <th class="px-6 py-4 text-right">{{ __('Actions') }}</th>
                                 </tr>
@@ -64,18 +66,50 @@
                                 @foreach($advertisements as $ad)
                                     <tr class="hover:bg-slate-50/80 transition">
                                         <td class="px-6 py-4">
-                                            <div class="font-bold text-slate-900">
+                                            @if($ad->type === 'video' && $ad->video)
+                                                <div class="w-16 h-12 bg-slate-950 rounded-xl overflow-hidden border border-slate-700 relative group">
+                                                    <video src="{{ asset('storage/' . $ad->video) }}" class="w-full h-full object-cover"></video>
+                                                    <div class="absolute inset-0 bg-black/40 flex items-center justify-center text-white text-xs">
+                                                        ▶
+                                                    </div>
+                                                </div>
+                                            @elseif($ad->image)
+                                                <img src="{{ asset('storage/' . $ad->image) }}" alt="{{ $ad->title }}" class="w-16 h-12 object-cover rounded-xl border border-slate-200 shadow-2xs">
+                                            @else
+                                                <div class="w-16 h-12 bg-slate-100 rounded-xl border border-dashed border-slate-300 flex items-center justify-center text-xs text-slate-400 font-bold">
+                                                    📷 {{ __('Text Ad') }}
+                                                </div>
+                                            @endif
+                                        </td>
+                                        <td class="px-6 py-4 max-w-xs">
+                                            <div class="flex items-center gap-1.5 mb-0.5">
+                                                @if($ad->type === 'video')
+                                                    <span class="text-[10px] font-black uppercase bg-purple-100 text-purple-800 px-2 py-0.5 rounded-full border border-purple-200">
+                                                        🎥 {{ __('Video') }}
+                                                    </span>
+                                                @else
+                                                    <span class="text-[10px] font-black uppercase bg-slate-100 text-slate-700 px-2 py-0.5 rounded-full border border-slate-200">
+                                                        🖼️ {{ __('Image') }}
+                                                    </span>
+                                                @endif
+                                            </div>
+                                            <div class="font-bold text-slate-900 truncate">
                                                 {{ $ad->title }}
                                             </div>
                                             @if($ad->url)
-                                                <a href="{{ $ad->url }}" target="_blank" class="text-xs text-red-600 hover:underline">
+                                                <a href="{{ $ad->url }}" target="_blank" class="text-xs text-red-600 hover:underline truncate block">
                                                     {{ $ad->url }} ↗
                                                 </a>
                                             @endif
                                         </td>
                                         <td class="px-6 py-4">
-                                            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-slate-100 text-slate-700">
+                                            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-amber-50 text-amber-800 border border-amber-200">
                                                 {{ str_replace('_', ' ', $ad->placement) }}
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <span class="text-xs font-bold text-slate-600 bg-slate-100 px-2.5 py-1 rounded-full">
+                                                🖱️ {{ number_format($ad->clicks) }} {{ __('clicks') }}
                                             </span>
                                         </td>
                                         <td class="px-6 py-4">
@@ -93,6 +127,10 @@
                                         </td>
                                         <td class="px-6 py-4 text-right">
                                             <div class="flex items-center justify-end gap-2">
+                                                <a href="{{ route('admin.advertisements.edit', $ad) }}" class="px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 text-xs font-bold transition">
+                                                    ✏️ {{ __('Edit') }}
+                                                </a>
+
                                                 <form action="{{ route('admin.advertisements.toggle', $ad) }}" method="POST">
                                                     @csrf
                                                     @method('PATCH')

@@ -84,6 +84,10 @@
                                 {{ __('Email Journalist') }}
                             </a>
                             <span>•</span>
+                            <a href="{{ route('admin.advertisements.index') }}" class="hover:text-white transition">
+                                {{ __('Advertisements') }}
+                            </a>
+                            <span>•</span>
                             <a href="{{ route('admin.articles.index') }}" class="hover:text-white transition">
                                 {{ __('Articles') }}
                             </a>

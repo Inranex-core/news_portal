@@ -24,6 +24,29 @@
         </div>
     @endif
 
+    @if ($user->otp_code)
+        <div class="mb-5 p-4 rounded-2xl bg-amber-50 border border-amber-200/80 text-amber-900 shadow-2xs text-center space-y-2" x-data="{ copied: false }">
+            <div class="flex items-center justify-center gap-2 text-xs font-bold text-amber-800">
+                <span>🔑 {{ __('Development Mode OTP Code:') }}</span>
+                <span class="text-base font-black tracking-widest text-red-600 bg-white px-3 py-1 rounded-xl border border-amber-300 shadow-2xs font-mono">
+                    {{ $user->otp_code }}
+                </span>
+            </div>
+            <button 
+                type="button" 
+                @click="document.getElementById('otp').value = '{{ $user->otp_code }}'; copied = true; setTimeout(() => copied = false, 2000)"
+                class="text-[11px] font-black text-white bg-amber-600 hover:bg-amber-700 px-3 py-1 rounded-lg transition shadow-2xs cursor-pointer inline-flex items-center gap-1"
+            >
+                <span x-text="copied ? '✓ Auto-Filled!' : '⚡ Click to Auto-Fill OTP'"></span>
+            </button>
+            @if(config('mail.default') === 'log')
+                <p class="text-[10px] text-amber-700 font-medium">
+                    ℹ️ Mailer is currently set to <code class="font-mono font-bold bg-amber-100 px-1 py-0.5 rounded">LOG</code> driver. Emails are saved in <code class="font-mono text-[9px] bg-amber-100 px-1 py-0.5 rounded">storage/logs/laravel.log</code>.
+                </p>
+            @endif
+        </div>
+    @endif
+
     <form method="POST" action="{{ route('otp.verify.submit') }}" class="space-y-6">
         @csrf
 

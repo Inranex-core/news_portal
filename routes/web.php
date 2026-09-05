@@ -30,6 +30,7 @@ Route::get('/', [PublicNewsController::class, 'index'])->name('home');
 Route::get('/news/{slug}', [PublicNewsController::class, 'showArticle'])->name('articles.show');
 Route::post('/news/{slug}/comments', [\App\Http\Controllers\CommentController::class, 'store'])->name('articles.comments.store');
 Route::get('/category/{slug}', [PublicNewsController::class, 'showCategory'])->name('categories.show');
+Route::get('/ad/click/{advertisement}', [\App\Http\Controllers\Admin\AdvertisementController::class, 'trackClick'])->name('ads.click');
 
 Route::get('/journalists', [JournalistController::class, 'index'])->name('journalists.index');
 Route::get('/journalists/{slug}', [JournalistController::class, 'show'])->name('journalists.show');
@@ -133,7 +134,8 @@ Route::middleware([
 
 Route::middleware([
     'auth',
-    'role:journalist'
+    'role:journalist',
+    EnsureJournalistApproved::class,
 ])
     ->prefix('journalist')
     ->name('journalist.')
@@ -367,6 +369,11 @@ Route::middleware([
             'approve',
         ])->name('journalists.approve');
 
+        Route::delete('/journalists/{user}/reject', [
+            AdminJournalistController::class,
+            'reject',
+        ])->name('journalists.reject');
+
         Route::post('/journalists/invite', [
             AdminJournalistController::class,
             'sendInvite',
@@ -443,6 +450,8 @@ Route::patch('/articles/{article}/reject', [
 Route::get('/advertisements', [\App\Http\Controllers\Admin\AdvertisementController::class, 'index'])->name('advertisements.index');
 Route::get('/advertisements/create', [\App\Http\Controllers\Admin\AdvertisementController::class, 'create'])->name('advertisements.create');
 Route::post('/advertisements', [\App\Http\Controllers\Admin\AdvertisementController::class, 'store'])->name('advertisements.store');
+Route::get('/advertisements/{advertisement}/edit', [\App\Http\Controllers\Admin\AdvertisementController::class, 'edit'])->name('advertisements.edit');
+Route::put('/advertisements/{advertisement}', [\App\Http\Controllers\Admin\AdvertisementController::class, 'update'])->name('advertisements.update');
 Route::patch('/advertisements/{advertisement}/toggle', [\App\Http\Controllers\Admin\AdvertisementController::class, 'toggleStatus'])->name('advertisements.toggle');
 Route::delete('/advertisements/{advertisement}', [\App\Http\Controllers\Admin\AdvertisementController::class, 'destroy'])->name('advertisements.destroy');
 

@@ -17,15 +17,19 @@ class EnsureJournalistApproved
         $user = Auth::user();
 
         if ($user && $user->isJournalist()) {
-            // Check OTP / Email verification first
+            // 1. Check OTP / Email verification first
             if (!$user->email_verified_at) {
-                return redirect()->route('otp.verify');
+                if (!$request->routeIs('otp.*') && !$request->routeIs('logout')) {
+                    return redirect()->route('otp.verify')->with('info', __('Please verify your 6-digit email OTP before accessing your desk.'));
+                }
             }
 
-            // Check Admin approval
+            // 2. Check Admin approval for mutating actions (POST, PUT, PATCH, DELETE)
             if (!$user->isApproved()) {
-                if (!$request->routeIs('journalist.pending')) {
-                    return redirect()->route('journalist.pending');
+                if ($request->isMethod('POST') || $request->isMethod('PUT') || $request->isMethod('PATCH') || $request->isMethod('DELETE')) {
+                    if (!$request->routeIs('logout') && !$request->routeIs('otp.*')) {
+                        return redirect()->back()->with('error', __('Your journalist account is currently pending admin approval. All create, edit, and delete actions are disabled until approved.'));
+                    }
                 }
             }
         }
