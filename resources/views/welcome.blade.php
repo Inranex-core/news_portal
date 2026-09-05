@@ -7,7 +7,7 @@
 
     {{-- Search / Filter Result Indicator --}}
     @if(request('search') || request('category'))
-        <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex items-center justify-between">
+        <div class="bg-white p-4 rounded-xl shadow-[0_8px_30px_rgba(220,38,38,0.04)] flex items-center justify-between">
             <div class="flex items-center gap-2 text-sm text-slate-700">
                 <span class="font-bold">{{ __('Filtered Results:') }}</span>
                 @if(request('search'))
@@ -28,7 +28,7 @@
         <section class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
             {{-- Main Featured Hero Article --}}
             @php $mainHero = $featuredArticles->first(); @endphp
-            <div class="lg:col-span-8 bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm flex flex-col group transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:-translate-y-1">
+            <div class="lg:col-span-8 bg-white rounded-2xl overflow-hidden shadow-[0_8px_30px_rgba(220,38,38,0.06)] flex flex-col group transition-all duration-300 hover:shadow-[0_8px_30px_rgba(220,38,38,0.12)] hover:-translate-y-1">
                 @if($mainHero->image)
                     <div class="h-56 sm:h-72 md:h-96 overflow-hidden relative">
                         <img src="{{ asset('storage/' . $mainHero->image) }}" alt="{{ $mainHero->display_title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
@@ -49,13 +49,13 @@
                             <span>{{ number_format($mainHero->views) }} {{ __('views') }}</span>
                         </div>
 
-                        <h1 class="text-xl sm:text-2xl md:text-3xl font-black text-slate-900 leading-tight mb-4 group-hover:text-red-600 transition break-words-safe">
+                        <h1 class="font-serif text-xl sm:text-2xl md:text-3xl font-black text-slate-900 leading-tight mb-4 group-hover:text-red-600 transition break-words-safe">
                             <a href="{{ route('articles.show', $mainHero->slug) }}">
                                 {{ $mainHero->display_title }}
                             </a>
                         </h1>
 
-                        <p class="text-slate-600 text-sm leading-relaxed line-clamp-3 mb-6">
+                        <p class="font-serif text-slate-600 text-sm leading-relaxed line-clamp-3 mb-6">
                             {{ $mainHero->display_excerpt ?? Str::limit(strip_tags($mainHero->display_content), 200) }}
                         </p>
                     </div>
@@ -87,17 +87,17 @@
                 </div>
 
                 @foreach($featuredArticles->skip(1) as $sideHero)
-                    <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between hover:border-red-200 group transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:-translate-y-1">
+                    <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-[0_8px_30px_rgba(220,38,38,0.06)] flex flex-col justify-between group transition-all duration-300 hover:shadow-[0_8px_30px_rgba(220,38,38,0.12)] hover:-translate-y-1">
                         <div>
                             <span class="text-xs font-bold text-red-600 uppercase tracking-wider">
                                 {{ $sideHero->category->display_name }}
                             </span>
-                            <h3 class="text-base font-bold text-slate-900 mt-1 mb-2 group-hover:text-red-600 transition line-clamp-2 leading-snug break-words-safe">
+                            <h3 class="font-serif text-base font-bold text-slate-900 mt-1 mb-2 group-hover:text-red-600 transition line-clamp-2 leading-snug break-words-safe">
                                 <a href="{{ route('articles.show', $sideHero->slug) }}">
                                     {{ $sideHero->display_title }}
                                 </a>
                             </h3>
-                            <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed">
+                            <p class="font-serif text-xs text-slate-500 line-clamp-2 leading-relaxed">
                                 {{ $sideHero->display_excerpt ?? Str::limit(strip_tags($sideHero->display_content), 90) }}
                             </p>
                         </div>
@@ -133,7 +133,7 @@
         @if($latestArticles->count() > 0)
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
                 @foreach($latestArticles as $article)
-                    <article class="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm flex flex-col transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:-translate-y-1 group">
+                    <article class="bg-white rounded-2xl overflow-hidden shadow-[0_8px_30px_rgba(220,38,38,0.06)] flex flex-col transition-all duration-300 hover:shadow-[0_8px_30px_rgba(220,38,38,0.12)] hover:-translate-y-1 group">
                         @if($article->image)
                             <a href="{{ route('articles.show', $article->slug) }}" class="h-44 sm:h-48 overflow-hidden relative block">
                                 <img src="{{ asset('storage/' . $article->image) }}" alt="{{ $article->display_title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
@@ -153,13 +153,13 @@
                                     <span class="shrink-0">{{ app()->getLocale() === 'bn' ? \Carbon\Carbon::parse($article->published_at)->locale('bn')->isoFormat('D MMMM, YYYY') : \Carbon\Carbon::parse($article->published_at)->format('M d, Y') }}</span>
                                 </div>
 
-                                <h3 class="text-base font-bold text-slate-900 leading-snug mb-3 group-hover:text-red-600 transition line-clamp-2 break-words-safe">
+                                <h3 class="font-serif text-base font-bold text-slate-900 leading-snug mb-3 group-hover:text-red-600 transition line-clamp-2 break-words-safe">
                                     <a href="{{ route('articles.show', $article->slug) }}">
                                         {{ $article->display_title }}
                                     </a>
                                 </h3>
 
-                                <p class="text-slate-600 text-xs leading-relaxed line-clamp-3 mb-4">
+                                <p class="font-serif text-slate-600 text-xs leading-relaxed line-clamp-3 mb-4">
                                     {{ $article->display_excerpt ?? Str::limit(strip_tags($article->display_content), 110) }}
                                 </p>
                             </div>
@@ -188,7 +188,7 @@
                 {{ $latestArticles->links() }}
             </div>
         @else
-            <div class="bg-white p-12 text-center rounded-2xl border border-slate-200">
+            <div class="bg-white p-12 text-center rounded-2xl shadow-[0_8px_30px_rgba(220,38,38,0.06)]">
                 <svg class="w-12 h-12 text-slate-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
                 </svg>
@@ -200,7 +200,7 @@
 
     {{-- Journalist Highlights Banner --}}
     @if($journalists->count() > 0)
-        <section class="bg-white p-4 sm:p-6 md:p-8 rounded-2xl border border-slate-200 shadow-sm">
+        <section class="bg-white p-4 sm:p-6 md:p-8 rounded-2xl shadow-[0_8px_30px_rgba(220,38,38,0.06)]">
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-6 pb-2 border-b border-slate-100">
                 <div>
                     <span class="text-xs font-bold text-red-600 uppercase tracking-widest">{{ __('Journalists Directory') }}</span>

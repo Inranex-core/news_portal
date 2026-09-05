@@ -15,7 +15,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -95,6 +95,12 @@
 
             {{-- Right Side: Actions --}}
             <div class="flex items-center gap-1.5 sm:gap-3 shrink-0 ml-auto">
+
+                {{-- Language Toggle --}}
+                <div class="flex items-center border border-slate-200 rounded-lg overflow-hidden shrink-0">
+                    <a href="{{ url('/lang/bn') }}" class="px-2 py-1 text-[10px] sm:text-xs font-bold transition {{ app()->getLocale() === 'bn' ? 'bg-red-600 text-white' : 'bg-white text-slate-500 hover:bg-slate-50 hover:text-slate-700' }}">BN</a>
+                    <a href="{{ url('/lang/en') }}" class="px-2 py-1 text-[10px] sm:text-xs font-bold transition {{ app()->getLocale() === 'en' ? 'bg-red-600 text-white' : 'bg-white text-slate-500 hover:bg-slate-50 hover:text-slate-700' }}">EN</a>
+                </div>
 
                 {{-- Mobile Search Toggle --}}
                 <button
@@ -188,64 +194,10 @@
                 </button>
             </form>
         </div>
-
-
-        {{-- Navigation Bar / Category Tabs --}}
-        <nav class="border-t border-slate-100 bg-slate-50 shadow-inner">
-            <div class="mx-auto flex max-w-7xl items-center overflow-x-auto px-3 py-2 sm:px-6 lg:px-8 space-x-1 sm:space-x-2 text-xs sm:text-sm font-bold no-scrollbar scroll-snap-x">
-
-                @php
-                    $currentArticle = $article ?? null;
-                    $isActiveCategory = function($slug) use ($currentArticle) {
-                        if (request('category') === $slug) return true;
-                        if (request()->routeIs('categories.show') && request()->route('slug') === $slug) return true;
-                        if (request()->routeIs('articles.show') && $currentArticle && $currentArticle->category->slug === $slug) return true;
-                        return false;
-                    };
-                    $isHomeActive = request()->routeIs('home') && !request('category');
-                @endphp
-
-                <a
-                    href="{{ route('home') }}"
-                    class="relative rounded-lg px-3 py-1.5 whitespace-nowrap transition group {{ $isHomeActive ? 'bg-red-600 text-white shadow-sm pointer-events-none' : 'text-slate-700 hover:text-red-600' }}"
-                >
-                    {{ __('Home') }}
-                    @if(!$isHomeActive)
-                        <span class="absolute left-0 bottom-0 w-full h-[2px] bg-red-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left rounded-b-lg"></span>
-                    @endif
-                </a>
-
-                @foreach(($categories ?? \App\Models\Category::where('status', true)->get()) as $navCat)
-                    <a
-                        href="{{ route('categories.show', $navCat->slug) }}"
-                        class="relative rounded-lg px-3 py-1.5 whitespace-nowrap transition group {{ $isActiveCategory($navCat->slug) ? 'bg-red-600 text-white shadow-sm pointer-events-none' : 'text-slate-700 hover:text-red-600' }}"
-                    >
-                        {{ $navCat->display_name }}
-                        @if(!$isActiveCategory($navCat->slug))
-                            <span class="absolute left-0 bottom-0 w-full h-[2px] bg-red-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left rounded-b-lg"></span>
-                        @endif
-                    </a>
-                @endforeach
-
-                <a
-                    href="{{ route('journalists.index') }}"
-                    class="relative rounded-lg px-3 py-1.5 whitespace-nowrap transition group text-red-600 bg-red-50 hover:bg-red-50 hover:text-red-700 ml-auto shrink-0"
-                >
-                    <x-icon name="users" class="w-4 h-4 inline" />
-                    <span class="hidden sm:inline">{{ __('Journalists Directory') }}</span><span class="sm:hidden">{{ __('Journalists') }}</span>
-                    <span class="absolute left-0 bottom-0 w-full h-[2px] bg-red-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left rounded-b-lg"></span>
-                </a>
-
-            </div>
-        </nav>
-
         {{-- Mobile Menu Drawer (auth + extras) --}}
         <div
             x-show="mobileNav"
             x-cloak
-            x-transition:enter="transition ease-out duration-200"
-            x-transition:enter-start="opacity-0 -translate-y-2"
-            x-transition:enter-end="opacity-100 translate-y-0"
             class="sm:hidden border-t border-slate-200 bg-white"
         >
             <div class="px-3 py-3 space-y-2">
@@ -298,8 +250,58 @@
                 @endguest
             </div>
         </div>
-
     </header>
+
+        {{-- Navigation Bar / Category Tabs --}}
+        @unless(request()->routeIs('journalists.show'))
+        <nav class="border-t border-slate-100 bg-white shadow-inner">
+            <div class="mx-auto flex max-w-7xl items-center overflow-x-auto px-3 py-2 sm:px-6 lg:px-8 space-x-1 sm:space-x-2 text-xs sm:text-sm font-bold no-scrollbar scroll-snap-x">
+
+                @php
+                    $currentArticle = $article ?? null;
+                    $isActiveCategory = function($slug) use ($currentArticle) {
+                        if (request('category') === $slug) return true;
+                        if (request()->routeIs('categories.show') && request()->route('slug') === $slug) return true;
+                        if (request()->routeIs('articles.show') && $currentArticle && $currentArticle->category->slug === $slug) return true;
+                        return false;
+                    };
+                    $isHomeActive = request()->routeIs('home') && !request('category');
+                @endphp
+
+                <a
+                    href="{{ route('home') }}"
+                    class="relative rounded-lg px-3 py-1.5 whitespace-nowrap transition group {{ $isHomeActive ? 'bg-red-600 text-white shadow-sm pointer-events-none' : 'text-slate-700 hover:text-red-600' }}"
+                >
+                    {{ __('Home') }}
+                    @if(!$isHomeActive)
+                        <span class="absolute left-0 bottom-0 w-full h-[2px] bg-red-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left rounded-b-lg"></span>
+                    @endif
+                </a>
+
+                @foreach(($categories ?? \App\Models\Category::where('status', true)->get()) as $navCat)
+                    <a
+                        href="{{ route('categories.show', $navCat->slug) }}"
+                        class="relative rounded-lg px-3 py-1.5 whitespace-nowrap transition group {{ $isActiveCategory($navCat->slug) ? 'bg-red-600 text-white shadow-sm pointer-events-none' : 'text-slate-700 hover:text-red-600' }}"
+                    >
+                        {{ $navCat->display_name }}
+                        @if(!$isActiveCategory($navCat->slug))
+                            <span class="absolute left-0 bottom-0 w-full h-[2px] bg-red-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left rounded-b-lg"></span>
+                        @endif
+                    </a>
+                @endforeach
+
+                <a
+                    href="{{ route('journalists.index') }}"
+                    class="relative rounded-lg px-3 py-1.5 whitespace-nowrap transition group text-red-600 bg-red-50 hover:bg-red-50 hover:text-red-700 ml-auto shrink-0"
+                >
+                    <x-icon name="newspaper" class="w-4 h-4 inline" />
+                    <span class="hidden sm:inline">{{ __('Journalists Directory') }}</span><span class="sm:hidden">{{ __('Journalists') }}</span>
+                    <span class="absolute left-0 bottom-0 w-full h-[2px] bg-red-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left rounded-b-lg"></span>
+                </a>
+
+            </div>
+        </nav>
+        @endunless
 
 
     {{-- ================= PAGE CONTENT ================= --}}

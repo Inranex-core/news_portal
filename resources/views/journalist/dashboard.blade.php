@@ -174,7 +174,7 @@
                                                         @else
                                                             <x-icon name="pencil" class="w-3 h-3" />
                                                         @endif
-                                                        {{ ucfirst($art->status) }}
+                                                        {{ __(ucfirst($art->status)) }}
                                                     </span>
                                                 </div>
                                                 <h3 class="text-sm sm:text-base font-bold text-slate-900 leading-snug line-clamp-2">
@@ -182,7 +182,7 @@
                                                 </h3>
                                                 <p class="mt-1 text-xs text-slate-500 inline-flex items-center gap-1">
                                                     <x-icon name="calendar" class="w-3 h-3" />
-                                                    {{ \Carbon\Carbon::parse($art->published_at ?? $art->created_at)->diffForHumans() }}
+                                                    {{ \Carbon\Carbon::parse($art->published_at ?? $art->created_at)->locale(app()->getLocale())->diffForHumans() }}
                                                 </p>
                                             </div>
                                             <a href="{{ route('journalist.articles.edit', $art) }}" class="shrink-0 inline-flex items-center gap-1 px-3 py-2 bg-white hover:bg-slate-900 hover:text-white text-slate-700 text-xs font-bold rounded-lg border border-slate-200 transition">

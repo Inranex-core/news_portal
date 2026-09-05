@@ -12,7 +12,8 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['"Hind Siliguri"', ...defaultTheme.fontFamily.sans],
+                sans: ['Inter', '"Hind Siliguri"', ...defaultTheme.fontFamily.sans],
+                serif: ['Merriweather', '"Hind Siliguri"', ...defaultTheme.fontFamily.serif],
             },
         },
     },

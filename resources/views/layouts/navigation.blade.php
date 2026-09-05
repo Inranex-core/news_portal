@@ -79,6 +79,11 @@
             <!-- Settings Dropdown + Language Switcher (desktop) -->
             <div class="hidden sm:flex sm:items-center sm:gap-3 md:gap-4">
 
+                {{-- Language Toggle --}}
+                <div class="flex items-center border border-slate-200 rounded-lg overflow-hidden shrink-0">
+                    <a href="{{ url('/lang/bn') }}" class="px-2 py-1 text-[10px] sm:text-xs font-bold transition {{ app()->getLocale() === 'bn' ? 'bg-red-600 text-white' : 'bg-white text-slate-500 hover:bg-slate-50 hover:text-slate-700' }}">BN</a>
+                    <a href="{{ url('/lang/en') }}" class="px-2 py-1 text-[10px] sm:text-xs font-bold transition {{ app()->getLocale() === 'en' ? 'bg-red-600 text-white' : 'bg-white text-slate-500 hover:bg-slate-50 hover:text-slate-700' }}">EN</a>
+                </div>
 
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
@@ -143,6 +148,10 @@
                     <x-icon name="newspaper" class="w-4 h-4" />
                     {{ __('My Articles') }}
                 </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('journalist.profile.edit')" :active="request()->routeIs('journalist.profile.*')" class="inline-flex items-center gap-2">
+                    <x-icon name="user" class="w-4 h-4" />
+                    {{ __('Profile Setup') }}
+                </x-responsive-nav-link>
             @endif
 
             @if(auth()->user()?->role === 'admin')
@@ -182,6 +191,11 @@
                     <div class="font-medium text-sm text-gray-500">{{ Auth::user()?->email ?? '' }}</div>
                 </div>
 
+                {{-- Language Toggle Mobile --}}
+                <div class="flex items-center border border-slate-200 rounded-lg overflow-hidden shrink-0">
+                    <a href="{{ url('/lang/bn') }}" class="px-2 py-1 text-[10px] font-bold transition {{ app()->getLocale() === 'bn' ? 'bg-red-600 text-white' : 'bg-white text-slate-500 hover:bg-slate-50' }}">BN</a>
+                    <a href="{{ url('/lang/en') }}" class="px-2 py-1 text-[10px] font-bold transition {{ app()->getLocale() === 'en' ? 'bg-red-600 text-white' : 'bg-white text-slate-500 hover:bg-slate-50' }}">EN</a>
+                </div>
             </div>
 
             <div class="space-y-1">

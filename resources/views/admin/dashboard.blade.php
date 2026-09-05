@@ -5,34 +5,31 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
 
             {{-- Welcome Banner --}}
-            <div class="bg-slate-900 rounded-3xl p-6 sm:p-8 text-white shadow-xl border border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-6">
-                <div>
-                    <div class="flex items-center gap-3">
-                        <span class="px-3 py-1 bg-red-600 text-white rounded-full text-xs font-black uppercase tracking-widest shadow-sm inline-flex items-center gap-1.5">
+            <div class="bg-slate-900 rounded-3xl mb-8 overflow-hidden">
+                <div class="p-6 sm:p-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+                    <div class="flex-1 min-w-0">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 bg-amber-500/20 text-amber-300 rounded-full text-xs font-bold mb-4">
                             <x-icon name="shield" class="w-3.5 h-3.5" />
                             {{ __('ADMIN CONTROL CENTER') }}
-                        </span>
-                        <span class="text-xs text-slate-300 font-medium">
-                            {{ app()->getLocale() === 'bn' ? \Carbon\Carbon::now()->locale('bn')->isoFormat('dddd, D MMMM, YYYY') : \Carbon\Carbon::now()->format('l, F d, Y') }}
-                        </span>
+                        </div>
+                        <h1 class="text-3xl sm:text-4xl font-black text-white tracking-tight">
+                            {{ __('Welcome back,') }} {{ auth()->user()->name }}!
+                        </h1>
+                        <p class="mt-2 text-slate-400 text-sm sm:text-base max-w-2xl leading-relaxed font-normal">
+                            {{ __('Overview of CoUJA News Portal operations, article approvals, journalist verification, reader engagement, and direct communications.') }}
+                        </p>
                     </div>
-                    <h1 class="text-3xl font-black mt-3 tracking-tight text-white">
-                        {{ __('Welcome back,') }} {{ auth()->user()->name }}!
-                    </h1>
-                    <p class="text-sm text-slate-300 mt-1 max-w-2xl leading-relaxed font-normal">
-                        {{ __('Overview of CoUJA News Portal operations, article approvals, journalist verification, reader engagement, and direct communications.') }}
-                    </p>
-                </div>
 
-                <div class="flex items-center gap-3 shrink-0">
-                    <a href="{{ route('admin.email.create') }}" class="px-5 py-3 rounded-2xl bg-red-600 hover:bg-red-700 text-white font-bold text-sm transition shadow-md flex items-center gap-2">
-                        <x-icon name="mail" class="w-4 h-4" />
-                        <span>{{ __('Email Journalist') }}</span>
-                    </a>
-                    <a href="{{ route('home') }}" target="_blank" class="px-5 py-3 rounded-2xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-sm transition border border-slate-700 flex items-center gap-2">
-                        <x-icon name="globe" class="w-4 h-4" />
-                        <span>{{ __('Visit Portal') }}</span>
-                    </a>
+                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0 w-full lg:w-auto mt-4 lg:mt-0">
+                        <a href="{{ route('admin.email.create') }}" class="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white font-bold text-sm rounded-xl shadow-lg shadow-red-600/25 transition active:scale-95">
+                            <x-icon name="mail" class="w-4 h-4" />
+                            <span>{{ __('Email Journalist') }}</span>
+                        </a>
+                        <a href="{{ route('home') }}" target="_blank" class="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-white/10 hover:bg-white/20 text-white font-bold text-sm rounded-xl border border-white/20 transition">
+                            <x-icon name="globe" class="w-4 h-4" />
+                            <span>{{ __('Visit Portal') }}</span>
+                        </a>
+                    </div>
                 </div>
             </div>
 
@@ -256,9 +253,9 @@
                     @if($recentArticles->count() > 0)
                         <div class="space-y-4">
                             @foreach($recentArticles as $art)
-                                <div class="flex items-center justify-between p-4 rounded-xl bg-slate-50 border border-slate-100 hover:border-slate-200 transition gap-4">
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-xl bg-slate-50 border border-slate-100 hover:border-slate-200 transition gap-4">
                                     <div class="min-w-0 flex-1">
-                                        <div class="flex items-center gap-2 mb-1">
+                                        <div class="flex items-center gap-2 mb-1 flex-wrap">
                                             <span class="text-[10px] font-bold uppercase tracking-wider text-red-600 bg-red-50 px-2 py-0.5 rounded">
                                                 {{ $art->category->display_name }}
                                             </span>
@@ -266,7 +263,7 @@
                                                 {{ \Carbon\Carbon::parse($art->published_at ?? $art->created_at)->locale(app()->getLocale())->diffForHumans() }}
                                             </span>
                                         </div>
-                                        <h4 class="font-bold text-slate-900 text-sm truncate">
+                                        <h4 class="font-bold text-slate-900 text-sm sm:text-base line-clamp-2 sm:truncate">
                                             <a href="{{ route('articles.show', $art->slug) }}" target="_blank" class="hover:text-red-600 transition">
                                                 {{ $art->display_title }}
                                             </a>
@@ -275,7 +272,7 @@
                                             {{ __('By:') }} {{ $art->journalistProfile->user->name ?? __('Unknown') }}
                                         </p>
                                     </div>
-                                    <div class="flex items-center gap-2 shrink-0">
+                                    <div class="flex items-center gap-2 shrink-0 mt-2 sm:mt-0 w-full sm:w-auto justify-end">
                                         <span class="text-xs font-bold px-2.5 py-1 rounded-full {{ $art->status === 'published' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800' }}">
                                             {{ $art->status === 'published' ? __('Published') : __('Pending') }}
                                         </span>

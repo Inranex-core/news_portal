@@ -8,11 +8,11 @@
             <div class="mb-8">
 
                 <h1 class="text-3xl font-bold text-gray-900">
-                    Edit Journalist Profile
+                    {{ __('Edit Journalist Profile') }}
                 </h1>
 
                 <p class="text-gray-500 mt-2">
-                    Update your professional information and portfolio.
+                    {{ __('Update your professional information and portfolio.') }}
                 </p>
 
             </div>
@@ -36,7 +36,7 @@
                     <div class="mb-10">
 
                         <h2 class="text-xl font-bold text-gray-900 mb-6">
-                            Basic Information
+                            {{ __('Basic Information') }}
                         </h2>
 
 
@@ -46,14 +46,14 @@
                             <div>
 
                                 <label class="block text-sm font-medium text-gray-700 mb-2">
-                                    Designation
+                                    {{ __('Designation') }}
                                 </label>
 
                                 <input
                                     type="text"
                                     name="designation"
                                     value="{{ old('designation', $profile?->designation) }}"
-                                    placeholder="Technology Journalist"
+                                    placeholder="{{ __('Technology Journalist') }}"
                                     class="w-full rounded-lg border-gray-300 focus:border-red-500 focus:ring-red-500"
                                 >
 
@@ -70,14 +70,14 @@
                             <div>
 
                                 <label class="block text-sm font-medium text-gray-700 mb-2">
-                                    Organization
+                                    {{ __('Organization') }}
                                 </label>
 
                                 <input
                                     type="text"
                                     name="organization"
                                     value="{{ old('organization', $profile?->organization) }}"
-                                    placeholder="News Portal"
+                                    placeholder="{{ __('News Portal') }}"
                                     class="w-full rounded-lg border-gray-300 focus:border-red-500 focus:ring-red-500"
                                 >
 
@@ -94,14 +94,14 @@
                             <div class="md:col-span-2">
 
                                 <label class="block text-sm font-medium text-gray-700 mb-2">
-                                    Professional Headline
+                                    {{ __('Professional Headline') }}
                                 </label>
 
                                 <input
                                     type="text"
                                     name="headline"
                                     value="{{ old('headline', $profile?->headline) }}"
-                                    placeholder="Technology, Science & Current Affairs Journalist"
+                                    placeholder="{{ __('Technology, Science & Current Affairs Journalist') }}"
                                     class="w-full rounded-lg border-gray-300 focus:border-red-500 focus:ring-red-500"
                                 >
 
@@ -112,14 +112,14 @@
                             <div>
 
                                 <label class="block text-sm font-medium text-gray-700 mb-2">
-                                    Location
+                                    {{ __('Location') }}
                                 </label>
 
                                 <input
                                     type="text"
                                     name="location"
                                     value="{{ old('location', $profile?->location) }}"
-                                    placeholder="Dhaka, Bangladesh"
+                                    placeholder="{{ __('Dhaka, Bangladesh') }}"
                                     class="w-full rounded-lg border-gray-300 focus:border-red-500 focus:ring-red-500"
                                 >
 
@@ -130,7 +130,7 @@
                             <div>
 
                                 <label class="block text-sm font-medium text-gray-700 mb-2">
-                                    Phone
+                                    {{ __('Phone') }}
                                 </label>
 
                                 <input
@@ -148,7 +148,7 @@
                             <div class="md:col-span-2">
 
                                 <label class="block text-sm font-medium text-gray-700 mb-2">
-                                    Website
+                                    {{ __('Website') }}
                                 </label>
 
                                 <input
@@ -170,17 +170,17 @@
                     <div class="mb-10">
 
                         <h2 class="text-xl font-bold text-gray-900 mb-6">
-                            About Me
+                            {{ __('About Me') }}
                         </h2>
 
                         <label class="block text-sm font-medium text-gray-700 mb-2">
-                            Biography
+                            {{ __('Biography') }}
                         </label>
 
                         <textarea
                             name="bio"
                             rows="6"
-                            placeholder="Write your professional biography..."
+                            placeholder="{{ __('Write your professional biography...') }}"
                             class="w-full rounded-lg border-gray-300 focus:border-red-500 focus:ring-red-500"
                         >{{ old('bio', $profile?->bio) }}</textarea>
 
@@ -191,13 +191,13 @@
                     <div class="mb-10">
 
                         <h2 class="text-xl font-bold text-gray-900 mb-6">
-                            Professional Experience
+                            {{ __('Professional Experience') }}
                         </h2>
 
                         <div>
 
                             <label class="block text-sm font-medium text-gray-700 mb-2">
-                                Years of Experience
+                                {{ __('Years of Experience') }}
                             </label>
 
                             <input
@@ -217,7 +217,7 @@
                     <div class="mb-10">
 
                         <h2 class="text-xl font-bold text-gray-900 mb-6">
-                            Profile Photo
+                            {{ __('Profile Photo') }}
                         </h2>
 
                         @if($profile?->profile_image)
@@ -249,7 +249,7 @@
                     <div class="mb-10">
 
                         <h2 class="text-xl font-bold text-gray-900 mb-6">
-                            Cover Image
+                            {{ __('Cover Image') }}
                         </h2>
 
                         @if($profile?->cover_image)
@@ -284,7 +284,7 @@
                             href="{{ route('journalist.dashboard') }}"
                             class="px-6 py-3 border border-gray-300 rounded-lg text-gray-700 font-semibold hover:bg-gray-50"
                         >
-                            Cancel
+                            {{ __('Cancel') }}
                         </a>
 
 
@@ -292,7 +292,7 @@
                             type="submit"
                             class="px-8 py-3 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition"
                         >
-                            Save Profile
+                            {{ __('Save Profile') }}
                         </button>
 
                     </div>
