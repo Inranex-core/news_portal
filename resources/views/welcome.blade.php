@@ -110,10 +110,8 @@
                     </div>
                 @endforeach
 
-                {{-- Sidebar Photocard Ad --}}
-                @if(isset($portalAds['sidebar']) && $portalAds['sidebar']->count() > 0)
-                    <x-ad-photocard :ad="$portalAds['sidebar']->first()" layout="sidebar" />
-                @endif
+                {{-- Sidebar Photocard Carousel --}}
+                <x-ad-carousel :ads="$portalAds['sidebar'] ?? collect()" layout="sidebar" />
             </div>
         </section>
     @endif
@@ -203,10 +201,8 @@
         @endif
     </section>
 
-    {{-- In-Article Feed Photocard Ad --}}
-    @if(isset($portalAds['in_article']) && $portalAds['in_article']->count() > 0)
-        <x-ad-photocard :ad="$portalAds['in_article']->first()" layout="in_article" />
-    @endif
+    {{-- In-Article Feed Photocard Carousel --}}
+    <x-ad-carousel :ads="$portalAds['in_article'] ?? collect()" layout="in_article" />
 
     {{-- Journalist Highlights Banner --}}
     @if($journalists->count() > 0)

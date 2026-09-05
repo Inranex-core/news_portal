@@ -14,7 +14,7 @@
             </nav>
 
             {{-- Form Card --}}
-            <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+            <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden" x-data="{ adType: '{{ old('type', $advertisement->type ?? 'image') }}' }">
                 <div class="bg-slate-900 text-white p-6 sm:p-8">
                     <span class="text-xs font-black uppercase tracking-widest text-amber-400 bg-amber-950/80 px-3 py-1 rounded-full">
                         📢 {{ __('EDIT CAMPAIGN') }}
@@ -42,6 +42,29 @@
                         >
                     </div>
 
+                    {{-- Ad Format Selection (Image vs Video) --}}
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                            🎬 {{ __('Advertisement Media Type') }} *
+                        </label>
+                        <div class="grid grid-cols-2 gap-4">
+                            <label class="border-2 rounded-2xl p-4 flex items-center gap-3 cursor-pointer transition" :class="adType === 'image' ? 'border-amber-500 bg-amber-50/50 text-amber-900 font-bold' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'">
+                                <input type="radio" name="type" value="image" x-model="adType" class="text-amber-600 focus:ring-amber-500">
+                                <div>
+                                    <span class="text-sm font-black block">🖼️ {{ __('Image Photocard') }}</span>
+                                    <span class="text-[11px] font-normal text-slate-500">{{ __('JPG, PNG, WEBP banner image') }}</span>
+                                </div>
+                            </label>
+                            <label class="border-2 rounded-2xl p-4 flex items-center gap-3 cursor-pointer transition" :class="adType === 'video' ? 'border-amber-500 bg-amber-50/50 text-amber-900 font-bold' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'">
+                                <input type="radio" name="type" value="video" x-model="adType" class="text-amber-600 focus:ring-amber-500">
+                                <div>
+                                    <span class="text-sm font-black block">🎥 {{ __('Video Ad Banner') }}</span>
+                                    <span class="text-[11px] font-normal text-slate-500">{{ __('Autoplay MP4 / WebM video file') }}</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
                     <div>
                         <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
                             {{ __('Target Website URL (Clickable Link)') }}
@@ -54,12 +77,12 @@
                             value="{{ old('url', $advertisement->url) }}"
                         >
                         <p class="text-xs text-slate-400 mt-1">
-                            {{ __('When a reader clicks on the photocard image banner, they will be redirected to this link.') }}
+                            {{ __('When a reader clicks on the photocard image or video ad, they will be redirected to this link.') }}
                         </p>
                     </div>
 
-                    {{-- Photocard Image Upload & Current Image Preview --}}
-                    <div>
+                    {{-- Photocard Image Upload & Preview --}}
+                    <div x-show="adType === 'image'" x-cloak>
                         <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
                             🖼️ {{ __('Photocard Banner Image') }}
                         </label>
@@ -92,6 +115,44 @@
                                 <span class="text-2xl mb-1">📷</span>
                                 <span class="text-xs font-bold text-amber-600 hover:underline">{{ __('Upload New Photocard Image') }}</span>
                                 <span class="text-[11px] text-slate-400 mt-1">{{ __('Supported format: JPG, PNG, WEBP, GIF (Max 4MB)') }}</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    {{-- Video File Upload & Preview --}}
+                    <div x-show="adType === 'video'" x-cloak>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                            🎥 {{ __('Video Ad File') }}
+                        </label>
+                        
+                        @if($advertisement->video)
+                            <div class="mb-3 p-3 bg-slate-900 text-white rounded-2xl border border-slate-800 flex items-center gap-4">
+                                <video src="{{ asset('storage/' . $advertisement->video) }}" controls class="h-24 w-36 object-cover rounded-xl border border-slate-700 bg-black"></video>
+                                <div>
+                                    <span class="text-xs font-bold text-amber-400 block">🎥 {{ __('Current Video Banner') }}</span>
+                                    <span class="text-[11px] text-slate-400">{{ __('Upload a new video file below to replace this video.') }}</span>
+                                </div>
+                            </div>
+                        @endif
+
+                        <div class="border-2 border-dashed border-slate-200 rounded-2xl p-6 text-center bg-slate-50 hover:bg-white hover:border-amber-400 transition" x-data="{ videoPreview: null }">
+                            <template x-if="videoPreview">
+                                <div class="mb-4">
+                                    <video :src="videoPreview" controls autoplay muted loop class="max-h-56 mx-auto rounded-xl shadow-md border border-slate-200 bg-black"></video>
+                                </div>
+                            </template>
+                            <input
+                                type="file"
+                                name="video"
+                                accept="video/mp4,video/webm,video/ogg,video/quicktime"
+                                class="hidden"
+                                id="ad_video_input_edit"
+                                @change="const file = $event.target.files[0]; if (file) { videoPreview = URL.createObjectURL(file); }"
+                            >
+                            <label for="ad_video_input_edit" class="cursor-pointer inline-flex flex-col items-center">
+                                <span class="text-2xl mb-1">🎬</span>
+                                <span class="text-xs font-bold text-amber-600 hover:underline">{{ __('Upload New Video Ad File') }}</span>
+                                <span class="text-[11px] text-slate-400 mt-1">{{ __('Supported format: MP4, WEBM, MOV (Max 20MB)') }}</span>
                             </label>
                         </div>
                     </div>

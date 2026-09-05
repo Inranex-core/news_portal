@@ -218,10 +218,8 @@
         @yield('content')
     </main>
 
-    {{-- Footer Banner Photocard --}}
-    @if(isset($portalAds['footer']) && $portalAds['footer']->count() > 0)
-        <x-ad-photocard :ad="$portalAds['footer']->first()" layout="footer" />
-    @endif
+    {{-- Footer Banner Photocard Carousel --}}
+    <x-ad-carousel :ads="$portalAds['footer'] ?? collect()" layout="footer" />
 
 
     {{-- ================= FOOTER ================= --}}

@@ -107,10 +107,8 @@
                 </div>
             </div>
 
-            {{-- Sidebar Photocard Ad --}}
-            @if(isset($portalAds['sidebar']) && $portalAds['sidebar']->count() > 0)
-                <x-ad-photocard :ad="$portalAds['sidebar']->first()" layout="sidebar" />
-            @endif
+            {{-- Sidebar Photocard Carousel --}}
+            <x-ad-carousel :ads="$portalAds['sidebar'] ?? collect()" layout="sidebar" />
         </aside>
     </div>
 

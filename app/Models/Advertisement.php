@@ -11,7 +11,9 @@ class Advertisement extends Model
 
     protected $fillable = [
         'title',
+        'type',
         'image',
+        'video',
         'url',
         'placement',
         'status',

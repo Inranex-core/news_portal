@@ -24,20 +24,27 @@ class AdvertisementController extends Controller
     {
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
+            'type' => ['required', 'in:image,video'],
             'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp,gif', 'max:4096'],
+            'video' => ['nullable', 'file', 'mimes:mp4,webm,ogg,mov', 'max:20480'],
             'url' => ['nullable', 'url', 'max:500'],
-            'placement' => ['required', 'in:header_top,sidebar,in_article,footer'],
+            'placement' => ['required', 'in:sidebar,in_article,footer'],
             'status' => ['required', 'boolean'],
         ]);
 
         $ad = new Advertisement();
         $ad->title = $validated['title'];
+        $ad->type = $validated['type'];
         $ad->url = $validated['url'] ?? null;
         $ad->placement = $validated['placement'];
         $ad->status = $validated['status'];
 
         if ($request->hasFile('image')) {
-            $ad->image = $request->file('image')->store('advertisements', 'public');
+            $ad->image = $request->file('image')->store('advertisements/images', 'public');
+        }
+
+        if ($request->hasFile('video')) {
+            $ad->video = $request->file('video')->store('advertisements/videos', 'public');
         }
 
         $ad->save();
@@ -54,13 +61,16 @@ class AdvertisementController extends Controller
     {
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
+            'type' => ['required', 'in:image,video'],
             'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp,gif', 'max:4096'],
+            'video' => ['nullable', 'file', 'mimes:mp4,webm,ogg,mov', 'max:20480'],
             'url' => ['nullable', 'url', 'max:500'],
-            'placement' => ['required', 'in:header_top,sidebar,in_article,footer'],
+            'placement' => ['required', 'in:sidebar,in_article,footer'],
             'status' => ['required', 'boolean'],
         ]);
 
         $advertisement->title = $validated['title'];
+        $advertisement->type = $validated['type'];
         $advertisement->url = $validated['url'] ?? null;
         $advertisement->placement = $validated['placement'];
         $advertisement->status = $validated['status'];
@@ -69,7 +79,14 @@ class AdvertisementController extends Controller
             if ($advertisement->image && Storage::disk('public')->exists($advertisement->image)) {
                 Storage::disk('public')->delete($advertisement->image);
             }
-            $advertisement->image = $request->file('image')->store('advertisements', 'public');
+            $advertisement->image = $request->file('image')->store('advertisements/images', 'public');
+        }
+
+        if ($request->hasFile('video')) {
+            if ($advertisement->video && Storage::disk('public')->exists($advertisement->video)) {
+                Storage::disk('public')->delete($advertisement->video);
+            }
+            $advertisement->video = $request->file('video')->store('advertisements/videos', 'public');
         }
 
         $advertisement->save();
@@ -100,6 +117,10 @@ class AdvertisementController extends Controller
     {
         if ($advertisement->image && Storage::disk('public')->exists($advertisement->image)) {
             Storage::disk('public')->delete($advertisement->image);
+        }
+
+        if ($advertisement->video && Storage::disk('public')->exists($advertisement->video)) {
+            Storage::disk('public')->delete($advertisement->video);
         }
 
         $advertisement->delete();
