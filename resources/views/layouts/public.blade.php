@@ -218,6 +218,11 @@
         @yield('content')
     </main>
 
+    {{-- Footer Banner Photocard --}}
+    @if(isset($portalAds['footer']) && $portalAds['footer']->count() > 0)
+        <x-ad-photocard :ad="$portalAds['footer']->first()" layout="footer" />
+    @endif
+
 
     {{-- ================= FOOTER ================= --}}
     <footer class="mt-16 bg-slate-950 text-white">

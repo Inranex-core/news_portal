@@ -311,6 +311,11 @@
                         {!! nl2br(e($article->display_content)) !!}
                     </div>
 
+                    {{-- In-Article Photocard Ad --}}
+                    @if(isset($portalAds['in_article']) && $portalAds['in_article']->count() > 0)
+                        <x-ad-photocard :ad="$portalAds['in_article']->first()" layout="in_article" />
+                    @endif
+
                     {{-- ================= SHARE MODAL POPUP ================= --}}
                     <div 
                         x-show="shareModalOpen" 
@@ -621,6 +626,11 @@
                     @endforeach
                 </div>
             </div>
+
+            {{-- Sidebar Photocard Ad --}}
+            @if(isset($portalAds['sidebar']) && $portalAds['sidebar']->count() > 0)
+                <x-ad-photocard :ad="$portalAds['sidebar']->first()" layout="sidebar" />
+            @endif
 
         </aside>
 

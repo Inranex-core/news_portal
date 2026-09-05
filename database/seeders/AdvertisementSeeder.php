@@ -11,25 +11,28 @@ class AdvertisementSeeder extends Seeder
     {
         $ads = [
             [
-                'title' => 'Special Admission Discount - Comilla University Computer Science & IT',
-                'image' => null,
-                'url' => 'https://cou.ac.bd',
-                'placement' => 'header_top',
-                'status' => true,
-            ],
-            [
                 'title' => 'Tech Masterclass 2026 - Register Now for 50% Off!',
                 'image' => null,
-                'url' => 'https://couja.news',
+                'url' => 'https://cou.ac.bd',
                 'placement' => 'sidebar',
                 'status' => true,
+                'clicks' => 45,
             ],
             [
                 'title' => 'CoUJA Annual Journalism Conference & Award 2026',
                 'image' => null,
-                'url' => 'https://couja.news/journalists',
+                'url' => 'https://cou.ac.bd',
                 'placement' => 'in_article',
                 'status' => true,
+                'clicks' => 28,
+            ],
+            [
+                'title' => 'National IT Olympiad 2026 - CoU Campus Campaign',
+                'image' => null,
+                'url' => 'https://cou.ac.bd',
+                'placement' => 'footer',
+                'status' => true,
+                'clicks' => 9,
             ],
         ];
 
