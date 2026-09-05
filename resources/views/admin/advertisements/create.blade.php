@@ -107,30 +107,48 @@
                         </div>
                     </div>
 
-                    {{-- Video Upload (Shown if adType === 'video') --}}
-                    <div x-show="adType === 'video'" x-cloak>
-                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
-                            🎥 {{ __('Video Ad File') }}
-                        </label>
-                        <div class="border-2 border-dashed border-slate-200 rounded-2xl p-6 text-center bg-slate-50 hover:bg-white hover:border-amber-400 transition" x-data="{ videoPreview: null }">
-                            <template x-if="videoPreview">
-                                <div class="mb-4">
-                                    <video :src="videoPreview" controls autoplay muted loop class="max-h-56 mx-auto rounded-xl shadow-md border border-slate-200 bg-black"></video>
-                                </div>
-                            </template>
-                            <input
-                                type="file"
-                                name="video"
-                                accept="video/mp4,video/webm,video/ogg,video/quicktime"
-                                class="hidden"
-                                id="ad_video_input"
-                                @change="const file = $event.target.files[0]; if (file) { videoPreview = URL.createObjectURL(file); }"
-                            >
-                            <label for="ad_video_input" class="cursor-pointer inline-flex flex-col items-center">
-                                <span class="text-2xl mb-1">🎬</span>
-                                <span class="text-xs font-bold text-amber-600 hover:underline">{{ __('Upload Video Ad File') }}</span>
-                                <span class="text-[11px] text-slate-400 mt-1">{{ __('Supported format: MP4, WEBM, MOV (Max 20MB)') }}</span>
+                    {{-- Video Upload / URL (Shown if adType === 'video') --}}
+                    <div x-show="adType === 'video'" x-cloak class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                                🎥 {{ __('Option A: Upload Video File (Max 10MB)') }}
                             </label>
+                            <div class="border-2 border-dashed border-slate-200 rounded-2xl p-6 text-center bg-slate-50 hover:bg-white hover:border-amber-400 transition" x-data="{ videoPreview: null }">
+                                <template x-if="videoPreview">
+                                    <div class="mb-4">
+                                        <video :src="videoPreview" controls autoplay muted loop class="max-h-56 mx-auto rounded-xl shadow-md border border-slate-200 bg-black"></video>
+                                    </div>
+                                </template>
+                                <input
+                                    type="file"
+                                    name="video"
+                                    accept="video/mp4,video/webm,video/ogg,video/quicktime"
+                                    class="hidden"
+                                    id="ad_video_input"
+                                    @change="const file = $event.target.files[0]; if (file) { if (file.size > 10 * 1024 * 1024) { alert('⚠️ ভিডিও ফাইলের সাইজ ১০MB এর বেশি! সার্ভার লিমিট বজায় রাখতে ১০MB এর কম সাইজের ভিডিও ফাইল আপলোড করুন, অথবা নিচে সরাসরি ভিডিও লিঙ্ক ব্যবহার করুন।'); $event.target.value = ''; videoPreview = null; return; } videoPreview = URL.createObjectURL(file); }"
+                                >
+                                <label for="ad_video_input" class="cursor-pointer inline-flex flex-col items-center">
+                                    <span class="text-2xl mb-1">🎬</span>
+                                    <span class="text-xs font-bold text-amber-600 hover:underline">{{ __('Upload Video Ad File') }}</span>
+                                    <span class="text-[11px] text-slate-400 mt-1">{{ __('Supported format: MP4, WEBM, MOV (Recommended: Under 10MB)') }}</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200">
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                                🔗 {{ __('Option B: Direct Video Link / URL (No Size Limits)') }}
+                            </label>
+                            <input
+                                type="url"
+                                name="video_url"
+                                placeholder="https://example.com/banner-video.mp4"
+                                class="w-full text-sm rounded-xl border-slate-300 focus:border-amber-500 focus:ring-amber-500 p-3"
+                                value="{{ old('video_url') }}"
+                            >
+                            <p class="text-[11px] text-slate-500 mt-1">
+                                {{ __('Paste a direct MP4/WebM video URL hosted on external CDNs or cloud storage without any upload size restrictions.') }}
+                            </p>
                         </div>
                     </div>
 

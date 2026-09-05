@@ -26,7 +26,8 @@ class AdvertisementController extends Controller
             'title' => ['required', 'string', 'max:255'],
             'type' => ['required', 'in:image,video'],
             'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp,gif', 'max:4096'],
-            'video' => ['nullable', 'file', 'mimes:mp4,webm,ogg,mov', 'max:20480'],
+            'video' => ['nullable', 'file', 'mimes:mp4,webm,ogg,mov', 'max:10240'],
+            'video_url' => ['nullable', 'url', 'max:500'],
             'url' => ['nullable', 'url', 'max:500'],
             'placement' => ['required', 'in:sidebar,in_article,footer'],
             'status' => ['required', 'boolean'],
@@ -36,6 +37,7 @@ class AdvertisementController extends Controller
         $ad->title = $validated['title'];
         $ad->type = $validated['type'];
         $ad->url = $validated['url'] ?? null;
+        $ad->video_url = $validated['video_url'] ?? null;
         $ad->placement = $validated['placement'];
         $ad->status = $validated['status'];
 
@@ -63,7 +65,8 @@ class AdvertisementController extends Controller
             'title' => ['required', 'string', 'max:255'],
             'type' => ['required', 'in:image,video'],
             'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp,gif', 'max:4096'],
-            'video' => ['nullable', 'file', 'mimes:mp4,webm,ogg,mov', 'max:20480'],
+            'video' => ['nullable', 'file', 'mimes:mp4,webm,ogg,mov', 'max:10240'],
+            'video_url' => ['nullable', 'url', 'max:500'],
             'url' => ['nullable', 'url', 'max:500'],
             'placement' => ['required', 'in:sidebar,in_article,footer'],
             'status' => ['required', 'boolean'],
@@ -72,6 +75,7 @@ class AdvertisementController extends Controller
         $advertisement->title = $validated['title'];
         $advertisement->type = $validated['type'];
         $advertisement->url = $validated['url'] ?? null;
+        $advertisement->video_url = $validated['video_url'] ?? null;
         $advertisement->placement = $validated['placement'];
         $advertisement->status = $validated['status'];
 

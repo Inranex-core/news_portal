@@ -3,7 +3,8 @@
 @if($ad && $ad->status)
     @php
         $targetUrl = route('ads.click', $ad);
-        $isVideo = ($ad->type === 'video' && $ad->video);
+        $videoSrc = $ad->video_url ?? ($ad->video ? asset('storage/' . $ad->video) : null);
+        $isVideo = ($ad->type === 'video' && $videoSrc);
     @endphp
 
     @if($layout === 'in_article')
@@ -13,7 +14,7 @@
                 <div class="relative">
                     @if($isVideo)
                         <div class="h-56 sm:h-72 w-full overflow-hidden bg-slate-950 relative">
-                            <video src="{{ asset('storage/' . $ad->video) }}" autoplay loop muted playsinline class="w-full h-full object-cover group-hover:scale-105 transition duration-500"></video>
+                            <video src="{{ $videoSrc }}" autoplay loop muted playsinline class="w-full h-full object-cover group-hover:scale-105 transition duration-500"></video>
                             <div class="absolute top-3 left-3 bg-slate-900/80 backdrop-blur-xs text-amber-400 text-[10px] font-black uppercase px-2.5 py-1 rounded-full border border-amber-500/30 flex items-center gap-1.5">
                                 <span class="w-2 h-2 rounded-full bg-red-500 animate-ping"></span>
                                 🎥 {{ __('SPONSORED VIDEO') }}
@@ -56,7 +57,7 @@
                     <div class="flex items-center gap-4">
                         @if($isVideo)
                             <div class="h-16 w-28 rounded-xl overflow-hidden bg-slate-950 border border-slate-200 shrink-0 relative">
-                                <video src="{{ asset('storage/' . $ad->video) }}" autoplay loop muted playsinline class="w-full h-full object-cover"></video>
+                                <video src="{{ $videoSrc }}" autoplay loop muted playsinline class="w-full h-full object-cover"></video>
                             </div>
                         @elseif($ad->image)
                             <img src="{{ asset('storage/' . $ad->image) }}" alt="{{ $ad->title }}" class="h-16 w-24 object-cover rounded-xl border border-slate-200 shrink-0">
@@ -82,7 +83,7 @@
                 <div class="relative">
                     @if($isVideo)
                         <div class="h-48 w-full overflow-hidden bg-slate-950 relative">
-                            <video src="{{ asset('storage/' . $ad->video) }}" autoplay loop muted playsinline class="w-full h-full object-cover group-hover:scale-105 transition duration-500"></video>
+                            <video src="{{ $videoSrc }}" autoplay loop muted playsinline class="w-full h-full object-cover group-hover:scale-105 transition duration-500"></video>
                             <div class="absolute top-3 left-3 bg-slate-900/80 backdrop-blur-xs text-amber-400 text-[10px] font-black uppercase px-2.5 py-1 rounded-full border border-amber-500/30 flex items-center gap-1.5">
                                 <span class="w-2 h-2 rounded-full bg-red-500 animate-ping"></span>
                                 🎥 {{ __('VIDEO AD') }}

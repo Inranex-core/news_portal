@@ -14,6 +14,7 @@ class Advertisement extends Model
         'type',
         'image',
         'video',
+        'video_url',
         'url',
         'placement',
         'status',
